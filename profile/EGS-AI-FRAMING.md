@@ -77,7 +77,7 @@ The golden age of modding (1996–2004) proved this was not inevitable. Valve's 
 
 ## 4. The Protocols
 
-The Enduring Game Standard restores all three conditions to digital play through five minimal, interlocking protocols:
+The Enduring Game Standard restores all three conditions to digital play through four core protocols — AEMS, RUNS, WOCS, MAPS — together with DIGS, the formal expression language for RUNS Processor bodies:
 
 ### AEMS — Asset-Entity-Manifestation-State
 Layered Nostr events making game artifacts independent and interpretable across any game that reads them.
