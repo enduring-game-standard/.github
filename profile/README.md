@@ -14,7 +14,7 @@ EGS provides shared, portable components from which each game assembles its own 
 
 ## The Protocols
 
-### AEMS: Artifacts, Entities, Manifestations, State — *the things*
+### AEMS: Asset-Entity-Manifestation-State — *the things*
 
 A standard schema for game content definitions, comparable to ScriptableObjects or Data Assets, published on a public commons rather than stored in a proprietary database.
 
@@ -37,7 +37,7 @@ There is no "RUNS engine." Each game is its own engine, assembled from shared co
 
 Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax), a pure, total, deterministic expression language. Fixed-point arithmetic, bounded iteration, no side effects. The same inputs produce identical outputs on every platform.
 
-### MAPS: Mechanics as Playable Scores — *the rules*
+### MAPS: Mechanics and Play Structures — *the rules*
 
 A notation for game mechanics using four primitives, comparable to Machinations diagrams or formal state machine definitions. Readable, composable, and transmissible.
 
@@ -50,7 +50,7 @@ MAPS States translate to RUNS Records. Verbs translate to Processors. Arcs trans
 
 The **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
 
-### WOCS: Work Offers Coordinated and Settled — *the infrastructure*
+### WOCS: Work Offered, Claimed, Settled — *the infrastructure*
 
 A coordination protocol comparable to a decentralized bounty board, replacing centralized infrastructure management with an open market settled on Lightning.
 
