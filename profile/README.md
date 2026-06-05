@@ -102,7 +102,7 @@ The protocols run on **[Nostr](https://nostr.com/)** and **[Lightning](https://l
 
 ## Authorial Provenance
 
-The **[Authorial Provenance Standard (APS)](https://github.com/enduring-game-standard/.github/blob/main/profile/APS.md)** extends the foundation for authored experiences — puzzle games, mystery narratives, interactive art — where the creator's intent is the experience. APS provides cryptographic attribution (unforgeable proof of authorship), voluntary use covenants (legible social signals, not enforcement), and first-experience economics (monetizing the curated journey, not the content itself).
+The **[Provenance Without Notaries or Sovereigns (PWNS)](https://github.com/enduring-game-standard/.github/blob/main/profile/PWNS.md)** standard extends the foundation for authored experiences — puzzle games, mystery narratives, interactive art — where the creator's intent is the experience. PWNS provides cryptographic attribution (unforgeable proof of authorship), voluntary use covenants (legible social signals, not enforcement), and first-experience economics (monetizing the curated journey, not the content itself).
 
 ## The Deeper Argument
 

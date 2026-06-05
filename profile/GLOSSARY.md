@@ -15,13 +15,13 @@
 | **DIGS** | Deterministic Inspectable Game Syntax | Formal expression language for RUNS Processor bodies             |
 | **WOCS** | Work Offered, Claimed, Settled     | Permissionless coordination + Lightning settlement — *the infrastructure* |
 | **MAPS** | Mechanics and Play Structures      | Notation for interactive grammar — *the rules*                      |
-| **APS**  | Authorial Provenance Standard      | Provenance over property; covenants without enforcement (extension) |
+| **PWNS** | Provenance Without Notaries or Sovereigns | Provenance over property; covenants without enforcement (extension) |
 
 ## Protocol roster
 
 EGS comprises **four core protocols** — **AEMS**, **RUNS**, **WOCS**, **MAPS** —
 together with **DIGS** (the formal expression language for RUNS Processor bodies)
-and **APS** (an extension standard for authored experiences).
+and **PWNS** (an extension standard for authored experiences).
 
 Supporting projects (not protocols): the **AEMS Conventions**, **RUNS Library**,
 and **MAPS Library** shared vocabularies, plus the **Austin School** craft-knowledge

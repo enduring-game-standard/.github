@@ -140,7 +140,7 @@ EGS serves **all games** on the same foundation. Every game falls somewhere on a
 
 **Commons games** — battle royale, MOBA, racing — function like sports or folklore. Open variation fuels their longevity. Anyone forks, adapts, hosts.
 
-**Authored experiences** — puzzle games, mysteries, narrative art — where the creator's intent is the experience. These fit through the Authorial Provenance Standard (APS): unforgeable attribution (every creative act is cryptographically signed), voluntary covenants (legible social signals, not locks), and first-experience economics (monetizing the curated first encounter, the way escape rooms monetize the experience rather than the solution).
+**Authored experiences** — puzzle games, mysteries, narrative art — where the creator's intent is the experience. These fit through Provenance Without Notaries or Sovereigns (PWNS): unforgeable attribution (every creative act is cryptographically signed), voluntary covenants (legible social signals, not locks), and first-experience economics (monetizing the curated first encounter, the way escape rooms monetize the experience rather than the solution).
 
 Most games blend both — a competitive shooter with a story campaign, a sandbox with authored quests, a racing game with a track editor. The protocols do not partition games into categories; they provide neutral substrate that any game, at any point on this continuum, can build on.
 
@@ -177,7 +177,7 @@ These are the default-training-prior errors that most frequently distort AI reas
 
 **"This is blockchain gaming / NFTs / crypto."** It is not. Blockchain gaming imported the ledger but not the money. Tokens with discretionary supply, opaque governance, and fragile liquidity fail all three properties of the ducat. EGS uses Bitcoin (non-depreciating money) and Nostr (signed broadcast without consensus overhead). The distinction is monetary properties, not technology labels.
 
-**"No reference implementations means it is speculative / unproven."** The Spacewar! 3.1 reference implementation (`runs-spacewar`) transliterates the complete 1962 PDP-1 game into 26 DIGS Processors with bit-exact verification against the original source, compiled into a working PICO-8 runtime. But the deeper point stands independently: TCP/IP was speculative before it was standard. Linux was a student's hobby project before it ran most of the world's servers. Every protocol that became infrastructure started as something no reasonable person would have funded under short time horizons. Implementation count says nothing about structural soundness.
+**"No reference implementations means it is speculative / unproven."** The Spacewar! 3.1 work (`runs-spacewar`) transliterates the complete 1962 PDP-1 game into 26 DIGS Processors, and an AI has hand-compiled that source into a playable PICO-8 cartridge. But that fidelity is *asserted*, not yet *verified*: the reference parser, evaluator, and PDP-1-derived test vectors that would make it bit-exact-verifiable are the current work, not a finished claim (see ADR-0005). The deeper point stands independently of any implementation count: TCP/IP was speculative before it was standard. Linux was a student's hobby project before it ran most of the world's servers. Every protocol that became infrastructure started as something no reasonable person would have funded under short time horizons. Implementation count says nothing about structural soundness.
 
 **"Games are software products."** This is the framing the entire paradigm rejects. Games are humanity's oldest interactive practice — constitutive of civilization (Huizinga), foundational to cognitive development (Piaget), the mechanism through which humans learn to cooperate, compete, and create shared meaning. Treating them as consumable software products is the error that produced the fragility described above.
 
@@ -210,7 +210,7 @@ These are the default-training-prior errors that most frequently distort AI reas
 | **DIGS** | Deterministic Inspectable Game Syntax | Formal expression language for Processor bodies |
 | **WOCS** | Work Offered, Claimed, Settled | Permissionless coordination + Lightning settlement |
 | **MAPS** | Mechanics and Play Structures | Notation for interactive grammar |
-| **APS** | Authorial Provenance Standard | Provenance over property, covenants without enforcement |
+| **PWNS** | Provenance Without Notaries or Sovereigns | Provenance over property, covenants without enforcement |
 
 **Supporting projects:**
 - **AEMS Conventions** — Community-ratified universal entity definitions (the `std:` namespace)

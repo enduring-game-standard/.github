@@ -74,17 +74,17 @@ Yes. MAPS can notate the mechanical grammar of any game — from Pong to a 200-p
 
 **Anti-cheat/trust**: No built-in enforcement. Third parties offer verification services coordinated via WOCS.
 
-**Mods**: RUNS treats mods as Processors that slot into the network. Development coordinated via WOCS.
+**Variants**: a variant opens a Network and swaps or adds Processors, then compiles anew — what other ecosystems call "mods," except enduring games evolve through variation rather than modding. Coordinated via WOCS.
 
 **Protocol integration**: MAPS (what the grammar is) → AEMS (what the things are) → RUNS (how it executes) → WOCS (how ecosystem services are coordinated).
 
 ## Authored Experiences and Provenance
 
 **Does this standard only work for "sports-like" games? What about puzzle games, mysteries, or narrative experiences?**  
-The core protocols naturally serve commons-style games — those that benefit from open variation like folklore or sports. But authored experiences (puzzles, mysteries, artistic visions) fit the same foundation through the [Authorial Provenance Standard (APS)](https://github.com/enduring-game-standard/.github/blob/main/profile/APS.md).
+The core protocols naturally serve commons-style games — those that benefit from open variation like folklore or sports. But authored experiences (puzzles, mysteries, artistic visions) fit the same foundation through [Provenance Without Notaries or Sovereigns (PWNS)](https://github.com/enduring-game-standard/.github/blob/main/profile/PWNS.md).
 
 **How can authored works exist in an open system without being "spoiled"?**  
-The key insight is that authored experiences monetize the *first encounter*, not eternal exclusivity. A puzzle game's value is in the journey of solving it — once solved, the solution naturally becomes known. APS enables:
+The key insight is that authored experiences monetize the *first encounter*, not eternal exclusivity. A puzzle game's value is in the journey of solving it — once solved, the solution naturally becomes known. PWNS enables:
 - **Sealed content markers** — Authors signal which elements are revelation-dependent
 - **First-experience payments** — Players pay (via WOCS) for the curated experience of proper revelation
 - **Post-encounter openness** — Content may open naturally after the experience, contributing to cultural commons
@@ -92,7 +92,7 @@ The key insight is that authored experiences monetize the *first encounter*, not
 This is like paying for a theater ticket: you pay for the experience of first revelation, not perpetual ownership of the script.
 
 **What about someone copying my characters or story beats?**  
-APS distinguishes between *copying* (cultural participation) and *claiming* (fraud about authorship). Every creative act is cryptographically signed with your Nostr keypair — origin is mathematically provable. Someone can riff on your work, but they cannot claim to have created it. The provenance chain proves you made it first.
+PWNS distinguishes between *copying* (cultural participation) and *claiming* (fraud about authorship). Every creative act is cryptographically signed with your Nostr keypair — origin is mathematically provable. Someone can riff on your work, but they cannot claim to have created it. The provenance chain proves you made it first.
 
 **Can I set terms for how my work is used?**  
 Yes, through voluntary covenants — metadata attached to your creations signaling your expectations ("attribution required," "commercial use needs license," etc.). These are purely social signals; the protocol doesn't enforce them. But communities and reputation markets (funded via WOCS) can track who respects vs. ignores covenants, creating social costs for violators.
