@@ -30,12 +30,12 @@ When a studio shuts down, Entities and Assets persist on the commons — the way
 A composable, plain-text source format for game logic, comparable to Entity Component System (ECS) or data-oriented design, compiled to native binaries on any platform.
 
 - **Records** — Typed data containers with named fields, serving a similar role to ECS Components or structs.
-- **Processors** — Pure, stateless functions that read input fields and write output fields, comparable to ECS Systems or compute shader kernels.
-- **Networks** — Explicit execution graphs that define data flow and phase ordering, declared in plain text.
+- **Processors** — Verbs: pure transformations that read input Fields and write output Fields, holding no state of their own, comparable to ECS Systems or compute shader kernels.
+- **Networks** — Explicit graphs that wire Records to Processors; the data flow is declared in plain text and execution order follows from it (derived, not authored).
 
 There is no "RUNS engine." Each game is its own engine, assembled from shared components into a standalone build. Renderers, input systems, and physics backends are replaceable without rewriting game rules. Source can be opened, Processors swapped, and variants compiled — portable variation at the architecture level.
 
-Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax), a pure, total, deterministic expression language. Fixed-point arithmetic, bounded iteration, no side effects. The same inputs produce identical outputs on every platform.
+Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax): a pure, total, deterministic expression language — every Processor terminates, reads only its declared inputs, and has no side effects. Hardware reach is opt-in on top of that core: a game can *declare* cross-platform bit-exact arithmetic — so identical inputs give identical outputs on every machine — and, where a target demands it, a static execution bound or a fixed memory footprint. The declaration is the contract; the core never assumes them.
 
 ### MAPS: Mechanics and Play Structures — *the rules*
 
@@ -46,7 +46,7 @@ A notation for game mechanics using four primitives, comparable to Machinations 
 - **Arc** — A directed transition linking States through Verbs, with conditions and effects.
 - **Mark** — A quantifiable resource (health, stamina, ammo, score).
 
-MAPS States translate to RUNS Records. Verbs translate to Processors. Arcs translate to Network wiring. A combat system written in MAPS notation serves as the design blueprint from which RUNS source can be derived. The notation makes design decisions visible, studyable, and forkable.
+By design, MAPS States are meant to correspond to RUNS Records, Verbs to Processors, and Arcs to Network wiring — so a combat system written in MAPS could serve as the blueprint RUNS source is built from. That term-for-term correspondence is an aspiration the project hasn't yet earned by translating a real MAPS score into RUNS; what the notation already delivers is making design decisions visible, studyable, and forkable.
 
 The **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
 
@@ -67,7 +67,7 @@ MAPS notation        →  Design blueprint (readable game mechanics)
     ↓
 RUNS source          →  Portable game logic (Records + Processors + Networks)
     ↓
-DIGS expressions     →  Deterministic Processor bodies (bit-exact cross-platform)
+DIGS expressions     →  Deterministic Processor bodies (bit-exact cross-platform when declared)
     ↓
 Platform runtime     →  Native binary (compiled for target hardware)
     ↕
@@ -127,7 +127,7 @@ not a fifth protocol. **PWNS** is an optional extension.
 
 ## Current State
 
-Protocol specs are written and stable. A **[Spacewar! 3.1](https://github.com/enduring-game-standard/runs-spacewar)** conversion — the 1962 PDP-1 game expressed as RUNS source with DIGS Processors — is in active development. Production runtimes, compilers, and tooling are next.
+The protocol specs are written and actively hardening — reasoned in depth but still provisional, not frozen. A **[Spacewar! 3.1](https://github.com/enduring-game-standard/runs-spacewar)** conversion — the 1962 PDP-1 game expressed as RUNS source with DIGS Processors — is in active development; its fidelity is *asserted* (the source has been read and judged faithful), not yet *verified* against a PDP-1 oracle. Production runtimes, compilers, and tooling — including that oracle — are next.
 
 ---
 
