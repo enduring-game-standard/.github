@@ -8,7 +8,7 @@ EGS provides shared, portable components from which each game assembles its own 
 
 ---
 
-📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🎯 **[AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · 📖 **[RUNS Library](https://github.com/enduring-game-standard/runs-library)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · 🎶 **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** · 🏫 **[Austin School](https://github.com/enduring-game-standard/austin-school)** · ❓ **[FAQ](https://github.com/enduring-game-standard/.github/blob/main/profile/FAQ.md)** · 🔤 **[Glossary](https://github.com/enduring-game-standard/.github/blob/main/profile/GLOSSARY.md)**
+📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🎯 **[AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · 📖 **[RUNS Library](https://github.com/enduring-game-standard/runs-library)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · 🎶 **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** · 🏫 **[Austin School](https://github.com/enduring-game-standard/austin-school)** · ❓ **[FAQ](https://github.com/enduring-game-standard/.github/blob/main/profile/FAQ.md)** · 🔤 **[Glossary](#glossary)**
 
 ---
 
@@ -107,6 +107,23 @@ The **[Provenance Without Notaries or Sovereigns (PWNS)](https://github.com/endu
 ## The Deeper Argument
 
 This README describes the architecture. The *[Enduring Games](https://github.com/enduring-game-standard/enduring-games-book)* book argues *why* this architecture is necessary — tracing the economic forces that make the current industry structurally hostile to the games it produces, and why portable, composable, open game infrastructure becomes economically dominant under sound money.
+
+## Glossary
+
+The family names are **phonetic game verbs** ("he AIMS", "he RUNS", "he DIGS"); each expansion
+is a memory aid, not a precise definition. The sections above define each protocol in full.
+
+| Name | Expands to | Role |
+|------|------------|------|
+| **AEMS** | Asset-Entity-Manifestation-State | *the things* — durable, signed game content on the commons |
+| **RUNS** | Records Update on Neutral Substrate | *the game* — plain-text source for game logic |
+| **DIGS** | Deterministic Inspectable Game Syntax | *the computation* — RUNS's pure expression language (Processor bodies + Network guards) |
+| **MAPS** | Mechanics and Play Structures | *the rules* — design-time notation for game mechanics |
+| **WOCS** | Work Offered, Claimed, Settled | *the coordination* — optional, Lightning-settled market for ecosystem services |
+| **PWNS** | Provenance Without Notaries or Sovereigns | *extension* — provenance for authored experiences |
+
+The four **core protocols** are AEMS, RUNS, WOCS, and MAPS. **DIGS** is a sub-language of RUNS,
+not a fifth protocol. **PWNS** is an optional extension.
 
 ## Current State
 
