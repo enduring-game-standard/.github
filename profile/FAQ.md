@@ -29,7 +29,7 @@ Gameplay feels like whatever the runtime provides. The standard defines how game
 
 **How can I get involved now?**  
 - Follow development discussions
-- Try posting an AEMS Entity definition (kind 30050) on Nostr — no coding required
+- Try posting an AEMS Entity definition on Nostr — no coding required
 - Share feedback on what features matter most for longevity and ownership
 
 ## For Developers and Modders
@@ -47,7 +47,7 @@ The protocols are deliberately lightweight. A solo developer could start by impo
 Nostr relay availability varies; some events may require multiple relays for reliable retrieval. Lightning payments work well for micro-transactions but routing can occasionally fail. These are known constraints of the underlying infrastructure, not the standards themselves.
 
 **How do I start building?**  
-Read the individual protocol READMEs and experiment freely. Start by publishing an AEMS Entity (kind 30050), then try sketching a MAPS Score or wiring a simple RUNS Network.
+Read the individual protocol READMEs and experiment freely. Start by publishing an AEMS Entity event, then try sketching a MAPS Score or wiring a simple RUNS Network.
 
 ## For Studios and Larger Teams
 
@@ -113,7 +113,7 @@ The protocol primitives are designed to be stable across generations. Evolution 
 
 ## Getting Started
 
-**Easiest first step**: Publish a kind 30050 event on Nostr defining a simple Entity (no coding required). See the [AEMS standard](https://github.com/enduring-game-standard/aems-schema) for event structure.
+**Easiest first step**: Publish an AEMS Entity event on Nostr defining a simple Entity (no coding required). See the [AEMS standard](https://github.com/enduring-game-standard/aems-schema) for event structure.
 
 **Meaningful milestone**: A demo where an AEMS entity is shared between two game prototypes, with WOCS-compensated contributions and persistent state.
 
