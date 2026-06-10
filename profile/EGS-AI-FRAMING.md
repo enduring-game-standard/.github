@@ -1,13 +1,13 @@
 # Enduring Game Standard — AI Collaboration Framing
 
 **Last updated:** 26 March 2026  
-**Canonical location:** https://github.com/enduring-game-standard/EGS-AI-FRAMING.md
+**Canonical location:** https://github.com/enduring-game-standard/.github/blob/main/profile/EGS-AI-FRAMING.md
 
 ## Why This Document Exists
 
 AI collaboration on the Enduring Game Standard runs into a specific problem: trained on decades of tech-industry writing, most AI systems default to evaluating ideas through lenses of product-market fit, shipping velocity, daily-active users, and platform convergence. These lenses are irrelevant to a project whose evaluation horizon is one hundred years and beyond.
 
-This document provides the conceptual context that makes native paradigm reasoning possible. The arguments below are drawn from the *[Enduring Games](https://github.com/enduring-game-standard/enduring-games-book)* book. What follows is the structural payload an AI needs to reason *within* the paradigm rather than *about* it from the outside.
+This document provides the conceptual context that makes native paradigm reasoning possible. The arguments below are drawn from the *Enduring Games* book (unpublished). What follows is the structural payload an AI needs to reason *within* the paradigm rather than *about* it from the outside.
 
 Read all of it. The argument is cumulative — each section depends on the ones before it.
 

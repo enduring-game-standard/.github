@@ -8,7 +8,7 @@ EGS provides shared, portable components from which each game assembles its own 
 
 ---
 
-📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🎯 **[AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · 📖 **[RUNS Library](https://github.com/enduring-game-standard/runs-library)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · 🎶 **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** · 🏫 **[Austin School](https://github.com/enduring-game-standard/austin-school)** · ❓ **[FAQ](https://github.com/enduring-game-standard/.github/blob/main/profile/FAQ.md)** · 🔤 **[Glossary](#glossary)**
+📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🎯 **[AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · 📖 **[RUNS Library](https://github.com/enduring-game-standard/runs-library)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · 🎶 **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** · ❓ **[FAQ](https://github.com/enduring-game-standard/.github/blob/main/profile/FAQ.md)** · 🔤 **[Glossary](#glossary)**
 
 ---
 
@@ -106,7 +106,7 @@ The **[Provenance Without Notaries or Sovereigns (PWNS)](https://github.com/endu
 
 ## The Deeper Argument
 
-This README describes the architecture. The *[Enduring Games](https://github.com/enduring-game-standard/enduring-games-book)* book argues *why* this architecture is necessary — tracing the economic forces that make the current industry structurally hostile to the games it produces, and why portable, composable, open game infrastructure becomes economically dominant under sound money.
+This README describes the architecture. The *Enduring Games* book (unpublished) argues *why* this architecture is necessary — tracing the economic forces that make the current industry structurally hostile to the games it produces, and why portable, composable, open game infrastructure becomes economically dominant under sound money.
 
 ## Glossary
 
@@ -127,7 +127,7 @@ not a fifth protocol. **PWNS** is an optional extension.
 
 ## Current State
 
-The protocol specs are written and actively hardening — reasoned in depth but still provisional, not frozen. A **[Spacewar! 3.1](https://github.com/enduring-game-standard/runs-spacewar)** conversion — the 1962 PDP-1 game expressed as RUNS source with DIGS Processors — is in active development; its fidelity is *asserted* (the source has been read and judged faithful), not yet *verified* against a PDP-1 oracle. Production runtimes, compilers, and tooling — including that oracle — are next.
+The protocol specs are written and actively hardening — reasoned in depth but still provisional, not frozen. A **Spacewar! 3.1** conversion — the 1962 PDP-1 game expressed as RUNS source with DIGS Processors — is in active development (not yet published); its fidelity is *asserted* (the source has been read and judged faithful), not yet *verified* against a PDP-1 oracle. Production runtimes, compilers, and tooling — including that oracle — are next.
 
 ---
 

@@ -1,6 +1,6 @@
 # Frequently Asked Questions: Enduring Game Standard
 
-🏠 **[Overview](https://github.com/enduring-game-standard)** · 📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · ❓ **[FAQ](https://github.com/enduring-game-standard/.github/blob/main/profile/FAQ.md)**
+🏠 **[EGS Overview](https://github.com/enduring-game-standard)** · 📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🎯 **[AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · 📖 **[RUNS Library](https://github.com/enduring-game-standard/runs-library)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · 🎶 **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** · ❓ **[FAQ](https://github.com/enduring-game-standard/.github/blob/main/profile/FAQ.md)** · 🔤 **[Glossary](https://github.com/enduring-game-standard/.github/blob/main/profile/README.md#glossary)**
 
 ---
 
@@ -109,7 +109,7 @@ An ecosystem of games that compound cultural value: assets that travel between t
 Open standards don't require permission. Viability can be proven by independents first, creating player demand that larger studios eventually respond to — or not. The protocols remain available either way.
 
 **How will the standards evolve?**  
-The protocol primitives are designed to be stable across generations. Evolution happens at the library and convention layers — new MAPS Patterns, new RUNS Library schemas, new AEMS Conventions — which version independently through community RFC processes. The primitives themselves change only when genuinely new concepts emerge, an event expected to be rare. No central governance — convergence through adoption, shared vocabularies, and institutional memory (the [Austin School](https://github.com/enduring-game-standard/austin-school)).
+The protocol primitives are designed to be stable across generations. Evolution happens at the library and convention layers — new MAPS Patterns, new RUNS Library schemas, new AEMS Conventions — which version independently through community RFC processes. The primitives themselves change only when genuinely new concepts emerge, an event expected to be rare. No central governance — convergence through adoption, shared vocabularies, and institutional memory.
 
 ## Getting Started
 
