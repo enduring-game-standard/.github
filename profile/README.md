@@ -46,7 +46,7 @@ A notation for game mechanics using four primitives, comparable to Machinations 
 - **Arc** — A directed transition linking States through Verbs, with conditions and effects.
 - **Mark** — A quantifiable resource (health, stamina, ammo, score).
 
-By design, MAPS States are meant to correspond to RUNS Records, Verbs to Processors, and Arcs to Network wiring — so a combat system written in MAPS could serve as the blueprint RUNS source is built from. That term-for-term correspondence is an aspiration the project hasn't yet earned by translating a real MAPS score into RUNS; what the notation already delivers is making design decisions visible, studyable, and forkable.
+By design, a MAPS score is meant to serve as the blueprint RUNS source is built from; the term-for-term mapping is owned by the [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md). What the notation already delivers is making design decisions visible, studyable, and forkable.
 
 The **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
 
@@ -62,21 +62,7 @@ Server hosting, anti-cheat services, tournament organization, content commission
 
 ## How the Pieces Fit Together
 
-```
-MAPS notation        →  Design blueprint (readable game mechanics)
-    ↓
-RUNS source          →  Portable game logic (Records + Processors + Networks)
-    ↓
-DIGS expressions     →  Deterministic Processor bodies (bit-exact cross-platform when declared)
-    ↓
-Platform runtime     →  Native binary (compiled for target hardware)
-    ↕
-AEMS entities        →  Persistent content on the commons
-    ↕
-WOCS coordination    →  Infrastructure market (hosting, services, settlement)
-```
-
-Each layer is independent. Replacing any component does not require changes to the others.
+The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the inter-protocol topology — the stack from MAPS notation down to platform runtime, the term-for-term MAPS↔RUNS mapping, and the AEMS and WOCS edges. Each layer is independent: replacing any component does not require changes to the others.
 
 ## Design Philosophy
 

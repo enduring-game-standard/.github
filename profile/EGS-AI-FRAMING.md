@@ -101,7 +101,7 @@ Minimal coordination primitive: three Nostr events (Offer, Fulfill, Ack) with Li
 
 ### MAPS — Mechanics and Play Structures
 Four primitives (State, Verb, Arc, Mark) describing game mechanics as readable, composable scores.
-- States are implemented as RUNS Records, Verbs as Processors, Arcs as Network wiring
+- Corresponds term-for-term to RUNS source; the canonical mapping is owned by the [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md)
 - A designer writing a combat system in MAPS notation writes the blueprint from which RUNS source is built
 - The cumulative craft pillar: what musical notation did for composition, MAPS does for interactive design
 
