@@ -82,15 +82,15 @@ Yes. MAPS can notate the mechanical grammar of any game — from Pong to a 200-p
 The core protocols naturally serve commons-style games — those that benefit from open variation like folklore or sports. But authored experiences (puzzles, mysteries, artistic visions) fit the same foundation through [Provenance Without Notaries or Sovereigns (PWNS)](https://github.com/enduring-game-standard/.github/blob/main/profile/PWNS.md).
 
 **How can authored works exist in an open system without being "spoiled"?**  
-The key insight is that authored experiences monetize the *first encounter*, not eternal exclusivity. A puzzle game's value is in the journey of solving it — once solved, the solution naturally becomes known. PWNS enables:
-- **Sealed content markers** — Authors signal which elements are revelation-dependent
-- **First-experience payments** — Players pay (via WOCS) for the curated experience of proper revelation
-- **Post-encounter openness** — Content may open naturally after the experience, contributing to cultural commons
+Because publishing provenance does not publish the work. A PWNS seal is a signed event carrying a *hash* of the content — the bytes live wherever the author chooses. PWNS separates:
+- **The seal** — public, anchored proof of authorship and priority; identical for commons games and sealed mysteries
+- **The dial** — the author's covenant setting for content openness: *open*, *windowed* (access-controlled now, commons at a named date), or *reserved* (indefinitely)
+- **The sale** — protected where sales are always protected: at the store or client, which remains free to encrypt; provenance protects credit, not the sale
 
-This is like paying for a theater ticket: you pay for the experience of first revelation, not perpetual ownership of the script.
+This is the DOI model from scholarly publishing: a public, permanent, citable record of authorship over content that may sit behind a paywall forever. The identifier proves the claim without revealing the work.
 
 **What about someone copying my characters or story beats?**  
-PWNS distinguishes between *copying* (cultural participation) and *claiming* (fraud about authorship). Every creative act is cryptographically signed with your Nostr keypair — origin is mathematically provable. Someone can riff on your work, but they cannot claim to have created it. The provenance chain proves you made it first.
+PWNS distinguishes between *copying* (cultural participation, governed by your covenant) and *claiming* (fraud about authorship). Every creative act is signed with your Nostr keypair, and priority claims are anchored to an external clock (OpenTimestamps) that nobody can rewind. Someone can riff on your work, but they cannot claim to have created it: the anchored provenance chain proves you published it first — without exposing anything you kept sealed.
 
 **Can I set terms for how my work is used?**  
 Yes, through voluntary covenants — metadata attached to your creations signaling your expectations ("attribution required," "commercial use needs license," etc.). These are purely social signals; the protocol doesn't enforce them. But communities and reputation markets (funded via WOCS) can track who respects vs. ignores covenants, creating social costs for violators.
