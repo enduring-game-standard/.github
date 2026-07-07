@@ -1,39 +1,34 @@
-# Internal: Enduring Game Standard Protocol Team
+# .github — Org Meta-Layer
 
-> [!CAUTION]
-> **READ BEFORE CONTRIBUTING**
-> This repository (`.github`) is the meta-layer for our organization. The public face is in [profile/README.md](profile/README.md). This document is for valid protocol contributors only.
+This repository holds the Enduring Game Standard organization's public face and shared documents. The org profile rendered at [github.com/enduring-game-standard](https://github.com/enduring-game-standard) is [profile/README.md](profile/README.md).
 
-## Architecture Guidelines
+## Contents
 
-We are building protocols, not platforms. When proposing changes to AEMS, RUNS, or WOCS, strict adherence to these rules is required:
+| Path | What it is |
+|------|------------|
+| [profile/README.md](profile/README.md) | The org profile — the front door |
+| [profile/WHY.md](profile/WHY.md) | The diagnosis: why digital games die, in ~1,500 words |
+| [profile/STATUS.md](profile/STATUS.md) | Consolidated, falsifiable state of every layer |
+| [profile/GOVERNANCE.md](profile/GOVERNANCE.md) | How the standard changes; forks; the bus factor, stated plainly |
+| [profile/FAQ.md](profile/FAQ.md) | Questions from players, developers, and studios |
+| [profile/CORRESPONDENCE.md](profile/CORRESPONDENCE.md) | The single source of truth for inter-protocol relationships |
+| [profile/PWNS.md](profile/PWNS.md) | The provenance extension for authored experiences |
+| [profile/EGS-AI-FRAMING.md](profile/EGS-AI-FRAMING.md) | Context for AI systems: claims scoped, objections steelmanned, spec misreadings corrected |
+| [CONTEXT.md](CONTEXT.md) | The working vocabulary — canonical domain language for the protocol family |
 
-1.  **No Rent-Seeking**: If your proposal adds a fee, token, or "governance" layer that extracts value without adding work, it will be rejected. 
-2.  **Sats Only**: We settle in Bitcoin (Lightning). Do not propose new tokens for settlement.
-3.  **Protocol Neutrality**: The protocol must not care if the user is a human, an AI, or a script. It must not care about the game genre.
+The protocol specifications themselves live in their own repositories: [aems-schema](https://github.com/enduring-game-standard/aems-schema), [aems-conventions](https://github.com/enduring-game-standard/aems-conventions), [runs-spec](https://github.com/enduring-game-standard/runs-spec), [runs-library](https://github.com/enduring-game-standard/runs-library), [maps-notation](https://github.com/enduring-game-standard/maps-notation), [maps-library](https://github.com/enduring-game-standard/maps-library), [wocs-protocol](https://github.com/enduring-game-standard/wocs-protocol).
 
-## "Secret" Best Practices
+## Design Principles
 
-We generally don't publish these rules widely to avoid bikeshedding, but they are enforced during code review:
+The standard is currently written and maintained by one author (see [GOVERNANCE.md](profile/GOVERNANCE.md) — this is stated, not hidden). These are the principles proposals are weighed against:
 
-*   **The "No-Code" Rule**: If a feature can be implemented by a 3rd party without changing the protocol, it belongs to the 3rd party. Do not bloat the standard.
-*   **Documentation is Code**: In a standard, the README *is* the product. Clarity is as important as the JSON schema. Ambiguity leads to fragmentation.
-*   **Ignore the Price**: We do not discuss the price of Bitcoin. We build rails for value, not speculation.
+1. **No rent-seeking.** Anything that adds a fee, token, or "governance" layer extracting value without adding work is rejected. Settlement, where it exists at all (WOCS), is Lightning — no new tokens.
+2. **Protocol neutrality.** A protocol must not care whether the user is a human, an AI, or a script, and must not care about genre.
+3. **The end-to-end rule.** If a feature can be implemented by a third party without changing the protocol, it belongs to the third party. The standard stays minimal.
+4. **Documentation is the product.** In a standard, the README *is* the deliverable; ambiguity is a defect, not a cosmetic issue. Clarity bugs are real bugs — file them.
 
-## Repository Structure
+## Reporting Problems
 
-*   `/profile`: The public face. High-level manifesto.
-*   `/aems-schema`: The entity schema (AEMS).
-*   `/runs-spec`: The engine specification (RUNS).
-*   `/wocs-protocol`: The coordination protocol (WOCS).
-*   `/maps-notation`: The mechanics notation (MAPS).
+Open an issue in the specific repo the problem belongs to. If a flaw risks user funds or relay abuse (WOCS/AEMS event handling), say so in the issue title and avoid publishing a working exploit before a fix is discussed.
 
-## Emergency Contacts
-
-If a protocol flaw is discovered that risks user funds or creates infinite spam loops on Nostr relays:
-1.  Open an issue tagged `CRITICAL-SECURITY` within the specific repo.
-2.  Do not publicly disclose the exploit vector until patches are merged.
-
----
-
-*This document is public but unadvertised. If you found it, you're looking deep enough to contribute.*
+**MIT License**
