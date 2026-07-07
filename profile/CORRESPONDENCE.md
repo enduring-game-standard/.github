@@ -40,11 +40,9 @@ performance. Term for term:
 | Arc (with guard expressions) | Network wiring (guarded transitions) |
 | Mark                       | Field                    |
 
-This term-for-term correspondence is **aspirational, not asserted**: no one
-has yet earned it by translating a real MAPS Score into RUNS source (or back).
-What the notation already delivers is making design decisions visible,
-studyable, and forkable; the mapping above is the design intent the first real
-translation will test.
+This correspondence is **aspirational**: no real MAPS Score has been
+translated into RUNS source (or back). The table is the design intent the
+first real translation will test.
 
 ## AEMS ↔ RUNS: things to source
 

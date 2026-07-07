@@ -1,164 +1,128 @@
 # Provenance Without Notaries or Sovereigns (PWNS)
 
-**A Voluntary Protocol Extension for Attribution, Covenants, and Creator Economics — Conceptual, January 2026**
+**A Voluntary Protocol Extension for Attribution, Covenants, and Authored Works — Conceptual, July 2026**
 
 ---
 
-The Enduring Game Standard serves games that resemble sports or folklore — commons by nature, where openness fuels longevity. But what of authored experiences? Puzzle games where the solution is the treasure. Mystery narratives where a single spoiler destroys the journey. Interactive art where the creator's intent is the experience itself.
+The Enduring Game Standard serves games that resemble sports or folklore — commons by nature, where openness fuels longevity. Authored experiences are different. Puzzle games where the solution is the treasure. Mystery narratives where a single spoiler ends the journey. Interactive art where the creator's intent is the experience itself.
 
-These creations sit uneasily in purely open systems. The instinct is to reach for protection — DRM, enforcement, access control. But the most durable creative economies in history found a different path, one that turns openness into an advantage rather than a vulnerability.
+The instinct is to treat this as a conflict: either the author locks the work away and it stands outside the standard, or the work joins the commons and the author's livelihood evaporates. PWNS rejects the conflict by separating two properties that are usually welded together:
 
-The art world has operated on this path for centuries: provenance as the primitive, attribution as the currency, social accountability as the enforcement layer. These mechanisms predate copyright by five thousand years.
+- **Provenance** — who made this, and that they made it first. Always public. Always maximal.
+- **Openness** — who can experience the content, and when. A dial the author turns, from encrypted-forever to immediate commons.
 
-PWNS applies this principle to digital games. Every creative act carries its author's cryptographic signature via Nostr. Anyone can see who made it first. Communities enforce attribution norms the way academia enforces citation norms: through reputation, not litigation. And authors of revelation-dependent experiences — puzzles, mysteries, narrative games — can fund their work through first-experience economics, the same model that sustains a $7.9 billion escape room industry.
+Publishing provenance does not publish the work. A signed Nostr event carries a *hash* of the content, not the content; the bytes live wherever the author chooses — encrypted, sold through a store, or fully open. Scholarly publishing has run this way at planetary scale for decades: a DOI is a public, permanent, citable record of authorship and priority over a paper that may sit behind a paywall forever. The identifier proves the claim. It reveals nothing the author did not choose to reveal.
 
-This works because Nostr provides the three properties that make provenance without gatekeepers possible: unforgeable identity (every user has a cryptographic key pair), open relay architecture (no single point of failure for provenance records), and permissionless discoverability (anyone can query for events by a given author across any relay). Without Nostr, PWNS would require a central authority to maintain provenance records. With it, the math replaces the institution.
+## The Seal and the Dial
 
-## The Moral Intuition Worth Preserving
+Mesopotamian cylinder seals authenticated documents from 3500 BC: rolled across wet clay, they proved who sent a thing and made tampering evident. They did not control who eventually read it. Authentication and access were separate concerns five thousand years before the first copyright statute. They still are.
 
-If you have ever built a puzzle game, written a mystery, or crafted a narrative with a deliberate reveal — you already know something that both IP-maximalists and IP-abolitionists tend to overlook. The discomfort when someone strips your name from your creation is not about ownership. It is about honesty.
+**The seal is the standard's one invariant.** Every participating work publishes a signed provenance event: author key, content hash, covenant. Commons games and sealed mysteries carry the same seal.
 
-What actually bothers authors is not copying. It is:
+**The dial belongs to the author.** The covenant states where the content sits and when, if ever, that changes:
 
-- **Attribution erasure** — Someone passing off a creative act as theirs
-- **Parasitic extraction** — Harvesting value someone else created without reciprocity
-- **Context destruction** — Characters that meant something in one world become hollow when ripped from it
+| Dial setting | What it means |
+|--------------|---------------|
+| **Open** | Content public at publication. The folklore posture. |
+| **Windowed** | Content access-controlled during a commercial window; the covenant names a commons arrival — a date, a condition, an estate decision. |
+| **Reserved** | Content access-controlled indefinitely. |
 
-These are relational violations — failures of honesty, reciprocity, and respect for creative labor. Traditional IP law bundles them with property rights, but the two are separable. Stephan Kinsella's *Against Intellectual Property* (2001) demonstrates the separation: genuine property rights apply to scarce resources, and copying a non-scarce good does not deprive the original creator of anything. Yet even Kinsella distinguishes copying from plagiarism. Plagiarism is fraud — a lie about origin. The moral claim against false attribution stands on its own, independent of any property framework.
+The tradeoff: a Reserved work whose keys are lost dies with them. The standard does not force any work into the commons. It makes the enduring path *available* and *legible* — the covenant is where an author who wants their work to outlive them says so, in a form tools and communities can read.
 
-PWNS preserves the moral claims that matter — attribution, reciprocity, honesty — while letting abundance flow.
+## Copying vs. Claiming
 
-## The Distinction: Copying vs. Claiming
+Consider two scenarios with a creative work:
 
-Consider a sealed letter. Anyone *can* open it before the intended time. But the seal *signals* "this was meant to be opened by X, at Y moment." Breaking the seal is socially understood to diminish the experience. The letter still exists if opened early — it is not destroyed.
+**Scenario A: Copying.** Someone reads a novel, loves a character, and writes derivative fiction, with attribution. The character lives beyond the original pages. Cultural propagation.
 
-Mesopotamian cylinder seals worked this way from 3500 BC: rolled across wet clay to authenticate documents and signal authorial intent. They did not prevent opening. They provided tamper evidence. A broken seal indicated violation. The social cost was understood without legal mandate — for five thousand years before the first copyright statute.
+**Scenario B: Claiming.** Someone takes the character wholesale, changes the name slightly, and publishes it as their original creation. A lie about origin.
 
-Now consider two scenarios with a creative work:
+Traditional IP law bundles these together with property rights. They are separable — even Stephan Kinsella's *Against Intellectual Property*, the strongest case against IP-as-property, distinguishes copying from plagiarism: plagiarism is fraud, and the moral claim against false attribution stands on its own, independent of any property framework.
 
-**Scenario A: Copying**
-Someone reads a novel, loves a character, and writes fan fiction. They extend the world, clearly derivative, often with attribution. The character lives beyond the original pages. This is participation in a cultural commons — often flattering, sometimes transformative.
-
-**Scenario B: Claiming**
-Someone takes a character wholesale, changes the name slightly, and publishes it as their original creation. They claim someone else's creative act as theirs. This is fraud — a lie about origin.
-
-The first is cultural propagation. The second is theft of credit.
-
-The moral distinction between them is sound, and PWNS makes it operationally precise. Every creative act carries its author's cryptographic signature. Copying flows naturally — culture propagates. Claiming is refuted by the math — the timestamp and signature prove who created what, and when.
+PWNS makes the distinction operationally precise. Copying is governed by the author's covenant. Claiming is refuted by the seal: the signed, anchored hash proves who published what, first, without revealing anything the author kept sealed.
 
 ## Core Principles
 
-### 1. Unforgeable Attribution
+### 1. Attribution That Holds
 
-Every AEMS Entity, RUNS Processor, or gamified element is a signed Nostr event with a timestamp. Every Nostr event is signed with the author's private key and carries a verifiable public key. If someone appropriates a character and claims authorship, the provenance chain refutes them instantly. The original is timestamped and immutably attributed.
+Every AEMS Entity, RUNS Processor, or authored work is referenced by a signed Nostr event. The signature is tamper-evident: any alteration breaks it, and anyone can verify it against the author's public key. No lawyers, registries, or courts are required to check it.
 
-This mechanism is inherent to the EGS protocol stack — no additional infrastructure needed. AEMS Entities carry their author's signature as a structural property, making attribution native to the data format rather than bolted on after the fact.
+Two qualifications, built into the design:
 
-The result is stronger than traditional IP in one specific sense: proof does not require lawyers, registration, or courts. The cryptography proves origin the way a wax seal proved the sender — except the seal cannot be forged.
+- **"First" requires an anchor.** A Nostr event's timestamp is asserted by the publishing client and can be backdated. A priority claim is proven by anchoring the event hash to an external clock that nobody can rewind — an OpenTimestamps attestation in a Bitcoin block proves the work existed *no later than* that block. Sealed works claiming priority should anchor.
+- **Signed is not stored.** Relays are not archives; an event no relay holds is gone. Tamper-evidence and persistence are different properties. Authors, communities, and services that care about a provenance record keep relays that hold it — the same way institutions keep the citation record.
 
-This mirrors how provenance works in the art world. A Vermeer painting's value comes from its documented chain of custody — gallery records, exhibition history, correspondence — not from a lock on the frame. When Han van Meegeren forged Vermeers in the 1930s, it was provenance research that exposed the fraud. PWNS provides the digital equivalent: an unforgeable provenance chain that anyone can verify.
+This is how provenance works in the art world. A Vermeer's value rests on its documented chain of custody, not on a lock on the frame — and when Han van Meegeren forged Vermeers, it was provenance research that exposed him. PWNS is the digital equivalent: a chain of custody anyone can verify, for works nobody is required to expose.
 
-### 2. Voluntary Covenants
+### 2. Covenants: The Dial Made Legible
 
-Authors can attach use expectations to their creations — not as locks, but as legible social signals.
+Authors attach their expectations to the seal — not as locks, but as machine-readable social signals.
 
 ```yaml
 entity:
   # ... standard AEMS fields ...
+  provenance:
+    author: "npub1abc..."
+    content_hash: "sha256:9f2c..."
+    anchor: "ots:..."            # OpenTimestamps attestation
   covenant:
-    license: "CC-BY-NC"
     attribution_required: true
+    content: "windowed"          # open | windowed | reserved
+    commons_at: "2036-07-01"     # date | condition | never
     commercial_contact: "npub1abc..."
-    covenant_text_cid: "ipfs://..."
 ```
 
-These covenants are social signals, readable by communities and tools alike. Communities can filter, preference-rank, and curate based on covenant compliance. Reputation aggregators — themselves WOCS services that anyone can offer — track which author identities (Nostr public keys) honor covenants. Authors who consistently respect covenants accumulate social capital; their public keys become trusted brands.
+Covenants work the way attribution norms already work at scale. Creative Commons licenses are respected overwhelmingly through social convention, not litigation. Academic citation is enforced by institutions and careers, not statutes. Git tracks authorship at the line level, and code plagiarism costs maintainer trust, not legal fees. In each system, reputation is the currency and attribution is how it is minted.
 
-You already participate in systems that work this way.
+Reputation aggregators — WOCS services anyone can offer — track which author identities honor covenants. A public key that consistently respects the dial settings of others becomes a trusted brand.
 
-**Creative Commons**: 2.5 billion works licensed, rarely litigated, widely respected. The system functions through social norms. A journal that strips CC attribution loses academic standing. Courts have upheld the licenses when tested, but the day-to-day enforcement is reputational.
+### 3. What Pays: Credit, the Store, and the Next Work
 
-**Academic citation**: No law requires citing sources. Plagiarism detection is run by institutions, not courts. The consequences are social — failed grades, retracted papers, ruined careers, inability to secure funding. The system works because academic reputation is the currency of the profession.
+PWNS is precise about what provenance can and cannot do economically.
 
-**Open-source software**: Git tracks authorship at the line level. Code plagiarism is enforced socially — community disapproval, loss of maintainer trust, damaged professional reputation. No legal mandate. The system works because developer reputation is career capital.
+**Provenance protects credit. It does not protect the sale.** A seal on a mystery does not stop the first buyer from posting the twist. Nothing at the protocol layer can, and PWNS does not pretend otherwise.
 
-Elinor Ostrom's research (Nobel Prize in Economics, 2009) demonstrates why these systems succeed. Her eight design principles for governing shared resources — clearly defined boundaries, monitoring, graduated sanctions, conflict resolution — describe exactly how PWNS covenants function. Covenants define boundaries. Communities monitor compliance. Reputation costs provide graduated sanctions. Dispute mediation services emerge via WOCS.
+**The sale is protected where sales are always protected: at the store.** A client or storefront sells the windowed acts encrypted, exactly as any store does today. PWNS is deliberately neutral here — it neither requires nor forbids access control. The author keeps whatever paywall serves them; the difference is that the *record of authorship* no longer lives inside any store's database. The store can ban the account, shut down, or burn — the seal, the priority, and the covenant survive on the open relay network.
 
-### 3. First-Experience Economics
+**What provenance buys is the career.** The bottega master's commissions came from his name, not from locking his technique behind guild walls — the technique circulated in treatises while patrons bid for the one thing that could not be copied: his hands and his next work. Provenance is how a body of work accrues undeniably to a name, and reputation is how that name converts — commissions, patronage, funding for the work to come. Why patient capital makes that conversion rational rather than romantic is the argument of the Enduring Games book; PWNS supplies the mechanism, the book supplies the economics.
 
-For authored experiences — puzzles, mysteries, narrative games — the value is often in the first encounter. A mystery loses its tension once solved. A puzzle game's reward is the journey to solution.
+**Reciprocity is invited, never tolled.** Clients may present a payment prompt at a natural boundary — the end of a free first act, the credits — settled over Lightning, addressed to the sealed author key. This is a thank-you made frictionless, not a gate. Where the author needs a gate, that is the store's job, above.
 
-This creates natural economics that already operate at massive scale.
+## Craft Compounds on Sealed Work
 
-**Escape rooms** are a $7.9 billion global industry (2022, projected $31B by 2032). Customers pay $25–45 per person for an experience that can be completely spoiled by a single search engine query. The solutions are not secret. The value is in the curated first encounter — the locked room, the timed pressure, the collaborative discovery. Escape room operators manage spoiler risk through community norms, not enforcement: no-photography guidelines, game master facilitation, and voluntary restraint by players who value preserving the experience for others. Profit margins exceed 50%.
+A sealed reveal does not seal the craft. Design knowledge has always compounded on closed works: chess theory grew from recorded games, not from access to any grandmaster's mind; film craft is taught from copyrighted films; the structure of a dungeon or a stamina system is read from play, notated, and transmitted without a line of source code changing hands.
 
-**Theater tickets** work the same way. The script of Hamilton is published. Any high school can perform it. People pay $300+ for a Broadway ticket because the specific performance — the staging, the cast, the shared audience — is rivalrous even though the content is not.
-
-**Bandcamp's pay-what-you-want model** has directed $1.3 billion to artists despite every album being freely streamable elsewhere. On Bandcamp Fridays, half of fans voluntarily pay above the minimum price. The payment is reciprocity, not access control.
-
-PWNS applies this model to digital games through sealed content markers:
-
-```yaml
-experience:
-  sealed_content:
-    revelation_order: ["prologue", "act1", "twist", "finale"]
-    sealed_elements:
-      - id: "twist"
-        reveal_condition: "act1_complete"
-    experience_license: "unsealing-payment"
-```
-
-**A worked example.** An author publishes a three-act mystery game. Act One is open — anyone can play it, share it, discuss it freely. Acts Two and Three carry sealed markers indicating that the author intended a specific revelation sequence. A compliant client presents a WOCS payment prompt at the Act One boundary. The payment, settled via Lightning, compensates the author for the curated first experience. After completion, the player has received what they paid for. Whether the full content becomes open afterward is the author's choice, expressed through the covenant.
-
-The sealed markers are signals — invitations to respect the author's intended experience. Clients that honor seals earn community trust, the same way Reddit communities organically developed spoiler-tag norms. No law prohibits spoilers. The norm arises because people value each other's first experience and recognize that the community is better when everyone participates in that respect.
-
-**Implementation note**: Sealed content mechanics are conceptual. Clients may implement any approach to revelation sequencing — honor-system based, payment-gated, or hybrid. The standard specifies *what* (sealed markers, revelation order) not *how* (enforcement mechanism). RUNS containers carry the sealed markers. Clients choose how to respect them.
+The distinction is *studying the pattern* versus *forking the material*. Traditions compound by the first. MAPS Notation is built for it: a mystery's revelation structure — the sequencing of acts, the dependency graph of disclosures, the arc from open prologue to gated climax — can be notated spoiler-abstracted, structure without payload. Another designer studies the shape of the reveal without consuming it. The craft compounds across creators the way chess openings compounded across centuries, while every author's dial setting is respected.
 
 ## Market Coordination via WOCS
 
-The protocol does not enforce covenants, but markets can emerge to provide verification, reputation, and dispute resolution services — all coordinated via WOCS micro-economics.
+The protocol does not enforce covenants; markets can verify them.
 
-**A concrete scenario.** A game designer publishes a puzzle game with covenant tags requesting attribution and first-play payment. Six months later, a second developer releases a similar game using the same puzzle mechanics. The original designer suspects appropriation. She posts a WOCS offer: "50,000 sats to anyone who can provide a verifiable provenance comparison." An attribution verification service — itself a small business — accepts the offer, retrieves both games' Nostr event chains, compares timestamps and content signatures, and publishes a public analysis. The escrow settles when the analysis is acknowledged.
+**A concrete scenario.** A designer publishes a sealed puzzle game with an anchored provenance event. Six months later, another developer ships a suspiciously similar game and claims original authorship. The designer posts a WOCS offer: "50,000 sats for a verifiable provenance comparison." A verification service — itself a small business — retrieves both event chains, compares anchors and content hashes, and publishes the analysis. The anchored hash settles the question of who was first, without the sealed content ever being exposed.
 
-This is one example. The same WOCS coordination enables:
-
-- **Covenant compliance tracking** — Aggregators maintain public records of which identities honor covenants
-- **Reputation markets** — Provenance chains become social capital; strong histories attract commissions
-- **Dispute mediation** — Voluntary arbitration services for contested attribution
-
-These are market opportunities, not protocol mandates. The No-Code Rule is preserved: if a feature can be implemented by a third party, it belongs to the third party.
+The same coordination enables covenant-compliance tracking, reputation markets, and voluntary dispute mediation. These are market opportunities, not protocol mandates. The No-Code Rule is preserved: if a feature can be implemented by a third party, it belongs to the third party.
 
 ## What PWNS Deliberately Excludes
 
-PWNS focuses entirely on making provenance undeniable and expectations legible. Like copyright registration proves creation date independent of any enforcement action, PWNS proves origin — and leaves everything else to social coordination.
-
 | Excluded | Why | Where It Belongs |
 |----------|-----|------------------|
-| **DRM / access control** | The protocol serves abundance, not artificial scarcity | Client-side choices, business models |
-| **Enforcement** | The protocol signals expectations, not polices behavior | Social pressure, reputation markets |
+| **DRM / access control** | The protocol records expectations; it does not gate bytes | Stores and clients — which remain free to encrypt |
+| **Revenue capture** | Provenance proves origin; it cannot make a sale | Stores (the sale), reputation markets (the career) |
+| **Enforcement** | The protocol signals, not polices | Social pressure, reputation markets |
 | **Takedowns** | The protocol is permissionless | Community moderation, legal systems |
 | **Content verification** | The protocol proves origin, not quality | Curation services |
-| **Licensing compliance** | The protocol publishes covenants, not audits | Third-party monitoring via WOCS |
 | **Trusted authorities** | No signers, lineages, or governance gatekeepers | Decentralized verification |
-| **Friction on honest users** | Attribution and provenance are zero-cost | Inherent to Nostr signed events |
 
 PWNS makes provenance undeniable and expectations legible. Everything else is social coordination — enabled by the protocol, not embedded in it.
 
-## The Unified Vision
+## Scope
 
-Authors of authored experiences and curators of commons games coexist on the same foundation:
+PWNS serves the full dial. A folklore battle royale publishes Open, and openness does the work. A novelist's interactive mystery publishes Windowed, sells through whatever store she trusts, and joins the commons on her schedule. A living author's magnum opus stays Reserved, its authorship provable for as long as anyone holds the record.
 
-- A puzzle game publishes sealed content with covenants requesting first-play payment
-- A folklore-like battle royale publishes fully open with "attribution appreciated"
-- Both persist on Nostr, discoverable and inheritable without corporate gatekeepers
-- Both benefit from WOCS-funded infrastructure
-- Both rely on social coordination and provenance, the same mechanisms that sustain every durable creative economy
+Two limits:
 
-The authored work's value is in the experience — captured at revelation, not locked forever. The commons work's value is in infinite variation — enabled by openness. Both are products of creative labor deserving attribution. Neither requires DRM.
-
-When expressed in MAPS Notation, a puzzle designer's revelation structure becomes composable. Other designers can study the pattern — the sequencing of sealed elements, the arc from open prologue to gated climax — and build on it. Provenance chains make this lineage legible. The craft compounds across creators the same way chess openings compounded across centuries of recorded analysis.
-
-Abundance operates through reciprocity: Nostr makes every creative act attributable, and communities naturally reward those who participate honestly. Provenance is the primitive: the creator's revenue comes from first-experience economics — from being the *origin* — the way a bottega master's commissions came from reputation, not from locking technique behind guild walls. The signature proves origin. The community recognizes it. The craft compounds.
+- **For one-shot revelation goods, the commercial window depends on the store's access control, not on the seal.** Provenance secures attribution and priority; only encryption secures an unspoiled first experience. PWNS interoperates with that machinery; it does not replace it.
+- **Endurance requires eventual openness or persistent keys.** That is arithmetic, not policy. The covenant is where each author decides which side of it their work lives on.
 
 ---
 
@@ -166,11 +130,11 @@ Abundance operates through reciprocity: Nostr makes every creative act attributa
 
 This is a conceptual proposal for how authored experiences fit within the EGS philosophy. It invites experimentation:
 
-- Publish an Entity with covenant tags
-- Build a simple reputation aggregator service
-- Design a client that respects sealed content markers
-- Explore first-experience payment flows
+- Publish an Entity with an anchored provenance event and covenant tags
+- Build a reputation aggregator that reads covenant compliance
+- Design a client that renders dial settings legibly to players
+- Notate a revelation structure spoiler-abstracted in MAPS
 
-Feedback welcomed on: covenant semantics, sealed content mechanics, reputation market design, and philosophical gaps.
+Feedback welcomed on: covenant semantics, anchoring practice, reputation market design, and philosophical gaps.
 
 **MIT License** — Open for implementation, adaptation, and critique.
