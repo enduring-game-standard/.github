@@ -19,7 +19,7 @@ Open-source engines solve a different problem. Godot removes the *vendor* risk �
 Emulation (MAME, DOSBox), reimplementation (ScummVM), and preservation programs (GOG's) are genuine successes, and EGS builds *on* them rather than competing — the project's own verification oracle is a PDP-1 emulator (see [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md)). But they preserve *builds*: frozen artifacts, rescued after the fact, playable as they were. They cannot keep a game *living* — variable, forkable, studyable — and they do nothing for design-knowledge transmission or for games whose server side was never captured. Preservation is the ambulance; EGS is the argument that the buildings should stop collapsing.
 
 **Is this production-ready?**  
-Not yet. These are conceptual specifications with work-in-progress reference implementations. The focus is on clear, minimal protocols that anyone can experiment with today. This is a long-term architectural proposal, not a finished product. The consolidated, falsifiable state of every layer is [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md).
+No. These are draft specifications; no implementations exist yet. The state of every layer is [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md).
 
 ## For Players
 
@@ -107,7 +107,7 @@ An ecosystem of games that compound cultural value: assets that travel between t
 Open standards don't require permission. Viability can be proven by independents first, creating player demand that larger studios eventually respond to — or not. The protocols remain available either way.
 
 **How will the standards evolve?**  
-The protocol primitives are designed to be stable across generations, and the base specifications are currently closed — they change when their author changes them, a deliberate posture for the pre-implementation era. Evolution happens at the library and convention layers — new MAPS Patterns, new RUNS Library schemas, new AEMS Conventions — which take proposals openly. Forking any spec is legitimate and needs no permission. The honest details, including the single-author bus factor, are in [GOVERNANCE.md](https://github.com/enduring-game-standard/.github/blob/main/profile/GOVERNANCE.md).
+The protocol primitives are designed to be stable across generations, and the base specifications are currently closed — they change when their author changes them, a deliberate posture for the pre-implementation era. Evolution happens at the library and convention layers — new MAPS Patterns, new RUNS Library schemas, new AEMS Conventions — which take proposals openly. Forking any spec is legitimate and needs no permission. Details, including the single-author bus factor: [GOVERNANCE.md](https://github.com/enduring-game-standard/.github/blob/main/profile/GOVERNANCE.md).
 
 ## Getting Started
 

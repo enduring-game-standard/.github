@@ -9,7 +9,7 @@ This repository holds the Enduring Game Standard organization's public face and 
 | [profile/README.md](profile/README.md) | The org profile — the front door |
 | [profile/WHY.md](profile/WHY.md) | The diagnosis: why digital games die, in ~1,500 words |
 | [profile/STATUS.md](profile/STATUS.md) | Consolidated, falsifiable state of every layer |
-| [profile/GOVERNANCE.md](profile/GOVERNANCE.md) | How the standard changes; forks; the bus factor, stated plainly |
+| [profile/GOVERNANCE.md](profile/GOVERNANCE.md) | How the standard changes; forks; the bus factor |
 | [profile/FAQ.md](profile/FAQ.md) | Questions from players, developers, and studios |
 | [profile/CORRESPONDENCE.md](profile/CORRESPONDENCE.md) | The single source of truth for inter-protocol relationships |
 | [profile/PWNS.md](profile/PWNS.md) | The provenance extension for authored experiences |
@@ -20,7 +20,7 @@ The protocol specifications themselves live in their own repositories: [aems-sch
 
 ## Design Principles
 
-The standard is currently written and maintained by one author (see [GOVERNANCE.md](profile/GOVERNANCE.md) — this is stated, not hidden). These are the principles proposals are weighed against:
+The standard is written and maintained by one author (see [GOVERNANCE.md](profile/GOVERNANCE.md)). These are the principles proposals are weighed against:
 
 1. **No rent-seeking.** Anything that adds a fee, token, or "governance" layer extracting value without adding work is rejected. Settlement, where it exists at all (WOCS), is Lightning — no new tokens.
 2. **Protocol neutrality.** A protocol must not care whether the user is a human, an AI, or a script, and must not care about genre.

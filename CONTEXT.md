@@ -392,11 +392,11 @@ variation*; they are not modified or forked. (ADR-0006, ADR-0011)
 A variant arises **three ways**, distinguished only by *how* the Rules-region output changed:
 **authored** (hand-edit/add/replace Rules Processors), **re-vibe** (reinterpret the source
 "good enough," reducing fidelity), and **declared at build time** — a *divergent compilation*
-(the doc's "adapted compilation", renamed as the honest antonym of **strict** evaluation) that
+(the doc's "adapted compilation", renamed as the antonym of **strict** evaluation) that
 substitutes a non-bit-identical algorithm (native sqrt, hardware-native floating point)
 for a strict Rules Processor, recorded in a machine-readable **deviation manifest** (the
 itemized divergences). All three change the deterministic behavior, so all three are variants;
-the manifest is the divergent variant's **honest diff from canon** (the build-time face of
+the manifest is the divergent variant's **declared diff from canon** (the build-time face of
 asserted-vs-verified, ADR-0005).
 This is why a divergent-arithmetic re-target is a Variant despite the industry "port" label
 (see `Port`). A **Variant Port** is the special case where the *motive* is reaching constrained
@@ -492,5 +492,5 @@ becomes a *color* (a discriminant Field value, per the colored Petri net of ADR-
 > **Dev:** But the framing doc says "bit-exact verification."
 > **Maintainer:** That's the contradiction we corrected (ADR-0005). "Bit-exact" is a *Verified*-tier
 > word; the `.p8` is a *hand-compilation*, and it even used adapted substitutions, so it
-> isn't strict-evaluated either. The honest claim is "hand-compiled to a playable cartridge;
+> isn't strict-evaluated either. The accurate claim is "hand-compiled to a playable cartridge;
 > mechanical verification is the open work."

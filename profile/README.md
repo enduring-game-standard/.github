@@ -66,7 +66,7 @@ A composable, plain-text source format for game logic, comparable to Entity Comp
 - **Processors** — Verbs: pure transformations that read input Fields and write output Fields, holding no state of their own, comparable to ECS Systems or compute shader kernels.
 - **Networks** — Explicit graphs that wire Records to Processors; the data flow is declared in plain text and execution order follows from it (derived, not authored).
 
-RUNS applies the Linux model to game execution: there is no "RUNS engine," the way there is no single "Linux OS." Each game assembles its own engine from shared components into a standalone build — the way Android and the Steam Deck are different operating systems built from the same kernel and coreutils. Renderers, input systems, and physics backends are replaceable without rewriting game rules; source can be opened, Processors swapped, and variants compiled. This is a design-intent claim about the spec you can read today, not a status claim about adoption — see [Status](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md).
+RUNS applies the Linux model to game execution: there is no "RUNS engine," the way there is no single "Linux OS." Each game assembles its own engine from shared components into a standalone build — the way Android and the Steam Deck are different operating systems built from the same kernel and coreutils. Renderers, input systems, and physics backends are replaceable without rewriting game rules; source can be opened, Processors swapped, and variants compiled.
 
 Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax): a pure, total, deterministic expression language — every Processor terminates, reads only its declared inputs, and has no side effects. Hardware reach is opt-in on top of that core: a game can *declare* cross-platform bit-exact arithmetic — so identical inputs give identical outputs on every machine — and, where a target demands it, a static execution bound or a fixed memory footprint. The declaration is the contract; the core never assumes them.
 
@@ -79,7 +79,7 @@ A notation for game mechanics using four primitives, comparable to Machinations 
 - **Arc** — A directed transition linking States through Verbs, with conditions and effects.
 - **Mark** — A quantifiable resource (health, stamina, ammo, score).
 
-The model is staff notation: Guido's staff did not compose music, it made composition transmissible — and a millennium of cumulative craft followed. MAPS aims the same instrument at game mechanics. What the notation already delivers is making design decisions visible, studyable, and forkable. By design, a MAPS score is meant to serve as the blueprint RUNS source is built from; that term-for-term mapping is owned by the [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) and is aspirational until earned by real translations.
+The model is staff notation: Guido's staff did not compose music, it made composition transmissible — and a millennium of cumulative craft followed. MAPS aims the same instrument at game mechanics. The notation makes design decisions visible, studyable, and forkable today. A MAPS score is also designed to be the blueprint RUNS source is built from; that term-for-term mapping is owned by the [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) and no real translation has tested it yet.
 
 The **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
 
@@ -93,7 +93,7 @@ A coordination protocol comparable to a decentralized bounty board, replacing ce
 
 Server hosting, anti-cheat services, tournament organization, content commissioning, community moderation — any infrastructure a living game requires can be coordinated through WOCS without depending on a single company's continued operation. When one provider disappears, the need persists publicly and another provider can respond.
 
-WOCS carries no historical analogy the way RUNS, AEMS, and MAPS do, and that absence is accurate: there is no proven precedent for a protocol-native funding layer (Linux solved the same problem institutionally, with a foundation). It is the most speculative layer of the standard, and the only one that depends on Lightning. Nothing else in EGS depends on it.
+Where RUNS, AEMS, and MAPS each follow a proven precedent (Linux, the chess Knight, staff notation), WOCS has none: no protocol-native funding layer has ever worked — Linux solved the same problem with a foundation. It is the most speculative layer of the standard, and the only one that depends on Lightning. Nothing else in EGS depends on it.
 
 ## How the Pieces Fit Together
 
@@ -148,7 +148,7 @@ not a fifth protocol. **PWNS** is an optional extension.
 
 ## Current State
 
-Draft specifications, actively hardening; no production implementations yet. Every fidelity claim in the corpus is currently **asserted** (judged correct by reading), not **verified** (checked against an oracle) — and the documents say which is which. The consolidated state of every layer, and the falsifiable milestone that turns *asserted* into *verified*, live in [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md). How changes happen, and what a legitimate fork looks like, live in [GOVERNANCE.md](https://github.com/enduring-game-standard/.github/blob/main/profile/GOVERNANCE.md).
+Draft specifications; no implementations yet. Per-layer state, and the milestone that turns *asserted* claims into *verified* ones: [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md). How changes happen, and what a legitimate fork looks like: [GOVERNANCE.md](https://github.com/enduring-game-standard/.github/blob/main/profile/GOVERNANCE.md).
 
 ---
 

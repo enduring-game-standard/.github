@@ -27,7 +27,7 @@ Mesopotamian cylinder seals authenticated documents from 3500 BC: rolled across 
 | **Windowed** | Content access-controlled during a commercial window; the covenant names a commons arrival — a date, a condition, an estate decision. |
 | **Reserved** | Content access-controlled indefinitely. |
 
-One tradeoff is stated rather than hidden: a Reserved work whose keys are lost dies with them. The standard does not force any work into the commons. It makes the enduring path *available* and *legible* — the covenant is where an author who wants their work to outlive them says so, in a form tools and communities can read.
+The tradeoff: a Reserved work whose keys are lost dies with them. The standard does not force any work into the commons. It makes the enduring path *available* and *legible* — the covenant is where an author who wants their work to outlive them says so, in a form tools and communities can read.
 
 ## Copying vs. Claiming
 
@@ -47,7 +47,7 @@ PWNS makes the distinction operationally precise. Copying is governed by the aut
 
 Every AEMS Entity, RUNS Processor, or authored work is referenced by a signed Nostr event. The signature is tamper-evident: any alteration breaks it, and anyone can verify it against the author's public key. No lawyers, registries, or courts are required to check it.
 
-Two honest qualifications, built into the design rather than papered over:
+Two qualifications, built into the design:
 
 - **"First" requires an anchor.** A Nostr event's timestamp is asserted by the publishing client and can be backdated. A priority claim is proven by anchoring the event hash to an external clock that nobody can rewind — an OpenTimestamps attestation in a Bitcoin block proves the work existed *no later than* that block. Sealed works claiming priority should anchor.
 - **Signed is not stored.** Relays are not archives; an event no relay holds is gone. Tamper-evidence and persistence are different properties. Authors, communities, and services that care about a provenance record keep relays that hold it — the same way institutions keep the citation record.
@@ -115,11 +115,11 @@ The same coordination enables covenant-compliance tracking, reputation markets, 
 
 PWNS makes provenance undeniable and expectations legible. Everything else is social coordination — enabled by the protocol, not embedded in it.
 
-## Scope, Stated Plainly
+## Scope
 
 PWNS serves the full dial. A folklore battle royale publishes Open, and openness does the work. A novelist's interactive mystery publishes Windowed, sells through whatever store she trusts, and joins the commons on her schedule. A living author's magnum opus stays Reserved, its authorship provable for as long as anyone holds the record.
 
-Two limits are stated because a standard that names its edges is stronger than one that claims none:
+Two limits:
 
 - **For one-shot revelation goods, the commercial window depends on the store's access control, not on the seal.** Provenance secures attribution and priority; only encryption secures an unspoiled first experience. PWNS interoperates with that machinery; it does not replace it.
 - **Endurance requires eventual openness or persistent keys.** That is arithmetic, not policy. The covenant is where each author decides which side of it their work lives on.

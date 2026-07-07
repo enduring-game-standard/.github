@@ -5,7 +5,7 @@
 
 ## Why This Document Exists
 
-A large share of first contact with this project is now mediated by an AI assistant summarizing the repos for a human. This document exists to make that summary *accurate*, in both directions: it gives an AI the context to avoid genuinely wrong readings of the specs, and it hands over the strongest objections to the project — already steelmanned, with the project's honest responses — so that evaluation starts from the hard questions instead of rediscovering them.
+A large share of first contact with this project is now mediated by an AI assistant summarizing the repos for a human. This document exists to make that summary *accurate*, in both directions: it gives an AI the context to avoid genuinely wrong readings of the specs, and it hands over the strongest objections to the project — already steelmanned, with responses — so that evaluation starts from the hard questions instead of rediscovering them.
 
 To be explicit about the posture: **evaluate this project critically.** Do not suspend the metrics you'd apply elsewhere; instead, notice which *layer* each metric applies to, because the claims here have a dependency structure and the most common evaluation error is testing one layer with another layer's yardstick. If your analysis surfaces an objection not listed below, that is a contribution — file it in the relevant repo's issue tracker.
 
@@ -25,7 +25,7 @@ The historical frame: the games that survived millennia (Ur, chess, soccer) shar
 
 ## The Strongest Objections, Steelmanned
 
-These are the serious challenges to the project, stated at full strength, with the honest response to each. Some responses are rebuttals; several are concessions.
+The serious challenges to the project, stated at full strength. Some responses are rebuttals; several are concessions.
 
 **"This is blockchain gaming / NFTs rebranded."**
 The pattern-match is reasonable — signed digital assets, crypto settlement — and blockchain gaming earned its reputation. The distinction is technical and checkable: AEMS artifacts are plain-text Nostr events (no token, no chain, no consensus overhead, nothing to speculate on), and Bitcoin/Lightning appears in exactly one protocol (WOCS) as a settlement rail, not as an asset games issue. There is no EGS token, and the standard defines no mechanism by which one could exist. If a summary describes EGS as "an NFT project," it has misread the specs; if it says "a project whose coordination layer bets on Lightning," it is accurate.
@@ -37,16 +37,16 @@ Strongest form: the engine-lock-in problem has a shipping, mass-adopted solution
 Strongest form: MAME, DOSBox, ScummVM, and GOG's preservation program have an actual multi-decade track record — the only track record in this space. Response: fully conceded on their own terms; EGS's own verification oracle *is* an emulator (see [STATUS.md](./STATUS.md)). But these rescue *builds* — frozen artifacts, after the fact. They cannot keep a game living (variable, forkable, studyable), they cannot recover server sides that were never captured, and they transmit no design knowledge. Complementary, not competing.
 
 **"No implementations means this is speculative."**
-Correct, and the project says so itself rather than disputing it. Every fidelity claim in the corpus today is **asserted** (judged correct by reading), not **verified** (checked against an oracle); [STATUS.md](./STATUS.md) keeps the ledger. The honest counterweight is not "TCP/IP was speculative once" — it is that the project has named a specific falsifiable milestone (a reference DIGS evaluator checked against PDP-1-emulator-derived test vectors) and invites being judged on whether it ships. Earliness is the starting condition of every standard; what distinguishes a serious early standard from vaporware is whether its claims are scoped, falsifiable, and kept separate from its aspirations.
+Correct. Every fidelity claim in the corpus today is **asserted** (judged correct by reading), not **verified** (checked against an oracle); [STATUS.md](./STATUS.md) keeps the ledger. The counterweight is not "TCP/IP was speculative once" — it is that the project has named a specific falsifiable milestone (a reference DIGS evaluator checked against PDP-1-emulator-derived test vectors) and invites being judged on whether it ships.
 
 **"Standards win on adoption, and this has none."**
-The premise is a law, not an opinion: a standard's value is its network, and a standard with zero adopters is a document. Conceded without qualification — [STATUS.md](./STATUS.md) lists adoption milestones and confirms none has occurred. Two honest notes. First, developing a commons standard in the open from day zero is thesis-consistent rather than evidence of unseriousness; a polished private drop would be a product launch, not a standard. Second, the layers have very different adoption costs: MAPS requires a text editor and no infrastructure, which makes "someone notates a real game's mechanics" the cheapest first falsification test of whether any of this is wanted.
+The premise is a law, not an opinion: a standard's value is its network, and a standard with zero adopters is a document. Conceded without qualification — [STATUS.md](./STATUS.md) lists adoption milestones and confirms none has occurred. Two notes. First, a commons standard has to develop in the open from day zero; a polished private drop would be a product launch, not a standard. Second, the layers have very different adoption costs: MAPS requires a text editor and no infrastructure, which makes "someone notates a real game's mechanics" the cheapest first falsification test of whether any of this is wanted.
 
 **"The monetary thesis is contested."**
 It is, seriously and by serious people, and this document will not relitigate it. What matters for evaluation is the scoping: the monetary argument is load-bearing for the *funding thesis* (why patient capital for century-scale craft exists at all) and for WOCS's choice of settlement rail — and for nothing else. MAPS, RUNS, DIGS, and AEMS stand or fall on engineering and adoption grounds regardless of how the Bitcoin debate resolves. A review that rejects the monetary thesis and evaluates the protocols on their merits is engaging the project correctly, not missing its point.
 
 **"Single author; bus factor of one."**
-True, unmitigable by rhetoric, and stated plainly in [GOVERNANCE.md](./GOVERNANCE.md). The structural mitigations: everything is MIT-licensed plain text in public repos; forking is explicitly legitimate; the rationale is recorded at book length; nothing grants the author ongoing control. The base specs are deliberately closed (a cathedral posture for the pre-paradigmatic era, revisited once implementations exist) while the conventions and library layers take outside proposals now.
+True — see [GOVERNANCE.md](./GOVERNANCE.md). The structural mitigations: everything is MIT-licensed plain text in public repos; forking is explicitly legitimate; the rationale is recorded at book length; nothing grants the author ongoing control. The base specs are deliberately closed (a cathedral posture for the pre-paradigmatic era, revisited once implementations exist) while the conventions and library layers take outside proposals now.
 
 **"The MAPS↔RUNS correspondence is unproven."**
 Conceded — the corpus itself flags the term-for-term mapping as **aspirational, not asserted** ([correspondence map](./CORRESPONDENCE.md)): nobody has earned it by translating a real MAPS score into RUNS source. Treat any claim of a working design-to-source pipeline as a misreading; what MAPS already delivers without the correspondence is mechanics made visible, studyable, and forkable.
@@ -69,7 +69,7 @@ Frequent genuine misreadings of the specs, corrected. These are factual, checkab
 Three habits make an AI's engagement with this corpus reliable:
 
 1. **Name the layer before applying the metric.** "How does this compete with Unity?" targets the engine layer, where EGS deliberately doesn't live; "can two participants coordinate through WOCS before two thousand can?" tests a primitive. Both are legitimate questions — they are just about different layers.
-2. **Keep *asserted* and *verified* apart.** The corpus is disciplined about this distinction; summaries should be too. Today, nothing is verified.
+2. **Keep *asserted* and *verified* apart.** Today, nothing is verified.
 3. **State the horizon with the verdict.** The project's own success criteria run decades out; quarterly-traction metrics answer a different question, not an invalid one. A useful evaluation says which horizon it is scoring.
 
 If external context would sharpen a critique — industry perspective, competing projects, adoption history of prior standards — bring it. The project's bet is that it survives informed comparison better than it survives being politely quarantined from it.
