@@ -87,7 +87,7 @@ Because publishing provenance does not publish the work. A PWNS seal is a signed
 - **The dial** — the author's covenant setting for content openness: *open*, *windowed* (access-controlled now, commons at a named date), or *reserved* (indefinitely)
 - **The sale** — protected where sales are always protected: at the store or client, which remains free to encrypt; provenance protects credit, not the sale
 
-This is the DOI model from scholarly publishing: a public, permanent, citable record of authorship over content that may sit behind a paywall forever. The identifier proves the claim without revealing the work.
+This is the DOI model from scholarly publishing: a public, citable record of authorship that anyone can keep a copy of over content that may sit behind a paywall forever. The identifier proves the claim without revealing the work.
 
 **What about someone copying my characters or story beats?**  
 PWNS distinguishes between *copying* (cultural participation, governed by your covenant) and *claiming* (fraud about authorship). Every creative act is signed with your Nostr keypair, and priority claims are anchored to an external clock (OpenTimestamps) that nobody can rewind. Someone can riff on your work, but they cannot claim to have created it: the anchored provenance chain proves you published it first — without exposing anything you kept sealed.
