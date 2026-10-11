@@ -78,14 +78,14 @@ If external context would sharpen a critique — industry perspective, competing
 
 | Acronym | Full Name | Purpose |
 |---------|-----------|---------|
-| **AEMS** | Asset-Entity-Manifestation-State | Durable Nostr game artifacts |
+| **AEMS** | Asset-Entity-Manifestation-State | Signed Nostr events for game objects |
 | **RUNS** | Records Update on Neutral Substrate | Composable, plain-text source for game logic |
 | **DIGS** | Deterministic Inspectable Game Syntax | Formal expression language for Processor bodies |
 | **WOCS** | Work Offered, Claimed, Settled | Permissionless coordination + Lightning settlement |
 | **MAPS** | Mechanics and Play Structures | Notation for interactive grammar |
 | **PWNS** | Provenance Without Notaries or Sovereigns | Provenance over property, covenants without enforcement |
 
-**Supporting projects:** [AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions) (shared entity vocabularies), [RUNS Library](https://github.com/enduring-game-standard/runs-library) (the `runs:` palette and architecture patterns), [MAPS Library](https://github.com/enduring-game-standard/maps-library) (shared mechanic patterns).
+**Supporting projects:** [AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions) (optional, forkable vocabularies for what AEMS events carry), [RUNS Library](https://github.com/enduring-game-standard/runs-library) (the `runs:` palette and architecture patterns), [MAPS Library](https://github.com/enduring-game-standard/maps-library) (shared mechanic patterns).
 
 ---
 
