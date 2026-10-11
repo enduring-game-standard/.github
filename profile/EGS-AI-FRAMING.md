@@ -17,7 +17,7 @@ EGS is four independent protocols plus one diagnosis. The diagnosis ([WHY.md](./
 |-------|--------------------|----------------------|
 | **MAPS** (design notation) | Formal notation for mechanics is worth writing | Nostr, Bitcoin, any other EGS protocol |
 | **RUNS + DIGS** (portable game logic) | Deterministic, engine-independent logic is worth having; content-addressed publication (Nostr) for distribution | Any monetary position |
-| **AEMS** (persistent game objects) | Signed plain-text events on public relays outlive server-locked objects | Bitcoin; that games execute on RUNS |
+| **AEMS** (signed game objects) | Signed plain-text events that verify wherever copies are kept outlast server-locked objects | Bitcoin; that games execute on RUNS |
 | **WOCS** (coordination market) | Lightning as a settlement rail | That any other layer uses it |
 | **The economic thesis** (why craft-first games get funded) | The monetary argument of the book *Enduring Games* (Scott Sheppard, 2026) | Required by none of the protocols |
 

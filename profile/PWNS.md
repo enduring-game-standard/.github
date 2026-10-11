@@ -45,7 +45,7 @@ PWNS makes the distinction operationally precise. Copying is governed by the aut
 
 ### 1. Attribution That Holds
 
-Every AEMS event is a signed Nostr event, and every RUNS Processor or authored work is referenced by one. The signature is tamper-evident: any alteration breaks it, and anyone can verify it against the author's public key. No lawyers, registries, or courts are required to check it.
+Every AEMS event is a signed Nostr event, and a RUNS Processor or any other authored work can be referenced by one. The signature is tamper-evident: any alteration breaks it, and anyone can verify it against the author's public key. No lawyers, registries, or courts are required to check it.
 
 Two qualifications, built into the design:
 

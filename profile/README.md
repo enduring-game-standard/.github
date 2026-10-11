@@ -28,10 +28,10 @@ This is not an engine — open-source or otherwise. Open-sourcing an engine remo
 | You are | Start with | Because |
 |---------|-----------|---------|
 | A game designer | [MAPS](https://github.com/enduring-game-standard/maps-notation) | Notate a mechanic today with a text editor. No infrastructure, no tooling, no other protocol. |
-| An engine or runtime developer | [RUNS](https://github.com/enduring-game-standard/runs-spec) | Three specs written to be implementable in isolation: data, computation, wiring. |
+| An engine or runtime developer | [RUNS](https://github.com/enduring-game-standard/runs-spec) | Specs for computation (DIGS) and wiring (Network Topology). A standalone Record Schema is in review. |
 | A preservationist or archivist | [AEMS](https://github.com/enduring-game-standard/aems-schema) | Signed plain-text events that any server or archive can keep, and that verify wherever they land. Draft, with event kinds not yet pinned. |
 | An infrastructure provider | [WOCS](https://github.com/enduring-game-standard/wocs-protocol) | Coordination and settlement for hosting, audits, and tournaments. |
-| Asking "why does any of this exist?" | [WHY.md](https://github.com/enduring-game-standard/.github/blob/main/profile/WHY.md) | The diagnosis, in ~1,500 words. The book is the long form. |
+| Asking "why does any of this exist?" | [WHY.md](https://github.com/enduring-game-standard/.github/blob/main/profile/WHY.md) | The diagnosis, in ~1,300 words. The book is the long form. |
 
 ## What Each Layer Asks You to Accept
 
@@ -52,7 +52,7 @@ The protocols carry different dependencies, and evaluating one never requires sw
 Four signed event kinds linked by a provenance chain, published on a public commons rather than stored in a proprietary database. The full glossary is [aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md).
 
 - **Entity** — A signed naming of a concept ("Sword," "Health Potion," "Master Sword"). A naming can be ownerless or authored. Rival namings coexist, and use decides which one a community references.
-- **Manifestation** — A game's interpretation of one or more Entities. A particular game's "Iron Sword: 6 damage, 250 durability, fire enchantment," referencing the Entity it descends from.
+- **Manifestation** — A game's interpretation of one or more Entities. A particular game's "Iron Sword: 6 damage, 250 durability, fire enchantment," referencing the Entities it descends from.
 - **Asset** — A signed claim of possession of one instance of a Manifestation. Whoever is asked to honor the claim decides whether to.
 - **State** — The claimed current condition of an Asset, such as durability or enchantment charges remaining.
 

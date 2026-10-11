@@ -7,7 +7,7 @@ This repository holds the Enduring Game Standard organization's public face and 
 | Path | What it is |
 |------|------------|
 | [profile/README.md](profile/README.md) | The org profile — the front door |
-| [profile/WHY.md](profile/WHY.md) | The diagnosis: why digital games die, in ~1,500 words |
+| [profile/WHY.md](profile/WHY.md) | The diagnosis: why digital games die, in ~1,300 words |
 | [profile/STATUS.md](profile/STATUS.md) | Consolidated, falsifiable state of every layer |
 | [profile/GOVERNANCE.md](profile/GOVERNANCE.md) | How the standard changes; forks; the bus factor |
 | [profile/FAQ.md](profile/FAQ.md) | Questions from players, developers, and studios |

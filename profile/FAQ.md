@@ -30,7 +30,7 @@ Over time, you might:
 - Earn wages for contributions (hosting servers, testing, or creating content) via WOCS
 - Play games that survive studio closures, maintained by communities
 
-**Will gameplay feel different?**
+**Will gameplay feel different?**  
 Gameplay feels like whatever the runtime provides. The standard defines how game components are described, composed, and coordinated — it does not constrain how they execute. A high-performance centralized server running a RUNS Network produces the same player experience as any other high-performance game. Nostr is the publication and discovery layer (where AEMS events and coordination offers live), not the execution hot path — the same way a game's database isn't queried 120 times per second during a raid.
 
 ## For Developers and Modders

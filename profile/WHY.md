@@ -2,7 +2,7 @@
 
 🏠 **[EGS Overview](https://github.com/enduring-game-standard)** · 📍 **[Status](./STATUS.md)** · ⚖️ **[Governance](./GOVERNANCE.md)** · ❓ **[FAQ](./FAQ.md)**
 
-This is the diagnosis the Enduring Game Standard answers, in about 1,500 words. It requires no position on money, cryptography, or decentralization — only the observation of how games die and how, for most of human history, they didn't.
+This is the diagnosis the Enduring Game Standard answers, in about 1,300 words. It requires no position on money, cryptography, or decentralization — only the observation of how games die and how, for most of human history, they didn't.
 
 ## Three Deaths
 
