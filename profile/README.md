@@ -29,7 +29,7 @@ This is not an engine — open-source or otherwise. Open-sourcing an engine remo
 |---------|-----------|---------|
 | A game designer | [MAPS](https://github.com/enduring-game-standard/maps-notation) | Notate a mechanic today with a text editor. No infrastructure, no tooling, no other protocol. |
 | An engine or runtime developer | [RUNS](https://github.com/enduring-game-standard/runs-spec) | Three specs written to be implementable in isolation: data, computation, wiring. |
-| A preservationist or archivist | [AEMS](https://github.com/enduring-game-standard/aems-schema) | Signed plain-text events that outlive any server. Publishable today. |
+| A preservationist or archivist | [AEMS](https://github.com/enduring-game-standard/aems-schema) | Signed plain-text events that no single server hosts. Draft, with event kinds not yet pinned. |
 | An infrastructure provider | [WOCS](https://github.com/enduring-game-standard/wocs-protocol) | Coordination and settlement for hosting, audits, and tournaments. |
 | Asking "why does any of this exist?" | [WHY.md](https://github.com/enduring-game-standard/.github/blob/main/profile/WHY.md) | The diagnosis, in ~1,500 words. The book is the long form. |
 
@@ -49,14 +49,14 @@ The protocols carry different dependencies, and evaluating one never requires sw
 
 ### AEMS: Asset-Entity-Manifestation-State — *the things*
 
-A standard schema for game content definitions, comparable to ScriptableObjects or Data Assets, published on a public commons rather than stored in a proprietary database.
+Four signed event kinds linked by a provenance chain, published on a public commons rather than stored in a proprietary database. The full glossary is [aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md).
 
-- **Entity** — A universal, IP-free archetype ("Sword," "Health Potion," "Fireball"). The concept itself, discoverable by anyone.
-- **Manifestation** — A game-specific implementation of an Entity. A particular game's "Iron Sword: 6 damage, 250 durability, fire enchantment," referencing the Entity it descends from.
-- **Asset** — A player's specific instance of a Manifestation, with history and ownership.
-- **State** — Mutable condition on an Asset: current durability, applied upgrades, enchantment charges remaining.
+- **Entity** — A signed naming of a concept ("Sword," "Health Potion," "Master Sword"). A naming can be ownerless or authored. Rival namings coexist, and use decides which one a community references.
+- **Manifestation** — A game's interpretation of one or more Entities. A particular game's "Iron Sword: 6 damage, 250 durability, fire enchantment," referencing the Entity it descends from.
+- **Asset** — A signed claim of possession of one instance of a Manifestation. Whoever is asked to honor the claim decides whether to.
+- **State** — The claimed current condition of an Asset, such as durability or enchantment charges remaining.
 
-The model is the chess Knight: the piece has outlasted every manufacturer that ever carved one, because the piece is not the object — it is a shared naming that any maker can interpret. When a studio shuts down, Entities and Assets persist on the commons the same way. Future games can recognize, interpret, or ignore them as a design decision, not a technical constraint.
+The model is the chess Knight: the piece has outlasted every manufacturer that ever carved one, because the piece is not the object — it is a shared naming that any maker can interpret. When a studio shuts down, its Entities and Assets stay on the commons for as long as relays or archives keep copies. Future games can recognize, interpret, or ignore them as a design decision, not a technical constraint.
 
 ### RUNS: Records Update on Neutral Substrate — *the game*
 
@@ -111,13 +111,13 @@ Long-lived protocols share a pattern: aggressive exclusion. They define minimal 
 | **MIDI** | Note events | Sound synthesis, audio, timing guarantees |
 | **EGS** | Game architecture primitives | Databases, marketplaces, engines, matchmaking, moderation |
 
-AEMS defines entity structure, not databases. RUNS defines data-flow composition, not rendering. WOCS defines coordination primitives, not escrow or reputation. MAPS defines interactive grammar, not execution timing.
+AEMS defines four event kinds and their parent references, not databases. RUNS defines data-flow composition, not rendering. WOCS defines coordination primitives, not escrow or reputation. MAPS defines interactive grammar, not execution timing.
 
 ## Infrastructure
 
 The protocols run on **[Nostr](https://nostr.com/)** and **[Lightning](https://lightning.network/)**.
 
-**Nostr** provides signed persistence: every artifact — entity definitions, game logic, coordination offers, notation scores — is cryptographically signed by its creator, stored across independent relays, and discoverable without permission. No single server's failure destroys the data. No platform's policy change revokes access.
+**Nostr** provides signed publication. Every artifact (AEMS events, game logic, coordination offers, notation scores) is cryptographically signed by its creator and verifies wherever it lands. Anyone can copy it to any relay and read it without permission. An artifact lasts while relays or archives keep copies, so no single server's shutdown or policy change removes it everywhere.
 
 **Lightning** provides instant Bitcoin settlement: WOCS coordination payments complete atomically with near-zero fees, no intermediaries, and no escrow. Lightning is a WOCS dependency only; the other protocols never touch it.
 
@@ -136,7 +136,7 @@ is a memory aid, not a precise definition. The sections above define each protoc
 
 | Name | Expands to | Role |
 |------|------------|------|
-| **AEMS** | Asset-Entity-Manifestation-State | *the things* — durable, signed game content on the commons |
+| **AEMS** | Asset-Entity-Manifestation-State | *the things* — signed claims about game objects on the commons |
 | **RUNS** | Records Update on Neutral Substrate | *the game* — plain-text source for game logic |
 | **DIGS** | Deterministic Inspectable Game Syntax | *the computation* — RUNS's pure expression language (Processor bodies + Network guards) |
 | **MAPS** | Mechanics and Play Structures | *the rules* — design-time notation for game mechanics |

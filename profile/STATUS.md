@@ -27,6 +27,6 @@ When this ships, anyone with the emulator and the source can run the check.
 
 ## What Would Count as Adoption
 
-Later milestones, in order of difficulty: a MAPS score of a real, existing game written by someone other than the author; a second RUNS game; a machine-compiled build on a second platform; a published AEMS entity referenced by a manifestation the publisher didn't write; one WOCS cycle settling real work. None of these exist today.
+Later milestones, in order of difficulty: a MAPS score of a real, existing game written by someone other than the author; a second RUNS game; a machine-compiled build on a second platform; a published AEMS Entity referenced by a Manifestation the publisher didn't write; one WOCS cycle settling real work. None of these exist today.
 
 **MIT License**

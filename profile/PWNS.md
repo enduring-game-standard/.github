@@ -45,7 +45,7 @@ PWNS makes the distinction operationally precise. Copying is governed by the aut
 
 ### 1. Attribution That Holds
 
-Every AEMS Entity, RUNS Processor, or authored work is referenced by a signed Nostr event. The signature is tamper-evident: any alteration breaks it, and anyone can verify it against the author's public key. No lawyers, registries, or courts are required to check it.
+Every AEMS event is a signed Nostr event, and every RUNS Processor or authored work is referenced by one. The signature is tamper-evident: any alteration breaks it, and anyone can verify it against the author's public key. No lawyers, registries, or courts are required to check it.
 
 Two qualifications, built into the design:
 
@@ -58,18 +58,21 @@ This is how provenance works in the art world. A Vermeer's value rests on its do
 
 Authors attach their expectations to the seal — not as locks, but as machine-readable social signals.
 
-```yaml
-entity:
-  # ... standard AEMS fields ...
-  provenance:
-    author: "npub1abc..."
-    content_hash: "sha256:9f2c..."
-    anchor: "ots:..."            # OpenTimestamps attestation
-  covenant:
-    attribution_required: true
-    content: "windowed"          # open | windowed | reserved
-    commons_at: "2036-07-01"     # date | condition | never
-    commercial_contact: "npub1abc..."
+The sketch below shows covenant tags on an AEMS Entity event. It is a proposed convention, not part of the AEMS schema, and the event kind is not pinned yet. The signer's key is the author. `anchor` holds an OpenTimestamps attestation. `content` is `open`, `windowed`, or `reserved`, and `commons_at` is a date, a condition, or `never`.
+
+```json
+{
+  "kind": "<AEMS Entity kind, not pinned>",
+  "pubkey": "<author key>",
+  "tags": [
+    ["content_hash", "sha256:9f2c..."],
+    ["anchor", "ots:..."],
+    ["attribution_required", "true"],
+    ["content", "windowed"],
+    ["commons_at", "2036-07-01"],
+    ["commercial_contact", "npub1abc..."]
+  ]
+}
 ```
 
 Covenants work the way attribution norms already work at scale. Creative Commons licenses are respected overwhelmingly through social convention, not litigation. Academic citation is enforced by institutions and careers, not statutes. Git tracks authorship at the line level, and code plagiarism costs maintainer trust, not legal fees. In each system, reputation is the currency and attribution is how it is minted.

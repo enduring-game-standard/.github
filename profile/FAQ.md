@@ -7,7 +7,7 @@
 ## Overview
 
 **What is the Enduring Game Standard?**  
-Four minimal, independent protocols — AEMS (Asset-Entity-Manifestation-State), RUNS (Records Update on Neutral Substrate), WOCS (Work Offered, Claimed, Settled), and MAPS (Mechanics and Play Structures) — designed to make digital games as durable as the rulesets humanity has played for millennia. Built on existing open infrastructure (Nostr for persistent data and Lightning for settlement), they define durable game entities, composable execution, permissionless coordination, and a notation for interactive grammar. Each protocol is useful alone and none requires the others; what they share is one principle — separating what must endure about a game from what may churn. The aim is games that persist for generations, like chess or Go, without depending on any single company or server.
+Four minimal, independent protocols — AEMS (Asset-Entity-Manifestation-State), RUNS (Records Update on Neutral Substrate), WOCS (Work Offered, Claimed, Settled), and MAPS (Mechanics and Play Structures) — designed to make digital games as durable as the rulesets humanity has played for millennia. Built on existing open infrastructure (Nostr for signed data and Lightning for settlement), they define signed game objects, composable execution, permissionless coordination, and a notation for interactive grammar. Each protocol is useful alone and none requires the others; what they share is one principle — separating what must endure about a game from what may churn. The aim is games that persist for generations, like chess or Go, without depending on any single company or server.
 
 **Why does this matter?**  
 Most digital games are architecturally fragile: they rely on centralized servers that can be switched off, revocable licenses that can be taken away, and proprietary engines that lock in assets and progress. The result is cultural loss — entire worlds, inventories, and communities disappear when support ends. This standard proposes an alternative path where players retain meaningful control, creators earn directly, and games can evolve indefinitely through open contribution. The full diagnosis is [WHY.md](https://github.com/enduring-game-standard/.github/blob/main/profile/WHY.md).
@@ -25,44 +25,44 @@ No. These are draft specifications; no implementations exist yet. The state of e
 
 **What could change for me as a player?**  
 Over time, you might:
-- Carry items, characters, or progress across different games via shared AEMS entities
-- Retain ownership of assets through cryptographic keys, independent of any studio
+- Hold signed claims to items that other games may recognize, display, or refuse
+- Hold signed, auditable possession claims that no studio controls
 - Earn wages for contributions (hosting servers, testing, or creating content) via WOCS
 - Play games that survive studio closures, maintained by communities
 
 **Will gameplay feel different?**
-Gameplay feels like whatever the runtime provides. The standard defines how game components are described, composed, and coordinated — it does not constrain how they execute. A high-performance centralized server running a RUNS Network produces the same player experience as any other high-performance game. Nostr is the persistence and discovery layer (where entity definitions and coordination offers live), not the execution hot path — the same way a game's database isn't queried 120 times per second during a raid.
+Gameplay feels like whatever the runtime provides. The standard defines how game components are described, composed, and coordinated — it does not constrain how they execute. A high-performance centralized server running a RUNS Network produces the same player experience as any other high-performance game. Nostr is the publication and discovery layer (where AEMS events and coordination offers live), not the execution hot path — the same way a game's database isn't queried 120 times per second during a raid.
 
 ## For Developers and Modders
 
 **What advantages could this offer developers?**  
-- AEMS allows defining entities once and reusing them across projects
+- AEMS lets you name an object once as an Entity and reference that naming from any project's Manifestations
 - RUNS enables truly modular engines — replace renderers, physics, or input systems without breaking everything
 - MAPS provides a notation for describing game mechanics as readable, composable scores — like sheet music for interactive grammar
 - WOCS enables direct coordination of server hosting, asset creation, and feature development — instant settlement, no platform rents
 
 **How realistic is adoption for indie or solo developers?**  
-The protocols are deliberately lightweight. A solo developer could start by importing AEMS entities into a simple RUNS-style pipeline and accepting WOCS payments for custom work. No large team or funding required to experiment.
+The protocols are deliberately lightweight. A solo developer could start by publishing AEMS events, optionally compile Manifestation data into a simple RUNS-style build, and accept WOCS payments for custom work. No large team or funding required to experiment.
 
 **How do I start building?**  
-Read the individual protocol READMEs and experiment freely. Start by publishing an AEMS Entity event, then try sketching a MAPS Score or wiring a simple RUNS Network.
+Read the individual protocol READMEs and experiment freely. Start by drafting an AEMS Entity event, then try sketching a MAPS Score or wiring a simple RUNS Network. AEMS event kinds are not pinned yet, so a draft uses the schema's placeholders.
 
 ## For Studios and Larger Teams
 
 **What strategic benefits might studios see?**  
-- Reduced duplication of effort through shared entity definitions
-- New revenue models from persistent, player-owned economies without crypto hype
+- Reduced duplication of effort through shared Entity namings
+- Checkable provenance for their content, without scarcity schemes or crypto hype
 - Flexibility to pivot technology stacks without losing core content
 - Games that continue generating value long after active development ends
 
 **Does this require abandoning existing engines?**  
-No. RUNS patterns can be incrementally adopted within existing codebases. AEMS entities can be imported alongside proprietary assets. Studios can participate selectively — monitoring, contributing feedback, or running internal experiments.
+No. RUNS patterns can be incrementally adopted within existing codebases. A build can compile AEMS Manifestation data next to proprietary content. Studios can participate selectively — monitoring, contributing feedback, or running internal experiments.
 
 **How do we maintain creative control?**  
-Games retain full authority over their Manifestations (AEMS) and Processor selection (RUNS). Shared entities are optional; proprietary ones remain possible. The standards enable interoperability without mandating it.
+Games retain full authority over their Manifestations (AEMS) and Processor selection (RUNS). Referencing a shared Entity is optional, and a game can publish its own authored Entities. The standards enable interoperability without mandating it.
 
 **Can this describe any kind of game?**  
-Yes. MAPS can notate the mechanical grammar of any game — from Pong to a 200-player MMO. The notation describes structure and rules; it does not execute them. A RUNS runtime that executes a massive real-time game may be a centralized high-performance server farm — and that is a fully compliant RUNS runtime. The standard defines how components are described, composed, and coordinated. Execution architecture is the runtime's job. Nostr is the persistence and discovery layer — the distributed database where entity definitions and coordination offers live — not the execution hot path, any more than a library shelf is the concert hall.
+Yes. MAPS can notate the mechanical grammar of any game — from Pong to a 200-player MMO. The notation describes structure and rules; it does not execute them. A RUNS runtime that executes a massive real-time game may be a centralized high-performance server farm — and that is a fully compliant RUNS runtime. The standard defines how components are described, composed, and coordinated. Execution architecture is the runtime's job. Nostr is the publication and discovery layer, where AEMS events and coordination offers live, not the execution hot path, any more than a library shelf is the concert hall.
 
 ## Technical Quick Reference
 
@@ -74,7 +74,7 @@ Yes. MAPS can notate the mechanical grammar of any game — from Pong to a 200-p
 
 **Variants**: a variant opens a Network and swaps or adds Processors, then compiles anew — what other ecosystems call "mods," except enduring games evolve through variation rather than modding. Coordinated via WOCS.
 
-**Protocol integration**: MAPS (what the grammar is), AEMS (what the things are), RUNS (how it executes), WOCS (how ecosystem services are coordinated). The protocols are independent — the arrows between them are optional seams, not dependencies; the [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the topology.
+**Protocol integration**: MAPS (what the grammar is), AEMS (what the things are), RUNS (how it executes), WOCS (how ecosystem services are coordinated). The protocols are independent and meet only at optional seams. The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the topology.
 
 ## Authored Experiences and Provenance
 
@@ -87,7 +87,7 @@ Because publishing provenance does not publish the work. A PWNS seal is a signed
 - **The dial** — the author's covenant setting for content openness: *open*, *windowed* (access-controlled now, commons at a named date), or *reserved* (indefinitely)
 - **The sale** — protected where sales are always protected: at the store or client, which remains free to encrypt; provenance protects credit, not the sale
 
-This is the DOI model from scholarly publishing: a public, permanent, citable record of authorship over content that may sit behind a paywall forever. The identifier proves the claim without revealing the work.
+This is the DOI model from scholarly publishing: a public, citable record of authorship that anyone can keep a copy of over content that may sit behind a paywall forever. The identifier proves the claim without revealing the work.
 
 **What about someone copying my characters or story beats?**  
 PWNS distinguishes between *copying* (cultural participation, governed by your covenant) and *claiming* (fraud about authorship). Every creative act is signed with your Nostr keypair, and priority claims are anchored to an external clock (OpenTimestamps) that nobody can rewind. Someone can riff on your work, but they cannot claim to have created it: the anchored provenance chain proves you published it first — without exposing anything you kept sealed.
@@ -101,7 +101,7 @@ Partly — but with transparency. Covenants are legible. Provenance is unforgeab
 ## Long-Term Perspective
 
 **What is the multi-decade vision?**  
-An ecosystem of games that compound cultural value: assets that travel between titles, engines that evolve without breaking old content, communities that self-fund preservation and innovation. Games as living protocols, not disposable products.
+An ecosystem of games that compound cultural value: assets that other titles can recognize, display, or refuse, engines that evolve without breaking old content, communities that self-fund preservation and innovation. Games as living protocols, not disposable products.
 
 **What if major publishers ignore this?**  
 Open standards don't require permission. Viability can be proven by independents first, creating player demand that larger studios eventually respond to — or not. The protocols remain available either way.
@@ -111,9 +111,9 @@ The protocol primitives are designed to be stable across generations, and the ba
 
 ## Getting Started
 
-**Easiest first step**: Publish an AEMS Entity event on Nostr defining a simple Entity (no coding required). See the [AEMS standard](https://github.com/enduring-game-standard/aems-schema) for event structure.
+**Easiest first step**: Write an AEMS Entity event naming a simple object (no coding required). See the [AEMS schema](https://github.com/enduring-game-standard/aems-schema) for event structure. Event kinds are not pinned yet. An Entity posted on Nostr now uses a placeholder kind and will need republishing once the kinds are pinned.
 
-**Meaningful milestone**: A demo where an AEMS entity is shared between two game prototypes, with WOCS-compensated contributions and persistent state.
+**Meaningful milestone**: A demo where two game prototypes each publish a Manifestation of one AEMS Entity, with WOCS-compensated contributions and an Asset's State that both read.
 
 ## Closing Note
 

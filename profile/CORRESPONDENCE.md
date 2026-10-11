@@ -19,7 +19,7 @@ DIGS expressions     →  Deterministic Processor bodies (bit-exact cross-platfo
     ↓
 Platform runtime     →  Native binary (compiled for target hardware)
     ↕
-AEMS entities        →  Persistent content on the commons
+AEMS events          →  Signed game objects on the commons (optional seams only)
     ↕
 WOCS coordination    →  Infrastructure market (hosting, services, settlement)
 ```
@@ -46,19 +46,21 @@ first real translation will test.
 
 ## AEMS ↔ RUNS: things to source
 
-AEMS touches RUNS at exactly two lifecycle points — never per-frame:
+AEMS and RUNS can meet at two optional seams, never per-frame. Neither
+depends on the other, and a RUNS game can use no AEMS at all.
 
-- **Build time** — Manifestations are compiled into the type definitions and
-  lookup tables that Processors reference.
-- **Load/save boundaries** — Asset and State events persist player data to the
-  commons between sessions.
+- **Build time** — a build can compile Manifestation data into the type
+  definitions and lookup tables that Processors reference.
+- **Load/save boundaries** — a game can read and publish Asset and State events
+  between sessions.
 
 ## AEMS ↔ MAPS: things to rules
 
-AEMS Entities define named roles (a sword, a key, a monster); MAPS Patterns
+AEMS Entities name objects (a sword, a key, a monster). AEMS Manifestations
+carry the roles those objects play in a game as tags, and MAPS Patterns
 describe the structural relationships those roles participate in (a
-resource-acquire loop, a locked transition). A designer notates the mechanical
-grammar in MAPS and instantiates the things in AEMS.
+resource-acquire loop, a locked transition). The seam is optional. A designer
+can notate the mechanical grammar in MAPS and publish the things in AEMS.
 
 ## WOCS ↔ everything: the coordination edge
 
