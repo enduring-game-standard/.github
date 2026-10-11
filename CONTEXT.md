@@ -305,9 +305,10 @@ local cache) → flatten the Network graph → compile the chosen Rules region +
 region into a self-contained artifact for one target. Always happens; nothing streams DIGS or
 Nostr at play time. (The Lifecycle "Build" phase is baking.) The commons (Nostr) is touched
 **only at lifecycle boundaries** — discovery/build, and AEMS load/save — **never the hot
-path**, and this is *forced, not chosen*: Nostr is a **permanence layer, not a real-time
-database**; it makes state durable, not ephemeral, so per-frame commons access wouldn't work
-even if attempted. Baking is what bridges the permanent commons to the ephemeral tick loop.
+path**, and this is *forced, not chosen*: Nostr is a **publication layer, not a real-time
+database**. It carries signed events between sessions, not per-frame state, so per-frame
+commons access wouldn't work even if attempted. Baking is what bridges the commons to the
+ephemeral tick loop.
 
 **Port**:
 The same game — *identical* Rules region — made to run on different hardware by swapping its
