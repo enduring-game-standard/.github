@@ -123,7 +123,7 @@ The protocols run on **[Nostr](https://nostr.com/)** and **[Lightning](https://l
 
 ## Authorial Provenance
 
-The **[Provenance Without Notaries or Sovereigns (PWNS)](https://github.com/enduring-game-standard/.github/blob/main/profile/PWNS.md)** standard extends the foundation for authored experiences — puzzle games, mystery narratives, interactive art — where the creator's intent is the experience. PWNS separates the seal from the dial: provenance is always public (a hash proving which key signed it, anchored when priority matters), while content openness is the author's covenant setting — open, windowed, or reserved. Publishing provenance never publishes the work; provenance protects credit, and the sale stays with whatever store the author trusts.
+The **[Provenance Without Notaries or Sovereigns (PWNS)](https://github.com/enduring-game-standard/.github/blob/main/profile/PWNS.md)** standard extends the foundation for authored experiences — puzzle games, mystery narratives, interactive art — where the creator's intent is the experience. PWNS separates the seal from the dial: provenance is always public (a signed hash showing which key signed it, anchored when priority matters), while content openness is the author's covenant setting — open, windowed, or reserved. Publishing provenance never publishes the work; provenance protects credit, and the sale stays with whatever store the author trusts.
 
 ## The Deeper Argument
 

@@ -102,7 +102,7 @@ The distinction is *studying the pattern* versus *forking the material*. Traditi
 
 The protocol does not enforce covenants; markets can verify them.
 
-**A concrete scenario.** A designer publishes a sealed puzzle game with an anchored provenance event. Six months later, another developer ships a suspiciously similar game and claims original authorship. The designer posts a WOCS offer: "50,000 sats for a verifiable provenance comparison." A verification service — itself a small business — retrieves both event chains, compares anchors and content hashes, and publishes the analysis. The anchors show whose hash existed earlier, for anyone who trusts them, and the community weighs that evidence without the sealed content ever being exposed.
+**A concrete scenario.** A designer publishes a sealed puzzle game with an anchored provenance event. Six months later, another developer ships a suspiciously similar game and claims original authorship. The designer posts a WOCS offer: "50,000 sats for a verifiable provenance comparison." A verification service — itself a small business — retrieves both event chains, compares anchors and content hashes, and publishes the analysis. The anchors show the latest time by which each hash existed, for anyone who trusts them, and the community weighs that evidence without the sealed content ever being exposed.
 
 The same coordination enables covenant-compliance tracking, reputation markets, and voluntary dispute mediation. These are market opportunities, not protocol mandates. The No-Code Rule is preserved: if a feature can be implemented by a third party, it belongs to the third party.
 

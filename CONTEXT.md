@@ -70,9 +70,9 @@ Processor), filling and draining boundary Records; RUNS' kernel contains no tran
 
 **PWNS** (Provenance Without Notaries or Sovereigns):
 An extension for authored experiences — provenance over property, covenants without
-enforcement. Separates the always-public *seal* (a signed hash showing which key signed it, with an
-optional anchor showing it existed by a given time) from the author-controlled *dial* (content openness:
-open / windowed / reserved). Publishing provenance never publishes the work.
+enforcement. Separates the always-public *seal* (a signed hash showing which key signed
+it, with an optional anchor showing it existed by a given time) from the
+author-controlled *dial* (content openness: open / windowed / reserved). Publishing provenance never publishes the work.
 
 ### RUNS terms
 
