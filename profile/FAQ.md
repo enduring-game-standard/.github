@@ -90,7 +90,7 @@ Because publishing provenance does not publish the work. A PWNS seal is a signed
 This is the DOI model from scholarly publishing: a public, citable record of authorship that anyone can keep a copy of over content that may sit behind a paywall forever. The identifier proves the claim without revealing the work.
 
 **What about someone copying my characters or story beats?**  
-PWNS distinguishes between *copying* (cultural participation, governed by your covenant) and *claiming* (fraud about authorship). Every creative act is signed with your Nostr keypair, and priority claims are anchored to an external clock (OpenTimestamps) that nobody can rewind. Someone can riff on your work, but they cannot claim to have created it: the anchored provenance chain proves you published it first — without exposing anything you kept sealed.
+PWNS distinguishes between *copying* (cultural participation, governed by your covenant) and *claiming* (fraud about authorship). Every creative act is signed with your Nostr keypair, and a priority claim can be anchored to an external timestamp (OpenTimestamps) that neither you nor a copier controls. Someone can riff on your work, and anyone can claim to have created it, but an anchored record shows your signed work existed by that time, to anyone who trusts the anchor — without exposing anything you kept sealed.
 
 **Can I set terms for how my work is used?**  
 Yes, through voluntary covenants — metadata attached to your creations signaling your expectations ("attribution required," "commercial use needs license," etc.). These are purely social signals; the protocol doesn't enforce them. But communities and reputation markets (funded via WOCS) can track who respects vs. ignores covenants, creating social costs for violators.

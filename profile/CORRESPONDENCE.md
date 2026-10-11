@@ -57,7 +57,7 @@ depends on the other, and a RUNS game can use no AEMS at all.
 ## AEMS ↔ MAPS: things to rules
 
 AEMS Entities name objects (a sword, a key, a monster). AEMS Manifestations
-carry the roles those objects play in a game as tags, and MAPS Patterns
+carry the roles those objects play in a game as tags by convention, and MAPS Patterns
 describe the structural relationships those roles participate in (a
 resource-acquire loop, a locked transition). The seam is optional. A designer
 can notate the mechanical grammar in MAPS and publish the things in AEMS.
