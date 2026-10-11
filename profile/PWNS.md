@@ -62,9 +62,10 @@ The sketch below shows covenant tags on an AEMS Entity event. It is a proposed c
 
 ```json
 {
-  "kind": "<AEMS Entity kind, not pinned>",
+  "kind": "<AEMS Entity kind>",
   "pubkey": "<author key>",
   "tags": [
+    ["d", "interactive-mystery-act-ii"],
     ["content_hash", "sha256:9f2c..."],
     ["anchor", "ots:..."],
     ["attribution_required", "true"],
@@ -85,7 +86,7 @@ PWNS is precise about what provenance can and cannot do economically.
 
 **Provenance protects credit. It does not protect the sale.** A seal on a mystery does not stop the first buyer from posting the twist. Nothing at the protocol layer can, and PWNS does not pretend otherwise.
 
-**The sale is protected where sales are always protected: at the store.** A client or storefront sells the windowed acts encrypted, exactly as any store does today. PWNS is deliberately neutral here — it neither requires nor forbids access control. The author keeps whatever paywall serves them; the difference is that the *record of authorship* no longer lives inside any store's database. The store can ban the account, shut down, or burn — the seal, the priority, and the covenant survive on the open relay network.
+**The sale is protected where sales are always protected: at the store.** A client or storefront sells the windowed acts encrypted, exactly as any store does today. PWNS is deliberately neutral here — it neither requires nor forbids access control. The author keeps whatever paywall serves them; the difference is that the *record of authorship* no longer lives inside any store's database. The store can ban the account, shut down, or burn — the seal, the priority, and the covenant survive wherever relays or archives keep copies, and they verify wherever they land.
 
 **What provenance buys is the career.** The bottega master's commissions came from his name, not from locking his technique behind guild walls — the technique circulated in treatises while patrons bid for the one thing that could not be copied: his hands and his next work. Provenance is how a body of work accrues undeniably to a name, and reputation is how that name converts — commissions, patronage, funding for the work to come. Why patient capital makes that conversion rational rather than romantic is the argument of the Enduring Games book; PWNS supplies the mechanism, the book supplies the economics.
 

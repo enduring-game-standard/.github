@@ -29,7 +29,7 @@ This is not an engine — open-source or otherwise. Open-sourcing an engine remo
 |---------|-----------|---------|
 | A game designer | [MAPS](https://github.com/enduring-game-standard/maps-notation) | Notate a mechanic today with a text editor. No infrastructure, no tooling, no other protocol. |
 | An engine or runtime developer | [RUNS](https://github.com/enduring-game-standard/runs-spec) | Three specs written to be implementable in isolation: data, computation, wiring. |
-| A preservationist or archivist | [AEMS](https://github.com/enduring-game-standard/aems-schema) | Signed plain-text events that no single server hosts. Draft, with event kinds not yet pinned. |
+| A preservationist or archivist | [AEMS](https://github.com/enduring-game-standard/aems-schema) | Signed plain-text events that any server or archive can keep, and that verify wherever they land. Draft, with event kinds not yet pinned. |
 | An infrastructure provider | [WOCS](https://github.com/enduring-game-standard/wocs-protocol) | Coordination and settlement for hosting, audits, and tournaments. |
 | Asking "why does any of this exist?" | [WHY.md](https://github.com/enduring-game-standard/.github/blob/main/profile/WHY.md) | The diagnosis, in ~1,500 words. The book is the long form. |
 
