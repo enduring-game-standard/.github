@@ -83,7 +83,7 @@ The core protocols naturally serve commons-style games — those that benefit fr
 
 **How can authored works exist in an open system without being "spoiled"?**  
 Because publishing provenance does not publish the work. A PWNS seal is a signed event carrying a *hash* of the content — the bytes live wherever the author chooses. PWNS separates:
-- **The seal** — public, anchored proof of authorship and priority; identical for commons games and sealed mysteries
+- **The seal** — public proof of authorship, anchored when priority matters; identical for commons games and sealed mysteries
 - **The dial** — the author's covenant setting for content openness: *open*, *windowed* (access-controlled now, commons at a named date), or *reserved* (indefinitely)
 - **The sale** — protected where sales are always protected: at the store or client, which remains free to encrypt; provenance protects credit, not the sale
 

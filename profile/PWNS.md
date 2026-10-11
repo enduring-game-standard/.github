@@ -8,7 +8,7 @@ The Enduring Game Standard serves games that resemble sports or folklore — com
 
 The instinct is to treat this as a conflict: either the author locks the work away and it stands outside the standard, or the work joins the commons and the author's livelihood evaporates. PWNS rejects the conflict by separating two properties that are usually welded together:
 
-- **Provenance** — who made this, and that they made it first. Always public. Always maximal.
+- **Provenance** — who made this, and by when it existed. Always public. Always maximal.
 - **Openness** — who can experience the content, and when. A dial the author turns, from encrypted-forever to immediate commons.
 
 Publishing provenance does not publish the work. A signed Nostr event carries a *hash* of the content, not the content; the bytes live wherever the author chooses — encrypted, sold through a store, or fully open. Scholarly publishing has run this way at planetary scale for decades: a DOI is a public, permanent, citable record of authorship and priority over a paper that may sit behind a paywall forever. The identifier proves the claim. It reveals nothing the author did not choose to reveal.
@@ -39,7 +39,7 @@ Consider two scenarios with a creative work:
 
 Traditional IP law bundles these together with property rights. They are separable — even Stephan Kinsella's *Against Intellectual Property*, the strongest case against IP-as-property, distinguishes copying from plagiarism: plagiarism is fraud, and the moral claim against false attribution stands on its own, independent of any property framework.
 
-PWNS makes the distinction operationally precise. Copying is governed by the author's covenant. Claiming is refuted by the seal: the signed, anchored hash proves who published what, first, without revealing anything the author kept sealed.
+PWNS makes the distinction operationally precise. Copying is governed by the author's covenant. Claiming is answered by the seal: the signature shows which key signed the hash, and an anchor shows the hash existed by a given time, without revealing anything the author kept sealed.
 
 ## Core Principles
 
@@ -49,7 +49,7 @@ Every AEMS event is a signed Nostr event, and a RUNS Processor or any other auth
 
 Two qualifications, built into the design:
 
-- **"First" requires an anchor.** A Nostr event's timestamp is asserted by the publishing client and can be backdated. A priority claim is proven by anchoring the event hash to an external clock that nobody can rewind — an OpenTimestamps attestation in a Bitcoin block proves the work existed *no later than* that block. Sealed works claiming priority should anchor.
+- **"First" requires an anchor.** A Nostr event's timestamp is asserted by the publishing client and can be backdated. A priority claim rests on anchoring the event hash to an external clock the author does not control — an OpenTimestamps attestation in a Bitcoin block shows the work existed *no later than* that block, to anyone who trusts the chain. Sealed works claiming priority should anchor.
 - **Signed is not stored.** Relays are not archives; an event no relay holds is gone. Tamper-evidence and persistence are different properties. Authors, communities, and services that care about a provenance record keep relays that hold it — the same way institutions keep the citation record.
 
 This is how provenance works in the art world. A Vermeer's value rests on its documented chain of custody, not on a lock on the frame — and when Han van Meegeren forged Vermeers, it was provenance research that exposed him. PWNS is the digital equivalent: a chain of custody anyone can verify, for works nobody is required to expose.
