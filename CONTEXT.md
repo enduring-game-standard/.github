@@ -1,16 +1,17 @@
 # Enduring Game Standard — Working Vocabulary
 
 The canonical domain language for the EGS protocol family — the words the team and its
-agents think in, and the single source of truth for terminology (ADR-0008). This is the full,
+agents think in, and the single source of truth for cross-protocol terminology (ADR-0008). This is the full,
 precise vocabulary; the **public** quick-reference (acronym table + protocol roster) lives in
 the org profile (`profile/README.md` § Glossary). The standalone `profile/GLOSSARY.md` was
 retired — its content was redundant with both this file and the profile README. Definitions
 describe what each term *is*, not how it is implemented.
 
 > Multi-context note: the workspace is a meta-repo over several independently-published
-> protocol repos. A `CONTEXT-MAP.md` and per-repo `CONTEXT.md` files are deferred until the
-> workspace folder structure settles (egs-workspace#5). For now this is the single
-> cross-protocol glossary.
+> protocol repos. AEMS owns its glossary in
+> [aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md),
+> and this file only summarizes those terms. A `CONTEXT-MAP.md` is deferred until the
+> workspace folder structure settles (egs-workspace#5).
 
 ## Language
 
@@ -22,7 +23,8 @@ extension — built on Nostr (the commons) and Lightning (settlement). Aimed at 
 horizon, not product-market fit.
 
 **AEMS** (Asset-Entity-Manifestation-State) — *the things*:
-The schema for durable, signed game content artifacts on the commons.
+Four signed Nostr event kinds (Entity, Manifestation, Asset, State) linked by parent
+references. It stands alone and needs no other EGS protocol.
 
 **RUNS** (Records Update on Neutral Substrate) — *the game*:
 The plain-text source format for game logic. Not an engine; each game compiles its own.
@@ -68,7 +70,9 @@ Processor), filling and draining boundary Records; RUNS' kernel contains no tran
 
 **PWNS** (Provenance Without Notaries or Sovereigns):
 An extension for authored experiences — provenance over property, covenants without
-enforcement.
+enforcement. Separates the always-public *seal* (a signed hash showing which key signed
+it, with an optional anchor showing it existed by a given time) from the
+author-controlled *dial* (content openness: open / windowed / reserved). Publishing provenance never publishes the work.
 
 ### RUNS terms
 
@@ -301,9 +305,10 @@ local cache) → flatten the Network graph → compile the chosen Rules region +
 region into a self-contained artifact for one target. Always happens; nothing streams DIGS or
 Nostr at play time. (The Lifecycle "Build" phase is baking.) The commons (Nostr) is touched
 **only at lifecycle boundaries** — discovery/build, and AEMS load/save — **never the hot
-path**, and this is *forced, not chosen*: Nostr is a **permanence layer, not a real-time
-database**; it makes state durable, not ephemeral, so per-frame commons access wouldn't work
-even if attempted. Baking is what bridges the permanent commons to the ephemeral tick loop.
+path**, and this is *forced, not chosen*: Nostr is a **publication layer, not a real-time
+database**. It carries signed events between sessions, not per-frame state, so per-frame
+commons access wouldn't work even if attempted. Baking is what bridges the commons to the
+ephemeral tick loop.
 
 **Port**:
 The same game — *identical* Rules region — made to run on different hardware by swapping its
@@ -390,11 +395,11 @@ variation*; they are not modified or forked. (ADR-0006, ADR-0011)
 A variant arises **three ways**, distinguished only by *how* the Rules-region output changed:
 **authored** (hand-edit/add/replace Rules Processors), **re-vibe** (reinterpret the source
 "good enough," reducing fidelity), and **declared at build time** — a *divergent compilation*
-(the doc's "adapted compilation", renamed as the honest antonym of **strict** evaluation) that
+(the doc's "adapted compilation", renamed as the antonym of **strict** evaluation) that
 substitutes a non-bit-identical algorithm (native sqrt, hardware-native floating point)
 for a strict Rules Processor, recorded in a machine-readable **deviation manifest** (the
 itemized divergences). All three change the deterministic behavior, so all three are variants;
-the manifest is the divergent variant's **honest diff from canon** (the build-time face of
+the manifest is the divergent variant's **declared diff from canon** (the build-time face of
 asserted-vs-verified, ADR-0005).
 This is why a divergent-arithmetic re-target is a Variant despite the industry "port" label
 (see `Port`). A **Variant Port** is the special case where the *motive* is reaching constrained
@@ -408,17 +413,21 @@ EGS exists to reject. **fork** — acceptable only as the *act* of starting a va
 
 ### AEMS terms
 
+The AEMS glossary is owned by
+[aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md).
+Each entry below is a one-line summary. Where they differ, that file wins.
+
 **Entity**:
-A universal, IP-free archetype ("Sword"). A signed Nostr event on the commons.
+A signed naming of a concept, ownerless (`sword`) or authored (`master-sword`).
 
 **Manifestation**:
-A game-specific implementation of an Entity ("Iron Sword: 6 dmg").
+A game-specific version (interpretation) of one or more Entities ("Iron Sword: 6 dmg").
 
 **Asset**:
-A player's specific instance of a Manifestation, with ownership/history.
+A signed claim of possession of one instance of a Manifestation.
 
 **State (AEMS)**:
-Mutable condition on an Asset (current durability, charges). See Flagged ambiguities — this
+The claimed current condition of one Asset (charges, durability, wear). See Flagged ambiguities — this
 "State" is distinct from a MAPS State.
 
 ### MAPS terms
@@ -456,8 +465,8 @@ becomes a *color* (a discriminant Field value, per the colored Petri net of ADR-
 
 ## Flagged ambiguities
 
-- **"State" is overloaded three ways.** (1) AEMS **State** = mutable Asset condition;
-  (2) MAPS **State** = an observable game condition; (3) an entity's runtime status (e.g.
+- **"State" is overloaded three ways.** (1) AEMS **State** = claimed Asset condition;
+  (2) MAPS **State** = an observable game condition; (3) an object's runtime status (e.g.
   Spacewar's `object_state` enum: ship/torpedo/exploding/…). Always qualify: "AEMS State",
   "MAPS State", or "object state".
 - **"Arc"** = MAPS Arc (a notation primitive) vs. a Network arc (a guarded route in RUNS
@@ -490,5 +499,5 @@ becomes a *color* (a discriminant Field value, per the colored Petri net of ADR-
 > **Dev:** But the framing doc says "bit-exact verification."
 > **Maintainer:** That's the contradiction we corrected (ADR-0005). "Bit-exact" is a *Verified*-tier
 > word; the `.p8` is a *hand-compilation*, and it even used adapted substitutions, so it
-> isn't strict-evaluated either. The honest claim is "hand-compiled to a playable cartridge;
+> isn't strict-evaluated either. The accurate claim is "hand-compiled to a playable cartridge;
 > mechanical verification is the open work."
