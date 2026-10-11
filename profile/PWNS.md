@@ -8,7 +8,7 @@ The Enduring Game Standard serves games that resemble sports or folklore — com
 
 The instinct is to treat this as a conflict: either the author locks the work away and it stands outside the standard, or the work joins the commons and the author's livelihood evaporates. PWNS rejects the conflict by separating two properties that are usually welded together:
 
-- **Provenance** — who made this, and by when it existed. Always public. Always maximal.
+- **Provenance** — which key signed this, and how early it is known to have existed. Always public. Always maximal.
 - **Openness** — who can experience the content, and when. A dial the author turns, from encrypted-forever to immediate commons.
 
 Publishing provenance does not publish the work. A signed Nostr event carries a *hash* of the content, not the content; the bytes live wherever the author chooses — encrypted, sold through a store, or fully open. Scholarly publishing has run this way at planetary scale for decades: a DOI is a public, permanent, citable record of authorship and priority over a paper that may sit behind a paywall forever. The identifier proves the claim. It reveals nothing the author did not choose to reveal.
@@ -86,7 +86,7 @@ PWNS is precise about what provenance can and cannot do economically.
 
 **Provenance protects credit. It does not protect the sale.** A seal on a mystery does not stop the first buyer from posting the twist. Nothing at the protocol layer can, and PWNS does not pretend otherwise.
 
-**The sale is protected where sales are always protected: at the store.** A client or storefront sells the windowed acts encrypted, exactly as any store does today. PWNS is deliberately neutral here — it neither requires nor forbids access control. The author keeps whatever paywall serves them; the difference is that the *record of authorship* no longer lives inside any store's database. The store can ban the account, shut down, or burn — the seal, the priority, and the covenant survive wherever relays or archives keep copies, and they verify wherever they land.
+**The sale is protected where sales are always protected: at the store.** A client or storefront sells the windowed acts encrypted, exactly as any store does today. PWNS is deliberately neutral here — it neither requires nor forbids access control. The author keeps whatever paywall serves them; the difference is that the *record of authorship* no longer lives inside any store's database. The store can ban the account, shut down, or burn — the seal, its anchor, and the covenant survive wherever relays or archives keep copies, and they verify wherever they land.
 
 **What provenance buys is the career.** The bottega master's commissions came from his name, not from locking his technique behind guild walls — the technique circulated in treatises while patrons bid for the one thing that could not be copied: his hands and his next work. Provenance is how a body of work accrues undeniably to a name, and reputation is how that name converts — commissions, patronage, funding for the work to come. Why patient capital makes that conversion rational rather than romantic is the argument of the Enduring Games book; PWNS supplies the mechanism, the book supplies the economics.
 
@@ -102,7 +102,7 @@ The distinction is *studying the pattern* versus *forking the material*. Traditi
 
 The protocol does not enforce covenants; markets can verify them.
 
-**A concrete scenario.** A designer publishes a sealed puzzle game with an anchored provenance event. Six months later, another developer ships a suspiciously similar game and claims original authorship. The designer posts a WOCS offer: "50,000 sats for a verifiable provenance comparison." A verification service — itself a small business — retrieves both event chains, compares anchors and content hashes, and publishes the analysis. The anchored hash settles the question of who was first, without the sealed content ever being exposed.
+**A concrete scenario.** A designer publishes a sealed puzzle game with an anchored provenance event. Six months later, another developer ships a suspiciously similar game and claims original authorship. The designer posts a WOCS offer: "50,000 sats for a verifiable provenance comparison." A verification service — itself a small business — retrieves both event chains, compares anchors and content hashes, and publishes the analysis. The anchors show whose hash existed earlier, for anyone who trusts them, and the community weighs that evidence without the sealed content ever being exposed.
 
 The same coordination enables covenant-compliance tracking, reputation markets, and voluntary dispute mediation. These are market opportunities, not protocol mandates. The No-Code Rule is preserved: if a feature can be implemented by a third party, it belongs to the third party.
 
@@ -125,7 +125,7 @@ PWNS serves the full dial. A folklore battle royale publishes Open, and openness
 
 Two limits:
 
-- **For one-shot revelation goods, the commercial window depends on the store's access control, not on the seal.** Provenance secures attribution and priority; only encryption secures an unspoiled first experience. PWNS interoperates with that machinery; it does not replace it.
+- **For one-shot revelation goods, the commercial window depends on the store's access control, not on the seal.** Provenance supplies evidence of attribution and of when a work existed; only encryption secures an unspoiled first experience. PWNS interoperates with that machinery; it does not replace it.
 - **Endurance requires eventual openness or persistent keys.** That is arithmetic, not policy. The covenant is where each author decides which side of it their work lives on.
 
 ---
