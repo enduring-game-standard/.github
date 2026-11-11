@@ -55,7 +55,7 @@ calling DIGS a protocol; reading "pure/total/deterministic" as implying static b
 arithmetic (those are reach-contracts, ADR-0017).
 
 **MAPS** (Mechanics and Play Structures) — *the rules*:
-The design-time notation for game mechanics. The blueprint RUNS source is built from.
+The design-time notation for game mechanics.
 
 **WOCS** (Work Offered, Claimed, Settled) — *the coordination*:
 The permissionless coordination + Lightning-settlement protocol for ecosystem services. It is
@@ -163,7 +163,7 @@ a base-protocol primitive (it is a conventions-repo pattern, not a schema distin
 The explicit bipartite wiring of Records to Processors that defines execution order for one
 tick. Data flows strictly **Record → Processor → Record**: never Record → Record (no
 Processor means no verb, so no transformation) and never Processor → Processor (no Record
-means no data). The Network draws a line from a specific Field into a slot on a Processor —
+means no data). The Network draws a line from a specific Field into an input or output of a Processor —
 and is the only thing that knows both sides: Records and Processors are **mutually opaque**
 (a Record knows nothing of a Processor's internals; a Processor knows nothing of a Record's,
 nor where its inputs came from or its outputs go). A state machine is a Network (of guarded
@@ -349,8 +349,8 @@ collection fold whose `n`/length is a runtime value, **including unbounded `int`
 it terminates for every input (cf. Dhall's `Natural/fold`, primitive recursion). A *static*
 step-ceiling (WCET) is a **separate, opt-in reach-contract** (ADR-0017), never part of totality.
 A **Guard**
-is a DIGS boolean on a Network arc that routes to a Processor (the RUNS implementation of a
-MAPS Arc condition). A guarded branch obeys **two laws** (ADR-0013):
+is a DIGS boolean on a Network arc that routes to a Processor. A guarded branch obeys **two
+laws** (ADR-0013):
 - **Totality** (determinism) — the guards form a complete partition: exactly one true, always
   (mutually exclusive + exhaustive). A **closed-enum discriminant** makes this tool-checkable;
   an open-typed discriminant (int, string) requires an explicit **`else` arc**.
@@ -450,19 +450,6 @@ A quantifiable resource (health, ammo, score).
 The three coordination events — a broadcast need with committed payment, proof of delivery,
 and confirmation with instant Lightning settlement.
 
-### Correspondence (design → source) — aspirational, not asserted
-
-MAPS and RUNS are **two distinct levels and purposes of notating games** — design-time
-notation vs. compilable source. A clean term-for-term correspondence (State→Record,
-Verb→Processor, Arc→wiring, Mark→Field) is **aspirational and unproven**: no one has earned it
-by actually translating a MAPS Score into RUNS source (or back). The *aspiration* is
-interoperability; whether the two levels actually interoperate — especially early in the EGS
-lifecycle — is an open bet. Per the asserted-vs-verified discipline (ADR-0005) the
-correspondence is **not canon and not highlighted** until real MAPS↔RUNS translations exist.
-A side effect: the **encoding question** a translation would force — whether a MAPS State
-becomes a *color* (a discriminant Field value, per the colored Petri net of ADR-0010) or a
-*place* (its own Record) — is **parked**, not resolved.
-
 ## Flagged ambiguities
 
 - **"State" is overloaded three ways.** (1) AEMS **State** = claimed Asset condition;
@@ -470,7 +457,7 @@ becomes a *color* (a discriminant Field value, per the colored Petri net of ADR-
   Spacewar's `object_state` enum: ship/torpedo/exploding/…). Always qualify: "AEMS State",
   "MAPS State", or "object state".
 - **"Arc"** = MAPS Arc (a notation primitive) vs. a Network arc (a guarded route in RUNS
-  wiring). The latter *implements* the former. Qualify when context is unclear.
+  wiring). Qualify when context is unclear.
 - **"Runtime" vs "hand-compilation"** — _Canon (ADR-0005)._ A **runtime/compiler** is
   a program that mechanically parses and executes RUNS source. A **hand-compilation** is a
   human or AI manually emitting target code (e.g. Lua) from RUNS source by reading it. The

@@ -79,7 +79,7 @@ A notation for game mechanics using four primitives, comparable to Machinations 
 - **Arc** — A directed transition linking States through Verbs, with conditions and effects.
 - **Mark** — A quantifiable resource (health, stamina, ammo, score).
 
-The model is staff notation: Guido's staff did not compose music, it made composition transmissible — and a millennium of cumulative craft followed. MAPS aims the same instrument at game mechanics. The notation makes design decisions visible, studyable, and forkable today. A MAPS score is also designed to be the blueprint RUNS source is built from; that term-for-term mapping is owned by the [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) and no real translation has tested it yet.
+The model is staff notation: Guido's staff did not compose music, it made composition transmissible — and a millennium of cumulative craft followed. MAPS aims the same instrument at game mechanics. The notation makes design decisions visible, studyable, and forkable today.
 
 The **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
 
@@ -97,7 +97,7 @@ Where RUNS, AEMS, and MAPS each follow a proven precedent (Linux, the chess Knig
 
 ## How the Pieces Fit Together
 
-The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the inter-protocol topology — the stack from MAPS notation down to platform runtime, the term-for-term MAPS↔RUNS mapping, and the AEMS and WOCS edges. Each layer is independent: replacing any component does not require changes to the others.
+The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the inter-protocol topology — the stack from RUNS source down to platform runtime, and the AEMS, MAPS and WOCS edges. Each layer is independent: replacing any component does not require changes to the others.
 
 ## Design Philosophy
 

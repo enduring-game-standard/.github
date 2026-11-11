@@ -11,8 +11,6 @@ relationship stated elsewhere disagrees with this map, this map wins.
 ## The Stack
 
 ```
-MAPS notation        →  Design blueprint (readable game mechanics)
-    ↓
 RUNS source          →  Portable game logic (Records + Processors + Networks)
     ↓
 DIGS expressions     →  Deterministic Processor bodies (bit-exact cross-platform when declared)
@@ -22,27 +20,12 @@ Platform runtime     →  Native binary (compiled for target hardware)
 AEMS events          →  Signed game objects on the commons (optional seams only)
     ↕
 WOCS coordination    →  Infrastructure market (hosting, services, settlement)
+
+MAPS notation        →  Readable game mechanics
 ```
 
 Each layer is independent. Replacing any component does not require changes to
 the others.
-
-## MAPS ↔ RUNS: notation to source
-
-The relationship is design-to-implementation: MAPS is the written score, RUNS
-is the composition built from that score, and the compiled binary is the
-performance. Term for term:
-
-| MAPS (the rules, notation) | RUNS (the game, source) |
-|----------------------------|--------------------------|
-| State                      | Record                   |
-| Verb                       | Processor                |
-| Arc (with guard expressions) | Network wiring (guarded transitions) |
-| Mark                       | Field                    |
-
-This correspondence is **aspirational**: no real MAPS Score has been
-translated into RUNS source (or back). The table is the design intent the
-first real translation will test.
 
 ## AEMS ↔ RUNS: things to source
 
@@ -73,7 +56,7 @@ gets funded and settled.
 
 | Document | States |
 |----------|--------|
-| This map | All cross-protocol relationships, including the MAPS↔RUNS table above |
+| This map | All cross-protocol relationships |
 | Each protocol README | Its own edge only, with a link here |
 
 **MIT License**

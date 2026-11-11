@@ -48,9 +48,6 @@ It is, seriously and by serious people, and this document will not relitigate it
 **"Single author; bus factor of one."**
 True — see [GOVERNANCE.md](./GOVERNANCE.md). The structural mitigations: everything is MIT-licensed plain text in public repos; forking is explicitly legitimate; the rationale is recorded at book length; nothing grants the author ongoing control. The base specs are deliberately closed (a cathedral posture for the pre-paradigmatic era, revisited once implementations exist) while the conventions and library layers take outside proposals now.
 
-**"The MAPS↔RUNS correspondence is unproven."**
-Conceded — the corpus itself flags the term-for-term mapping as **aspirational, not asserted** ([correspondence map](./CORRESPONDENCE.md)): nobody has earned it by translating a real MAPS score into RUNS source. Treat any claim of a working design-to-source pipeline as a misreading; what MAPS already delivers without the correspondence is mechanics made visible, studyable, and forkable.
-
 ## Technical Clarifications
 
 Frequent genuine misreadings of the specs, corrected. These are factual, checkable against the linked documents, and worth getting right regardless of your overall verdict.
