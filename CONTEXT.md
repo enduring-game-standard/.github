@@ -89,7 +89,7 @@ concern).
 A named collection of typed Fields — a data store. Holds state; the only thing data flows
 through (every inter-Processor handoff lands in a Record). A Record **stores its value until a
 Processor produces a new one — write once, never overwrite** (ADR-0012); a "change" is a fresh
-value in a fresh place, not in-place mutation. **Reuse is a spectrum**: from
+value in a fresh place, not in-place mutation. Inside a **loop bundle**'s cycle (see `Network`), a place holds one value per pass, and readers outside the bundle see only its final value. **Reuse is a spectrum**: from
 **common** Records the conventions repo recommends for interop (`runs:player_location`) to
 **game-specific** schemas nobody else imports (`spacewar:object`). All are published (so the
 source on the commons is complete and findable), content-addressed, and referenced by ID. A
@@ -194,7 +194,7 @@ conventional, and rests on two rules:
 **single-assignment purity** (no shared mutable place — a shared resource like the PRNG is a
 *threaded chain* of distinct values, `prng_v0 → … → prng_vN`) and **partitioning guards**
 (every dispatch's guard set is mutually exclusive *and* exhaustive over the color space).
-Given both, one tick of the Rules region is a DAG (the cross-tick loop is the `state:`
+Given both, one tick of the Rules region is a DAG outside its loop bundles (the cross-tick loop is the `state:`
 Records), incomparable Processors commute, and **execution order is derived, never authored**
 — any topological order yields identical results, so a runtime may parallelize freely. The
 **Realization region** beyond the boundary Records is the **same petri-net topology** but
@@ -202,7 +202,7 @@ is **exempt** from confluence: Realization Processors are platform-tailored I/O 
 determinism for hardware reach.
 
 **The Processor is BlooP; the Network is FlooP** (ADR-0017). Each Processor is a bounded, total
-piece (one tick = a DAG). The **only** unbounded loop is the **tick-feedback** through the
+piece (one tick = a DAG, except inside a **loop bundle**). A **loop bundle** holds the one kind of cycle allowed within a tick: it runs through a counter Record set before the loop starts, each pass consumes one token, and the loop ends when the counter reaches zero or a guard stops it; the bundle's user sees one transition, never the cycle. Any other cycle within a tick is forbidden. The **only** unbounded loop is the **tick-feedback** through the
 `state:` Records, and it lives in the *wiring*, never in a body — so it is **visible in the
 topology** (the **I** in DIGS). Those cross-tick Records carry unboundedness in **both time**
 (the game runs forever) **and space** (a `state:` list may grow each tick — Factorio's factory,
@@ -341,7 +341,7 @@ reduced-memory* re-target a "port" (industry usage) — it is a **Variant Port**
 **Phase / Dispatch / Guard**:
 A **Phase** is one ordered execution stage of a tick — but ordering is *derived, not authored*
 (ADR-0010), so `phases:` is a demoted **crutch**, not a primitive (see `Network`). **Dispatch**
-is a bounded iteration over an entity collection — a **threaded fold** (ADR-0012). "Bounded"
+is a bounded iteration over an entity collection — a **threaded fold** (ADR-0012), written as a loop bundle whose counter starts at the count. "Bounded"
 here means the **BlooP rule**: the count is **fixed before the loop and immutable during it**
 (no `break`/`continue`/early-return, loop variable and collection not mutated mid-iteration) —
 **not** that the bound is a compile-time constant or a finitely-typed value. A `range(n)` or
