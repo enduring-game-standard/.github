@@ -88,8 +88,8 @@ concern).
 **Record**:
 A named collection of typed Fields — a data store. Holds state; the only thing data flows
 through (every inter-Processor handoff lands in a Record). A Record **stores its value until a
-Processor produces a new one — write once, never overwrite** (ADR-0012); a "change" is a fresh
-value in a fresh place, not in-place mutation. Inside a **loop bundle**'s cycle (see `Network`), a place holds one value per pass, and readers outside the bundle see only its final value. **Reuse is a spectrum**: from
+Processor produces a new one — only a Processor changes a Record** (ADR-0012): a Processor takes the value
+out, computes, and puts the result back, in the same place or another; nothing updates a Record without passing through a Processor. Inside a **loop bundle**'s cycle (see `Network`), a place holds one value per pass, and readers outside the bundle see only its final value. **Reuse is a spectrum**: from
 **common** Records the conventions repo recommends for interop (`runs:player_location`) to
 **game-specific** schemas nobody else imports (`spacewar:object`). All are published (so the
 source on the commons is complete and findable), content-addressed, and referenced by ID. A
@@ -191,10 +191,10 @@ guarantee scopes to the Rules region** — the subgraph of **Rules Processors** 
 DIGS, hence platform-agnostic and deterministic) bounded by boundary Records — **not** to the
 whole graph (ADR-0010, narrowed). Within that region determinism is structural, not
 conventional, and rests on two rules:
-**single-assignment purity** (no shared mutable place — a shared resource like the PRNG is a
-*threaded chain* of distinct values, `prng_v0 → … → prng_vN`) and **partitioning guards**
+**every change through a Processor** (a Processor takes a value from a place and puts its result back, and the wires and guards order any
+two Processors that touch one place, so nothing races: the PRNG's values `prng_v0 → … → prng_vN` pass through one place in wired order) and **partitioning guards**
 (every dispatch's guard set is mutually exclusive *and* exhaustive over the color space).
-Given both, one tick of the Rules region is a DAG outside its loop bundles (the cross-tick loop is the `state:`
+Given both, the firings of one tick of the Rules region form a DAG outside its loop bundles (the cross-tick loop is the `state:`
 Records), incomparable Processors commute, and **execution order is derived, never authored**
 — any topological order yields identical results, so a runtime may parallelize freely. The
 **Realization region** beyond the boundary Records is the **same petri-net topology** but
