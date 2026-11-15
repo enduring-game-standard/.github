@@ -392,8 +392,8 @@ writes a different rule into the gap: a **Variant**.
 When the machine changes, a behavior is sorted by where its **cause** sits, never by intent:
 (a) **machine behavior the program reaches deterministically** (arithmetic, memory past an
 array, data run as code, timing the program produces) is a rule, and the RUNS states it.
-Spacewar's toroidal wrap falls out of its ones'-complement coordinate arithmetic; Space Invaders'
-speed-up as fewer invaders are drawn was found by accident and kept. Boom fixed vanilla DOOM's
+Spacewar's toroidal wrap falls out of its ones'-complement coordinate arithmetic; Space Invaders
+moves one invader per tick, so fewer invaders move faster, found by accident and kept. Boom fixed vanilla DOOM's
 overflows and broke vanilla demos; PrBoom added compatibility levels; Chocolate Doom emulates the
 overflows to keep vanilla demos in sync. (b) **Inputs from outside the game** (player input,
 outside clocks, a flipped bit, power-on memory, console revisions) are inputs, not rules: the
