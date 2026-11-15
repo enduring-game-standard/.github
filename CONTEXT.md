@@ -310,6 +310,23 @@ database**. It carries signed events between sessions, not per-frame state, so p
 commons access wouldn't work even if attempted. Baking is what bridges the commons to the
 ephemeral tick loop.
 
+**Conversion**:
+Rewriting an existing game's original program into RUNS while the game stays exactly the same:
+the **reference** every later Port and Variant starts from. It is neither a Port (which strips
+the presentation and puts in new presentation Records and Processors for another machine) nor
+a Variant (which changes the rules). A conversion keeps the rules pure and separate from the
+presentation, *and keeps the whole original presentation*: compiled for the original machine it
+is the original game, and run headless its rules run alone on any machine. The rules include
+everything that changes what happens in the game — the arithmetic (Spacewar's 18-bit ones'
+complement is Spacewar's six-sided die), the limits, and the order wherever order changes a
+result; what changes nothing (registers, addresses, scratch words) belongs to the original
+machine's declarations. **The oracle is the binary**: the RUNS source, compiled for the original
+machine, rebuilds the original binary exactly. Comparing play only proves the inputs tested;
+the identical binary proves every input, presentation included, which is why the oracle is not
+escapable. The conversion is the artifact meant to go into the archive untouched; the work is
+the **process**, documented so it repeats for every game that exists (and, for games born in
+RUNS, a process for building them from scratch) — not a PDP-1 procedure.
+
 **Port**:
 The same game — *identical* Rules region — made to run on different hardware by swapping its
 **Realization Processors** wholesale, leaving the Rules Processors and boundary Records
