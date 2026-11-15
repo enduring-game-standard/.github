@@ -83,7 +83,7 @@ The goal: a notation in which game mechanics can be written down, studied, and f
 
 The model is staff notation: Guido's staff did not compose music, it made composition transmissible — and a millennium of cumulative craft followed. MAPS aims the same instrument at game mechanics.
 
-The **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
+The **MAPS Library** (not yet public) provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
 
 ### WOCS: Work Offered, Claimed, Settled — *the infrastructure*
 

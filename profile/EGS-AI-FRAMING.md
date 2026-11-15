@@ -82,7 +82,7 @@ If external context would sharpen a critique — industry perspective, competing
 | **MAPS** | Mechanics and Play Structures | Notation for interactive grammar |
 | **PWNS** | Provenance Without Notaries or Sovereigns | Provenance over property, covenants without enforcement |
 
-**Supporting projects:** [AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions) (optional, forkable vocabularies for what AEMS events carry), [RUNS Library](https://github.com/enduring-game-standard/runs-library) (the `runs:` palette and architecture patterns), [MAPS Library](https://github.com/enduring-game-standard/maps-library) (shared mechanic patterns).
+**Supporting projects:** [AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions) (optional, forkable vocabularies for what AEMS events carry), [RUNS Library](https://github.com/enduring-game-standard/runs-library) (the `runs:` palette and architecture patterns), MAPS Library (not yet public) (shared mechanic patterns).
 
 ---
 

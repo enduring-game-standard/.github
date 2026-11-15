@@ -14,7 +14,7 @@ This is a deliberate posture for a pre-paradigmatic standard. Before a first imp
 
 The layers **above** the kernel are where outside input lands today:
 
-- **Conventions and libraries** — [AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions), the [RUNS Library](https://github.com/enduring-game-standard/runs-library), the [MAPS Library](https://github.com/enduring-game-standard/maps-library) — accept issues and pull requests. Decisions are currently made by the author; proposals are weighed for neutrality, minimality, and composability.
+- **Conventions and libraries** — [AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions), the [RUNS Library](https://github.com/enduring-game-standard/runs-library), the MAPS Library (not yet public) — accept issues and pull requests. Decisions are currently made by the author; proposals are weighed for neutrality, minimality, and composability.
 - **Per-repo issue trackers** — each specification takes bug reports, ambiguity reports, and hard questions in its own tracker. An ambiguity in a standard is a defect, not a cosmetic issue; reporting one is a contribution.
 - **The commons itself** is permissionless by construction. Publishing AEMS events, patterns, scores, or processor bodies requires nobody's approval, including the author's.
 
