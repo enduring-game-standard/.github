@@ -362,8 +362,12 @@ presentation, *and keeps the whole original presentation*: compiled for the orig
 is the original game, and run headless its rules run alone on any machine. The rules include
 everything that changes what happens in the game — the arithmetic (Spacewar's 18-bit ones'
 complement is Spacewar's six-sided die), the limits, and the order wherever order changes a
-result; what changes nothing (registers, addresses, scratch words) belongs to the original
-machine: its declarations and its compiler. **The oracle is the binary**: the RUNS source, compiled for the original
+result, and what the original machine supplied deterministically (memory past an array, data run
+as code, timing the program produces), because the machine fills every gap in a digital game's
+rules. The test is asked of the rules, never decided by intent: **intent is not the rules**. What
+changes nothing (registers, addresses, scratch words) belongs to the original
+machine: its declarations and its compiler. A conversion neither recreates nor removes glitches;
+they emerge from the complete rules (see `Glitch`). **The oracle is the binary**: the RUNS source, compiled for the original
 machine, rebuilds the original binary exactly. Comparing play only proves the inputs tested;
 the identical binary proves every input, presentation included, which is why the oracle is not
 escapable. The conversion is the artifact meant to go into the archive untouched; the work is
@@ -375,6 +379,38 @@ readable code to a pure Network. The owner's intent: each deep module first beco
 Processor that shows the shape of the tick, then is refactored into game-logic groupings,
 separate from the presentation, as automatically as possible.
 
+**Glitch**:
+Gameplay the designer did not foresee, emerging from the rules. A glitch is **not a rule**. In a
+digital game the machine fills every gap in the rules, the same way every time, so the rules are
+complete whether meant or not: the original program running on its original machine. The rules
+are the **boundary of the possibility space** (every state reachable from power-on by any input
+sequence, and how each moves to the next); gameplay is the paths taken inside it, glitches
+included. "Intended" and "unintended" describe the designer's map, not the space. Super Mario
+64's backwards long jump emerges from an uncapped backward speed. A glitchless speedrun category
+is a rule players add on top; the game is unchanged. Removing a glitch from the game itself
+writes a different rule into the gap: a **Variant**.
+When the machine changes, a behavior is sorted by where its **cause** sits, never by intent:
+(a) **machine behavior the program reaches deterministically** (arithmetic, memory past an
+array, data run as code, timing the program produces) is a rule, and the RUNS states it.
+Spacewar's toroidal wrap falls out of its ones'-complement coordinate arithmetic; Space Invaders'
+speed-up as fewer invaders are drawn was found by accident and kept. Boom fixed vanilla DOOM's
+overflows and broke vanilla demos; PrBoom added compatibility levels; Chocolate Doom emulates the
+overflows to keep vanilla demos in sync. (b) **Inputs from outside the game** (player input,
+outside clocks, a flipped bit, power-on memory, console revisions) are inputs, not rules: the
+same rules with different inputs take different paths. (c) **Effects only in the presentation**
+(DOOM's visplane-overflow crash): the reference keeps them; a Port changes them.
+So a Conversion states the rules completely, including case (a), and glitches emerge on any
+machine, found or not. Completeness is judged on the rules, never by a glitch list. For a game
+born in RUNS, the RUNS semantics are the machine.
+**Open** (owner, 2026-11-15): how RUNS operationalizes this. The owner holds that RUNS must
+distinguish machine behavior that is part of the design (Space Invaders' speed-up, Spacewar's
+wrap) from emergent design gaps on complex hardware (such as arbitrary code execution), and does
+not yet know how. Also open: lag from drawing load that feeds the rules; hardware faults vs
+consistent hardware behavior; which machine revision counts; reads past an array whose reach
+cannot be decided.
+_Avoid_: "recreate a glitch", "purge a glitch"; sorting by intended vs unintended; bug (for the
+original's behavior).
+
 **Port**:
 The same game — *identical* Rules region — made to run on different hardware by swapping its
 **Realization Processors** wholesale, leaving the Rules Processors and boundary Records
@@ -383,6 +419,9 @@ Us's exact logic under a low-poly shell. A port preserves the game: it is **not*
 (which changes rules) and **not** a reinterpretation (re-vibing the source "good enough,"
 which yields a new variant). Porting is what makes "any rules on any hardware" real — N64, a
 TI-83, a toaster, or a computing paradigm 400 years from now. (ADR-0011)
+A Port keeps every rule the original machine supplied deterministically, changes effects that
+land only in the presentation, and keeps behavior from outside inputs as far as its inputs are
+the same (see `Glitch`).
 The line is drawn by **bit-exact Rules-region output**: a *pure* Port runs the **exact same
 algorithms**, deterministic even where that is inefficient on the new hardware. A re-target
 that swaps in **hardware-native algorithms whose output differs from the original** (the
@@ -452,7 +491,9 @@ proving the guards discharge the preconditions), never a runtime feature. (ADR-0
 **Variant**:
 A game derived from another by opening its Network and swapping, adding, or replacing
 **Rules Processors**, then compiling anew — the way chess and soccer accrue house-rule
-variants over time. A variant changes the *rules*; the realization can stay identical. Its
+variants over time. A variant changes the *rules*; the realization can stay identical.
+Removing a glitch is a variant: it writes a different rule into a gap the machine had filled
+(see `Glitch`). Its
 orthogonal twin — swapping the **Realization Processors** while the rules stay identical — is
 a **Port**, not a variant. First-class and permissionless: enduring games *evolve through
 variation*; they are not modified or forked. (ADR-0006, ADR-0011)
