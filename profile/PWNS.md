@@ -52,7 +52,7 @@ Two qualifications, built into the design:
 - **"First" requires an anchor.** A Nostr event's timestamp is asserted by the publishing client and can be backdated. A priority claim rests on anchoring the event hash to an external clock the author does not control — an OpenTimestamps attestation in a Bitcoin block shows the work existed *no later than* that block, to anyone who trusts the chain. Sealed works claiming priority should anchor.
 - **Signed is not stored.** Relays are not archives; an event no relay holds is gone. Tamper-evidence and persistence are different properties. Authors, communities, and services that care about a provenance record keep relays that hold it — the same way institutions keep the citation record.
 
-This is how provenance works in the art world. A Vermeer's value rests on its documented chain of custody, not on a lock on the frame — and when Han van Meegeren forged Vermeers, it was provenance research that exposed him. PWNS is the digital equivalent: a chain of custody anyone can verify, for works nobody is required to expose.
+This is how provenance works in the art world. A Vermeer's value rests on its documented record of custody, not on a lock on the frame — and when Han van Meegeren forged Vermeers, it was provenance research that exposed him. PWNS is the digital equivalent: a record of custody anyone can verify, for works nobody is required to expose.
 
 ### 2. Covenants: The Dial Made Legible
 

@@ -25,8 +25,7 @@ No. These are draft specifications. One conversion exists (Spacewar! in RUNS, co
 
 **What could change for me as a player?**  
 Over time, you might:
-- Hold signed claims to items that other games may recognize, display, or refuse
-- Hold signed, auditable possession claims that no studio controls
+- Hold signed, auditable possession claims to items, which no studio controls and other games may recognize, display, or refuse
 - Earn wages for contributions (hosting servers, testing, or creating content) via WOCS
 - Play games that survive studio closures, maintained by communities
 
@@ -62,7 +61,7 @@ No. RUNS patterns can be incrementally adopted within existing codebases. A buil
 Games retain full authority over their Manifestations (AEMS) and Processor selection (RUNS). Referencing a shared Entity is optional, and a game can publish its own authored Entities. The standards enable interoperability without mandating it.
 
 **Can this describe any kind of game?**  
-That is the aim. MAPS aims to notate the mechanics of any game, from Pong to a 200-player MMO; its notation is still open, and it describes rather than executes. A RUNS runtime that executes a massive real-time game may be a centralized high-performance server farm — and that is a fully compliant RUNS runtime. The standard defines how components are described, composed, and coordinated. Execution architecture is the runtime's job. Nostr is the publication and discovery layer, where AEMS events and coordination offers live, not the execution hot path, any more than a library shelf is the concert hall.
+That is the aim. MAPS aims to notate the mechanics of any game, from Pong to a 200-player MMO; its notation is still open, and it describes rather than executes. A RUNS runtime that executes a massive real-time game may be a centralized high-performance server farm — and that is a fully compliant RUNS runtime. Execution architecture is the runtime's job (see "Will gameplay feel different?" above).
 
 ## Technical Quick Reference
 

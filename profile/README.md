@@ -99,7 +99,7 @@ Where RUNS, AEMS, and MAPS each follow a proven precedent (Linux, the chess Knig
 
 ## How the Pieces Fit Together
 
-The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the inter-protocol topology — the stack from RUNS source down to platform runtime, and the AEMS, MAPS and WOCS edges. Each layer is independent: replacing any component does not require changes to the others.
+The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the inter-protocol topology — the stack from RUNS source down to platform runtime, and the AEMS, MAPS and WOCS edges.
 
 ## Design Philosophy
 
