@@ -371,8 +371,8 @@ separate from the presentation, as automatically as possible.
 
 **Original**:
 The binary of a game as it shipped: the exact image its machine loads, identified by its hash.
-The reference archive keeps the binary's source, the toolchain that builds it, and its hash,
-never the binary itself; it rebuilds the binary from them and verifies it by the hash (owner,
+A game's GitHub repo keeps the binary's source, the toolchain that builds it, and its hash in
+place of the binary; it rebuilds the binary from them and verifies it by the hash (owner,
 2026-11-15: "it doesn't make sense to keep the binary in a GitHub repo for so many reasons. but
 a hash of the binary is a fine shortcut"). On its original machine it has everything,
 uninterpreted. Each shipped version is its own original with its own Edition: Ocarina of Time
