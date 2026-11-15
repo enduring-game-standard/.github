@@ -37,29 +37,35 @@ The pure/total/deterministic expression language of RUNS. Its home is Processor 
 Network **guard** expressions. Governed and shipped inside RUNS (the `runs` repo) — a
 sub-language of RUNS, **not** a fifth protocol. Scoped to the RUNS world: not used to write
 MAPS (which has its own notation).
-**Mandatory core vs. opt-in reach-contracts** (ADR-0017): DIGS guarantees a small **core** on
-every Processor — **verb/noun purity** + **per-tick totality** (terminates on every input;
-structural, *not* a static step-ceiling) + **evaluation-order determinism** (precedence-fixed
-order; no reassociation/FMA). Layered on top are **three type-declared
-reach-contracts**: **(1) arithmetic determinism** (game-defined numeric types pin cross-platform
-bit-exactness — else FP diverges, Quake-style); **(2) static execution bound** (optional WCET
-for real-time — a tooling/Realization concern, not implied by totality); **(3) static memory
-footprint** (optional list bounds for constrained/no-allocator targets — not implied by
-purity/determinism/totality). The unifying rule: *the declaration IS the contract*, generalized
-from arithmetic to execution and memory. Repeatedly, the draft doc **over-claims** by fusing a
-reach-contract into the core ("pure ∴ deterministic"; "total ∴ statically bounded"; "pure ∴
-bounded memory") — each is a separate property.
+**Mandatory core, declared arithmetic, and opt-in reach-contracts** (ADR-0017; arithmetic made
+mandatory 2026-11-15): DIGS guarantees a small **core** on every Processor: **verb/noun purity**,
+**per-tick totality** (terminates on every input; structural, *not* a static step-ceiling), and
+**evaluation-order determinism** (precedence-fixed order; no reassociation/FMA). Every game also
+**declares its arithmetic**: its number types and their operations, which pin the game's
+numbers bit for bit on every machine (see the next paragraph). Layered on top are **two opt-in,
+type-declared reach-contracts**: **(1) static execution bound** (optional WCET for real-time, a
+tooling/Realization concern, not implied by totality); **(2) static memory footprint**
+(optional list bounds for constrained/no-allocator targets, not implied by
+purity/determinism/totality). The unifying rule: *the declaration IS the contract*, for
+arithmetic, execution, and memory alike. Repeatedly, the draft doc **over-claims** by fusing
+one of these into the core ("pure ∴ deterministic"; "total ∴ statically bounded"; "pure ∴
+bounded memory"). Each is a separate property.
 **Arithmetic is a rule.** A game's arithmetic is part of its rules: Spacewar's 18-bit ones'
-complement is to Spacewar what the six-sided die is to Yahtzee. A machine that computes a
-game's numbers differently plays a different game. So a **Conversion** always declares its
-arithmetic: the number types its Processors compute with. **Open:** whether a game born in
-RUNS may leave its arithmetic undeclared and still comply. The static execution bound and
-the static memory footprint stay opt-in: each trades the targets a game can reach.
+complement is to Spacewar what the six-sided die is to Yahtzee, and DOOM computed with floats
+is not DOOM. A machine that computes a game's numbers differently plays a different game. So
+**every RUNS game declares its arithmetic**, its number types and their operations, whether it
+is a Conversion or born in RUNS. Another arithmetic is another game. In the owner's words
+(2026-11-11): left to "use math here", each platform would choose its own algorithm, and "that
+would be like every single chess board slightly altering what a knight does... and it wouldn't
+be chess"; and (2026-11-15) "any change to the rules is a different game". The static
+execution bound and the static memory footprint stay opt-in: each trades the targets a game
+can reach.
 _Avoid_: "the RUNS language" (RUNS is the source format; DIGS is its expression language);
-calling DIGS a protocol; reading "pure/total/deterministic" as implying static bounds or fixed
-arithmetic (those are reach-contracts, ADR-0017).
+calling DIGS a protocol; reading "pure/total/deterministic" as implying static bounds (those
+are opt-in reach-contracts, ADR-0017) or a fixed arithmetic (the game declares that); treating
+arithmetic as optional.
 
-**MAPS** (Mechanics and Play Structures) — *the rules*:
+**MAPS** (Mechanics and Play Structures) — *the design knowledge*:
 The design-time notation for game mechanics. **The notation is open** (2026-11-15): whether the
 current draft is the right notation for games is not settled, and neither is any relation
 between MAPS and RUNS beyond a general Petri-net shape.
@@ -128,7 +134,7 @@ A Processor's scope ranges from a fat **monolith** (a whole DOOM function re-exp
 verb-for-verb in DIGS) down to an atomic primitive (`vec_x`); *both ends are spec-compliant*.
 A monolith that passes every test vector is flawlessly, deterministically the game — it is
 merely **undecomposed**. The convention pulls rightward — split a body into DRY,
-commons-published, forkable sub-Processors (referenced by Nostr ID, the way an npm package
+commons-published, forkable smaller Processors (referenced by Nostr ID, the way an npm package
 pulls in others), each splittable until atomic, then bundled as a **Sub-Network** — but the
 **spec mandates none of it**; there is no governing body on the commons to enforce it, and
 compliance rests on the four primitives + DIGS, never on granularity. Corollary of the duck
@@ -153,12 +159,12 @@ primitive) splits a game's Processors into two flavors by this property — name
   Rip-and-replace the set → a **Port** (ADR-0011). The deterministic Rules region is what makes
   lockstep/rollback netcode possible, yet contains none of the transport. (*"Deterministic" here
   is the core **evaluation-order** determinism — identical results on one runtime, any topological
-  order. **Cross-machine** lockstep additionally requires **arithmetic determinism**,
-  reach-contract #1: without it floating point diverges across hardware (Quake desyncs); with it,
-  value-level determinism plus no observable addresses give Factorio-style cross-platform lockstep.
-  The unqualified "deterministic" throughout this glossary means the core property; cross-platform
-  bit-exactness is always the separate arithmetic contract, which a Conversion always declares
-  (see `DIGS`). ADR-0017.*)
+  order. **Cross-machine** lockstep also requires **arithmetic determinism**: without it floating point
+  diverges across hardware (Quake desyncs); with it, value-level determinism plus no observable
+  addresses give Factorio-style cross-platform lockstep. Every game has it, because every game
+  declares its arithmetic (see `DIGS`). The unqualified "deterministic" throughout this glossary
+  means the core property; cross-platform bit-exactness comes from the declared arithmetic.
+  ADR-0017.*)
   **Its body is *not* DIGS, and the standard deliberately does not specify a language for it**
   — a Realization Processor is written in whatever its target demands (a throwaway Lua/Python
   script, a CUDA/Vulkan pipeline in C++ or Rust, MIPS-bound N64 homebrew). This is the exact
@@ -186,16 +192,16 @@ arcs), never a Processor. The Network holds the whole structure of the game: its
 all its timing. The game advances in ticks, and nothing computes between them; every step the
 original program took is a firing in the Network.
 
-**Bundles, and Processors calling Processors.** A bundle is a Sub-Network: its own network
-file wiring Records and Processors, seen from outside as one Processor. In the owner's words:
-"the high level network file should only be writing the fully composed bundles. within each
-bundle will be its own subnet bundle network file - that's the entire point" (2026-11-11), and
-"The network is what should be connecting them, not the processor, not the record."
-**Open:** whether a Processor body may also call another Processor directly (a DIGS
-sub-Processor call, `let r = ns:proc(x)`), with the values in between held inside the body
-rather than in Records. If it may, such a call is not a Network edge: seen from outside, the
-calls are one transition, and turning one of those inside values into a Record is the same act
-as unbundling. This is the same axis as ADR-0016's decomposition gradient.
+**Bundles; no Processor calls another.** A Processor never calls another Processor.
+Processors connect only through the Network, by way of Records: a value one Processor hands to
+another is stored in a Record. Composition is bundling. A bundle is a Sub-Network: its own
+network file wiring Records and Processors, seen from outside as one Processor. A Processor's
+body may compute with locals; a local never leaves the body. In the owner's words (2026-11-11):
+"The network is what should be connecting them, not the processor, not the record"; "it stores
+it in a record. always"; "the high level network file should only be writing the fully composed
+bundles. within each bundle will be its own subnet bundle network file - that's the entire
+point"; and "processors are literally dry stateless individual files that are wired together
+with record files via a separate network file".
 
 A RUNS Network is a **colored Petri net**: places = Records, tokens = field values (the
 colors), transitions = Processors, guarded arcs = gates. The **confluence (determinism)
@@ -337,14 +343,15 @@ data and how its routines were called. They record the original programmer's cho
 the machine, nothing the game computes. A Port leaves them behind with the presentation.
 
 **Compiler**:
-The program that turns RUNS source into a Build for one machine. Working reading, pending the
-owner: one general compiler per machine, shared by every game on that machine, holding no
-game's logic or timing (those live in the Network); making the game run on the machine is its
-job. **Open:** the owner said on 2026-11-11 "there should be no changes at all to the
-compiler... if there are any changes to the compiler, we've done it wrong", and later "the
-compiler being a general pdp1 compiler" and (2026-11-14) that running on the PDP-1 is "the job
-for the compiler". Whether a general compiler may gain a rule that more than one game uses is
-not settled.
+The program that turns RUNS source into a Build for one machine. There is one general compiler
+per machine, shared by every game on that machine. It holds that machine's details (registers,
+addresses, scratch words, the instructions that move a word) and no game's logic or timing,
+which live in the Network. A change to it is a general rule for the machine that a second
+program on that machine uses, never a fix to make one game's shape compile. In the owner's
+words: "there should be no changes at all to the compiler... Everything should be in how the
+network is structured" (2026-11-11, meaning no bending it for one game), "the compiler being a
+general pdp1 compiler" (2026-11-11), and "that's the job for the compiler to make sure that it
+runs on the PDP-1" (2026-11-14).
 
 **Conversion**:
 Rewriting an existing game's original program into RUNS while the game stays exactly the same:
@@ -385,8 +392,8 @@ a port** — RUNS pins the original's arithmetic via game-defined numeric types 
 Port can stay bit-exact. **This is a new distinction the industry conflates**: the PS5 and
 Switch builds of DOOM 2016 are both called "ports," but with divergent arithmetic they are
 **different games** by this definition. RUNS requires the split.
-More generally, a **pure Port preserves all three of the Rules region's reach-contracts**
-bit-for-bit — **arithmetic, execution, and memory** (ADR-0017). A target that cannot hold them
+More generally, a **pure Port preserves the Rules region's declared arithmetic and any
+reach-contracts it takes up** bit-for-bit: **arithmetic, execution, and memory** (ADR-0017). A target that cannot hold them
 forces a tradeoff to the *Rules* Processors and so yields a **Variant Port** (a Variant made to
 fit a target), not a pure Port: hardware-native FP (arithmetic), or **shrinking limits to fit
 RAM** (memory) — *Chocolate DOOM on a TI-83 is impossible as a pure Port*; the smaller entity
@@ -460,7 +467,8 @@ the manifest is the divergent variant's **declared diff from canon** (the build-
 asserted-vs-verified, ADR-0005).
 This is why a divergent-arithmetic re-target is a Variant despite the industry "port" label
 (see `Port`). A **Variant Port** is the special case where the *motive* is reaching constrained
-hardware but the *means* is altering a Rules-region reach-contract — **divergent arithmetic**
+hardware but the *means* is altering the Rules region's declared arithmetic or one of its
+reach-contracts: **divergent arithmetic**
 (hardware-native FP) or a **reduced memory contract** (smaller list bounds to fit RAM: Chocolate
 DOOM on a TI-83). Because the change is to the *Rules* Processors, not a Realization swap, the
 result is a **Variant, not a Port** (ADR-0017).

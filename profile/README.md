@@ -19,7 +19,7 @@ This is not an engine — open-source or otherwise. Open-sourcing an engine remo
 
 🧭 **[Why](https://github.com/enduring-game-standard/.github/blob/main/profile/WHY.md)** · 📍 **[Status](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md)** · ⚖️ **[Governance](https://github.com/enduring-game-standard/.github/blob/main/profile/GOVERNANCE.md)** · ❓ **[FAQ](https://github.com/enduring-game-standard/.github/blob/main/profile/FAQ.md)** · 🔤 **[Glossary](#glossary)**
 
-📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🎯 **[AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · 📖 **[RUNS Library](https://github.com/enduring-game-standard/runs-library)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · 🎶 **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)**
+📦 **[AEMS](https://github.com/enduring-game-standard/aems-schema)** · 🎯 **[AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions)** · 🔧 **[RUNS](https://github.com/enduring-game-standard/runs-spec)** · 📖 **[RUNS Library](https://github.com/enduring-game-standard/runs-library)** · 🎼 **[MAPS](https://github.com/enduring-game-standard/maps-notation)** · ⚡ **[WOCS](https://github.com/enduring-game-standard/wocs-protocol)**
 
 ---
 
@@ -68,11 +68,11 @@ A composable, plain-text source format for game logic, comparable to Entity Comp
 
 RUNS applies the Linux model to game execution: there is no "RUNS engine," the way there is no single "Linux OS." Each game assembles its own engine from shared components into a standalone build — the way Android and the Steam Deck are different operating systems built from the same kernel and coreutils. Renderers, input systems, and physics backends are replaceable without rewriting game rules; source can be opened, Processors swapped, and variants compiled.
 
-Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax): a pure, total, deterministic expression language — every Processor terminates, reads only its declared inputs, and has no side effects. A game's arithmetic is part of its rules: the source declares its number types (an 18-bit ones' complement game says so), so every machine computes the same results. Where a target demands it, a game can also declare a static execution bound or a fixed memory footprint. The declaration is the contract; the core never assumes them.
+Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax): a pure, total, deterministic expression language — every Processor terminates, reads only its declared inputs, and has no side effects. A game's arithmetic is part of its rules: every game's source declares its number types and their operations (an 18-bit ones' complement game says so), so every machine computes the same results. Another arithmetic is another game. Where a target demands it, a game can also declare a static execution bound or a fixed memory footprint. The declaration is the contract; the core never assumes them.
 
 The first test is a **conversion**: Spacewar! (1962) rewritten in RUNS with the game exactly the same, its rules pure and separate from its presentation, and the whole presentation kept. Compiled for the PDP-1, it rebuilds the original binary bit for bit; that identical binary is the proof. Run without its presentation, its rules run on any machine. The goal is a conversion process written down so it repeats for any game, and a way to build new games in RUNS from scratch.
 
-### MAPS: Mechanics and Play Structures — *the rules*
+### MAPS: Mechanics and Play Structures — *the design knowledge*
 
 The goal: a notation in which game mechanics can be written down, studied, and forked. **The notation is open.** The current draft uses four primitives, comparable to Machinations diagrams or formal state machine definitions; whether that is the right notation for games is not settled.
 
@@ -141,7 +141,7 @@ is a memory aid, not a precise definition. The sections above define each protoc
 | **AEMS** | Asset-Entity-Manifestation-State | *the things* — signed claims about game objects on the commons |
 | **RUNS** | Records Update on Neutral Substrate | *the game* — plain-text source for game logic |
 | **DIGS** | Deterministic Inspectable Game Syntax | *the computation* — RUNS's pure expression language (Processor bodies + Network guards) |
-| **MAPS** | Mechanics and Play Structures | *the rules* — design-time notation for game mechanics |
+| **MAPS** | Mechanics and Play Structures | *the design knowledge* — design-time notation for game mechanics |
 | **WOCS** | Work Offered, Claimed, Settled | *the coordination* — optional, Lightning-settled market for ecosystem services |
 | **PWNS** | Provenance Without Notaries or Sovereigns | *extension* — provenance for authored experiences |
 

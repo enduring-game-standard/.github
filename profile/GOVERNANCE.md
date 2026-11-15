@@ -36,6 +36,6 @@ This standard has one author. The mitigations are structural: every specificatio
 
 ## When This Page Changes
 
-The cathedral posture is scoped to the pre-implementation era. Once a reference implementation exists and the first *verified* claims land (see [STATUS.md](./STATUS.md)), the base specs will have met reality, and this page will be revisited — at minimum to define how implementation experience feeds back into spec changes.
+The cathedral posture is scoped to the pre-implementation era. Its trigger for a revisit was that a reference implementation exists and the first *verified* claims land. That trigger is met as of 2026-11-15: the Spacewar! conversion compiles to the original binary, bit for bit (see [STATUS.md](./STATUS.md)). A revisit of this page is due, at minimum to define how implementation experience feeds back into spec changes. Until it is written, the posture above stands.
 
 **MIT License**
