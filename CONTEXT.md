@@ -362,15 +362,18 @@ presentation, *and keeps the whole original presentation*: compiled for the orig
 is the original game, and run headless its rules run alone on any machine. The rules include
 everything that changes what happens in the game — the arithmetic (Spacewar's 18-bit ones'
 complement is Spacewar's six-sided die), the limits, and the order wherever order changes a
-result, and what the original machine supplied deterministically (memory past an array, data run
-as code, timing the program produces), because the machine fills every gap in a digital game's
-rules. The test is asked of the rules, never decided by intent: **intent is not the rules**. What
+result, and what the original machine does the same way every time (memory past an array, code
+the program runs, timing the program produces), because the machine fills every gap in a digital
+game's rules. The test is asked of the rules, never decided by intent: **intent is not the rules**. What
 changes nothing (registers, addresses, scratch words) belongs to the original
 machine: its declarations and its compiler. A conversion neither recreates nor removes glitches;
-they emerge from the complete rules (see `Glitch`). **The oracle is the binary**: the RUNS source, compiled for the original
+they emerge from the complete rules (see `Glitch`). The binary is the **Original**, and the RUNS
+source is its **Edition**: it carries everything by default, and any departure is a stated
+**Exclusion** with its evidence (see `Edition`). **The oracle is the binary**: the RUNS source, compiled for the original
 machine, rebuilds the original binary exactly. Comparing play only proves the inputs tested;
 the identical binary proves every input, presentation included, which is why the oracle is not
-escapable. The conversion is the artifact meant to go into the archive untouched; the work is
+escapable. The reference archive keeps the original with its toolchain, the edition, and the
+edition's exclusion list. The conversion is the artifact meant to go into the archive untouched; the work is
 the **process**, documented so it repeats for every game that exists (and, for games born in
 RUNS, a process for building them from scratch) — not a PDP-1 procedure.
 Settled so far: assemble the original into the binary oracle, lift it to readable C, and build
@@ -378,6 +381,55 @@ a compiler that turns the source back into the same binary. **Open:** how to go 
 readable code to a pure Network. The owner's intent: each deep module first becomes one large
 Processor that shows the shape of the tick, then is refactored into game-logic groupings,
 separate from the presentation, as automatically as possible.
+
+**Original**:
+The binary of a game as it shipped: the exact image its machine loads. The reference archive
+always keeps it, with the toolchain that builds it. On its original machine it has everything,
+uninterpreted. Each shipped version is its own original with its own Edition: Ocarina of Time
+1.0 keeps glitches that later versions fixed. A game born in RUNS has no binary original; its
+RUNS source is the original.
+_Avoid_: "the original" for the source listing or for what the designer meant.
+
+**Edition**:
+The RUNS source of a Conversion, read against its Original (owner-approved, 2026-11-15). The
+rules for it:
+(1) The binary is the original, and the archive keeps it. (2) The RUNS source is an edition of
+it and **carries everything by default**: every behavior of the binary is in the rules, and
+glitches are never purged. (3) A departure is a stated **Exclusion**, never a silence. (4) Every
+exclusion carries its evidence and who decided it; intent never decides silently, and a later
+editor may disagree and make another edition while the original stays as it is. (5) **The
+check**: the rules run alone match the original everywhere except the listed exclusions, the
+only places they may differ. (6) A game born in RUNS has no exclusions: it has no binary, and
+its RUNS source is the original.
+Compiled for the original machine, an edition still rebuilds the original binary, the oracle;
+the exclusions bound only what the rules run alone are held to.
+Why: inside one deterministic system every line is drawn by whoever looks, and intent cannot be
+read from the binary. A line by "who writes the program" fails: Screeps and Baba Is You make
+writing code and rewriting rules the game. Textual scholarship met the same problem (an author's
+intent against errors in transmission) and settled not the intent question but how to handle the
+judgment: keep the original witness untouched, and make each editorial judgment explicit, with
+its evidence, attributed, and open to revision.
+_Avoid_: "conversion with fixes"; calling an exclusion a fix, a purge, or a Variant.
+
+**Exclusion**:
+A stated departure of an Edition from its Original. It names the **exit point**, the state and
+the step where play leaves the edition; the behavior past it is the original's alone. It carries
+its evidence (developer statements, the manual, speedrun categories, sequels, port communities'
+choices) and who decided it. The standard example is code the player writes and the program
+then runs. Ocarina of Time's arbitrary code execution leaves the edition at the step where
+control jumps into bytes the player chose; Zelda Wiki says it is "commonly restricted or placed
+in its own category", and TASBot's talk is listed as "How to hack an N64 through the controller
+ports". Code the program fixes for itself is no exclusion: Spacewar's outline code, which the
+program writes from its own tables, and a jump into the program's own bytes at the wrong entry
+are the original's behavior, and the edition carries them. DOOM's candidates are the intercepts
+overflow (Chocolate Doom's users advise leaving its emulation off unless a demo needs it) and any
+code execution. RUNS has no form for an exit point yet.
+_Avoid_: exception, waiver, "purge".
+
+**Exclusion list**:
+An Edition's exclusions, each with its exit point, its evidence, and who decided it. The archive
+keeps it with the edition. An empty list is a claim with evidence too: Spacewar's is empty
+(runs-spacewar `docs/exclusions.md`).
 
 **Glitch**:
 Gameplay the designer did not foresee, emerging from the rules. A glitch is **not a rule**. In a
@@ -388,26 +440,32 @@ sequence, and how each moves to the next); gameplay is the paths taken inside it
 included. "Intended" and "unintended" describe the designer's map, not the space. Super Mario
 64's backwards long jump emerges from an uncapped backward speed. A glitchless speedrun category
 is a rule players add on top; the game is unchanged. Removing a glitch from the game itself
-writes a different rule into the gap: a **Variant**.
-When the machine changes, a behavior is sorted by where its **cause** sits, never by intent:
-(a) **machine behavior the program reaches deterministically** (arithmetic, memory past an
-array, data run as code, timing the program produces) is a rule, and the RUNS states it.
-Spacewar's toroidal wrap falls out of its ones'-complement coordinate arithmetic; Space Invaders
-moves one invader per tick, so fewer invaders move faster, found by accident and kept. Boom fixed vanilla DOOM's
-overflows and broke vanilla demos; PrBoom added compatibility levels; Chocolate Doom emulates the
-overflows to keep vanilla demos in sync. (b) **Inputs from outside the game** (player input,
-outside clocks, a flipped bit, power-on memory, console revisions) are inputs, not rules: the
-same rules with different inputs take different paths. (c) **Effects only in the presentation**
-(DOOM's visplane-overflow crash): the reference keeps them; a Port changes them.
-So a Conversion states the rules completely, including case (a), and glitches emerge on any
-machine, found or not. Completeness is judged on the rules, never by a glitch list. For a game
-born in RUNS, the RUNS semantics are the machine.
-**Open** (owner, 2026-11-15): how RUNS operationalizes this. The owner holds that RUNS must
-distinguish machine behavior that is part of the design (Space Invaders' speed-up, Spacewar's
-wrap) from emergent design gaps on complex hardware (such as arbitrary code execution), and does
-not yet know how. Also open: lag from drawing load that feeds the rules; hardware faults vs
-consistent hardware behavior; which machine revision counts; reads past an array whose reach
-cannot be decided.
+writes a different rule into the gap: a **Variant**. An Exclusion removes nothing: it states
+where play leaves the Edition.
+A behavior is sorted by following its data across the **original machine's edge**, never by
+intent. **In**: whatever the program reads from a device (controller, switches, clocks,
+video-frame counts) and memory the program never set (power-on contents). **Out**: the screen
+and the speaker. Inside the edge, a value that only ever flows out is **presentation**; everything
+else is the **rules**, including what the hardware does the same way every time: arithmetic,
+memory past an array, code the program runs. Spacewar's toroidal wrap falls out of its
+ones'-complement coordinate arithmetic. Boom fixed vanilla DOOM's overflows and broke vanilla
+demos; PrBoom added compatibility levels; Chocolate Doom emulates the overflows to keep vanilla
+demos in sync. **Lag** reaches the rules, if at all, as a clock reading: an input. On the
+original machine that input carries the lag; a Port feeds it different values; the rules are the
+same and the gameplay differs. "Better" and "worse" describe gameplay, not the game (GoldenEye's
+lookdown; Ocarina of Time on the N64 and on the Wii Virtual Console: one game, separate
+leaderboards). Space Invaders moves one invader per video interrupt, an input, by a rule; the
+speed-up as invaders die emerges from them, and it is not lag. An effect that only flows out
+stays in the reference with the whole original presentation, and a Port changes it.
+So a Conversion states the rules completely, and glitches emerge on any machine, found or not.
+Completeness is judged on the rules, never by a glitch list. For a game born in RUNS, the RUNS
+semantics are the machine.
+**Open**: what counts as the machine: which revision, and where specified behavior ends and
+physical fault begins (a flipped bit is a fault; a documented CPU quirk is behavior). It is a
+judgment made once per machine, in that machine's description. Also open: DOOM's
+visplane-overflow crash is presentation, and the reference keeps it, but it ends the program and
+so stops the rules too; how RUNS states a presentation effect that ends the program is not
+settled.
 _Avoid_: "recreate a glitch", "purge a glitch"; sorting by intended vs unintended; bug (for the
 original's behavior).
 
@@ -419,9 +477,9 @@ Us's exact logic under a low-poly shell. A port preserves the game: it is **not*
 (which changes rules) and **not** a reinterpretation (re-vibing the source "good enough,"
 which yields a new variant). Porting is what makes "any rules on any hardware" real — N64, a
 TI-83, a toaster, or a computing paradigm 400 years from now. (ADR-0011)
-A Port keeps every rule the original machine supplied deterministically, changes effects that
-land only in the presentation, and keeps behavior from outside inputs as far as its inputs are
-the same (see `Glitch`).
+A Port keeps every rule, the hardware's same-every-time behavior included, and changes what
+only flows out. Its inputs are its own: where they differ, as a clock that carries less lag, the
+same rules take different paths (see `Glitch`).
 The line is drawn by **bit-exact Rules-region output**: a *pure* Port runs the **exact same
 algorithms**, deterministic even where that is inefficient on the new hardware. A re-target
 that swaps in **hardware-native algorithms whose output differs from the original** (the
@@ -493,7 +551,8 @@ A game derived from another by opening its Network and swapping, adding, or repl
 **Rules Processors**, then compiling anew — the way chess and soccer accrue house-rule
 variants over time. A variant changes the *rules*; the realization can stay identical.
 Removing a glitch is a variant: it writes a different rule into a gap the machine had filled
-(see `Glitch`). Its
+(see `Glitch`). An Exclusion is not a variant: it changes no rule and states where play leaves
+the Edition. Its
 orthogonal twin — swapping the **Realization Processors** while the rules stay identical — is
 a **Port**, not a variant. First-class and permissionless: enduring games *evolve through
 variation*; they are not modified or forked. (ADR-0006, ADR-0011)
