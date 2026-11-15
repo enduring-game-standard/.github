@@ -206,7 +206,7 @@ conventional, and rests on two rules:
 **every change through a Processor** (a Processor takes a value from a place and puts its result back, and the wires and guards order any
 two Processors that touch one place, so nothing races: the PRNG's values `prng_v0 → … → prng_vN` pass through one place in wired order) and **partitioning guards**
 (every dispatch's guard set is mutually exclusive *and* exhaustive over the color space).
-Given both, the firings of one tick of the Rules region form a DAG apart from bounded loops (how a loop within a tick is written is open, see below;
+Given both, the firings of one tick of the Rules region form a DAG apart from bounded loops (each runs through a counter, see below;
 the cross-tick loop is the `state:` Records), incomparable Processors commute, and **the wires
 and guards are the order**. Where order changes a result, a wire or a guard makes one Processor
 wait for the other, like a sync in SpaceChem. Processors the wiring leaves unordered are ones
@@ -217,10 +217,7 @@ is **exempt** from confluence: Realization Processors are platform-tailored I/O 
 determinism for hardware reach.
 
 **The Processor is BlooP; the Network is FlooP** (ADR-0017). Each Processor is a bounded, total
-piece (one tick = a DAG, apart from bounded loops). **Open (2026-11-14): loops within a tick.**
-Every loop must be bounded by something. One way to write one: a counter Record set before the
-loop, one token consumed per pass, the loop ending when the counter reaches zero. Whether such
-a loop may sit anywhere in the graph or only inside a bundle is not decided. The **only** unbounded loop is the **tick-feedback** through the
+piece (one tick = a DAG, apart from bounded loops). **Loops within a tick.** Every loop within a tick runs through a counter Record set before the loop starts: each pass consumes one token, and the loop ends when the counter reaches zero or a guard stops it. This is a rule for the whole graph, and a loop need not sit in a bundle of its own (owner, 2026-11-14). The **only** unbounded loop is the **tick-feedback** through the
 `state:` Records, and it lives in the *wiring*, never in a body — so it is **visible in the
 topology** (the **I** in DIGS). Those cross-tick Records carry unboundedness in **both time**
 (the game runs forever) **and space** (a `state:` list may grow each tick — Factorio's factory,
@@ -401,7 +398,7 @@ reduced-memory* re-target a "port" (industry usage) — it is a **Variant Port**
 
 **Phase / Dispatch / Guard**:
 A **Phase** is one ordered execution stage of a tick — but the order is stated by the wires and guards (ADR-0010), so `phases:` is a demoted **crutch**, not a primitive (see `Network`). **Dispatch**
-is a bounded iteration over an entity collection — a **threaded fold** (ADR-0012); how it is written in the Network is open (see `Network`, loops). "Bounded"
+is a bounded iteration over an entity collection — a **threaded fold** (ADR-0012); in the Network it is a loop through a counter that starts at the count (see `Network`, loops). "Bounded"
 here means the **BlooP rule**: the count is **fixed before the loop and immutable during it**
 (no `break`/`continue`/early-return, loop variable and collection not mutated mid-iteration) —
 **not** that the bound is a compile-time constant or a finitely-typed value. A `range(n)` or
