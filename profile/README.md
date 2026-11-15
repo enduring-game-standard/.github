@@ -64,7 +64,7 @@ A composable, plain-text source format for game logic, comparable to Entity Comp
 
 - **Records** — Typed data containers with named fields, serving a similar role to ECS Components or structs.
 - **Processors** — Verbs: pure transformations that read input Fields and write output Fields, holding no state of their own, comparable to ECS Systems or compute shader kernels.
-- **Networks** — Explicit graphs that wire Records to Processors; the data flow is declared in plain text and execution order follows from it (derived, not authored).
+- **Networks** — Explicit graphs that wire Records to Processors; the data flow is declared in plain text, and its wires and guards state the order the rules run in.
 
 RUNS applies the Linux model to game execution: there is no "RUNS engine," the way there is no single "Linux OS." Each game assembles its own engine from shared components into a standalone build — the way Android and the Steam Deck are different operating systems built from the same kernel and coreutils. Renderers, input systems, and physics backends are replaceable without rewriting game rules; source can be opened, Processors swapped, and variants compiled.
 

@@ -195,8 +195,7 @@ conventional, and rests on two rules:
 two Processors that touch one place, so nothing races: the PRNG's values `prng_v0 → … → prng_vN` pass through one place in wired order) and **partitioning guards**
 (every dispatch's guard set is mutually exclusive *and* exhaustive over the color space).
 Given both, the firings of one tick of the Rules region form a DAG outside its loop bundles (the cross-tick loop is the `state:`
-Records), incomparable Processors commute, and **execution order is derived, never authored**
-— any topological order yields identical results, so a runtime may parallelize freely. The
+Records), incomparable Processors commute, and **the wires and guards are the order** — any topological order yields identical results, so a runtime may parallelize freely. The
 **Realization region** beyond the boundary Records is the **same petri-net topology** but
 is **exempt** from confluence: Realization Processors are platform-tailored I/O and trade
 determinism for hardware reach.
@@ -224,7 +223,7 @@ boundary Records). Decomposition is always possible, but complexity explodes at 
 level, so all language and tooling must assume free **bundling/unbundling** into manageable
 lumps as the normal way to view and edit the graph; the bundle is the unit of manageability.
 _Avoid_: treating `phases:`/`order:` as primitives — they are a crutch for resources that
-should be threaded; pure wiring makes order a derived fact (ADR-0010).
+should be threaded; the wires and guards state the order (ADR-0010).
 
 **Sub-Network**:
 A Network used as a Processor from the outside — typed inputs/outputs at its boundary,
@@ -356,8 +355,7 @@ fidelity-reducing re-vibe is a **variant**, not a port; calling a divergent-arit
 reduced-memory* re-target a "port" (industry usage) — it is a **Variant Port**.
 
 **Phase / Dispatch / Guard**:
-A **Phase** is one ordered execution stage of a tick — but ordering is *derived, not authored*
-(ADR-0010), so `phases:` is a demoted **crutch**, not a primitive (see `Network`). **Dispatch**
+A **Phase** is one ordered execution stage of a tick — but the order is stated by the wires and guards (ADR-0010), so `phases:` is a demoted **crutch**, not a primitive (see `Network`). **Dispatch**
 is a bounded iteration over an entity collection — a **threaded fold** (ADR-0012), written as a loop bundle whose counter starts at the count. "Bounded"
 here means the **BlooP rule**: the count is **fixed before the loop and immutable during it**
 (no `break`/`continue`/early-return, loop variable and collection not mutated mid-iteration) —
