@@ -97,7 +97,7 @@ A named collection of typed Fields — a data store. Holds state; the only thing
 through (every inter-Processor handoff lands in a Record). A Record **stores its value until a
 Processor produces a new one — only a Processor changes a Record** (ADR-0012): a Processor takes the value
 out, computes, and puts the result back, in the same place or another; nothing updates a Record without passing through a Processor. **Reuse is a spectrum**: from
-**common** Records the conventions repo recommends for interop (`runs:player_location`) to
+**common** Records `runs-library` recommends for interop (`runs:player_location`) to
 **game-specific** schemas nobody else imports (`spacewar:object`). All are published (so the
 source on the commons is complete and findable), content-addressed, and referenced by ID. A
 Record is data, not a transformer — it holds Fields and has no input/output signature of its
@@ -106,7 +106,8 @@ _Avoid_: entity (reserved for AEMS), struct, component (use only as an ECS analo
 
 **Field**:
 A typed, named value on a Record (e.g. `position_x`, `runs:transform`). The type system is
-open; `runs-conventions` recommends shared shapes but does not close the set.
+open; `runs-library` (the curation repository; older text calls it `runs-conventions`)
+recommends shared shapes but does not close the set.
 
 **Processor**:
 A **verb**: it takes values on its inputs and gives values on its outputs, holds no state of
@@ -140,7 +141,7 @@ Why it matters is in `Sub-Network`.
 
 **Determinism is a separate, narrower property**, layered on by convention rather than the
 protocol: a Processor whose outputs depend only on its declared inputs (pure, total,
-deterministic). The enduring-games **pattern** (a conventions-repo convention, *not* a base
+deterministic). The enduring-games **pattern** (a `runs-library` convention, *not* a base
 primitive) splits a game's Processors into two flavors by this property — named for their
 *function*, not their implementation:
 - **Rules Processor** — the game logic. Written in DIGS, hence platform-agnostic and
@@ -156,7 +157,8 @@ primitive) splits a game's Processors into two flavors by this property — name
   reach-contract #1: without it floating point diverges across hardware (Quake desyncs); with it,
   value-level determinism plus no observable addresses give Factorio-style cross-platform lockstep.
   The unqualified "deterministic" throughout this glossary means the core property; cross-platform
-  bit-exactness is always the opt-in contract. ADR-0017.*)
+  bit-exactness is always the separate arithmetic contract, which a Conversion always declares
+  (see `DIGS`). ADR-0017.*)
   **Its body is *not* DIGS, and the standard deliberately does not specify a language for it**
   — a Realization Processor is written in whatever its target demands (a throwaway Lua/Python
   script, a CUDA/Vulkan pipeline in C++ or Rust, MIPS-bound N64 homebrew). This is the exact
@@ -170,7 +172,7 @@ Whatever its status in the base protocol, this split is what lets a game endure:
 endurance if the rules are impure" (owner, 2026-11-15). A **Conversion** keeps its rules pure
 and fully separate from its presentation, so the rules run headless on any machine.
 _Avoid_: function, system (ECS analogy only), kernel; treating the Rules/Realization split as
-a base-protocol primitive (it is a conventions-repo pattern, not a schema distinction).
+a base-protocol primitive (it is a `runs-library` pattern, not a schema distinction).
 
 **Network**:
 The explicit bipartite wiring of Records to Processors that defines execution order for one
@@ -267,7 +269,7 @@ on the four primitives + DIGS alone**; a game built entirely on its own umbrella
 deliberately *small*, basic, predictable core set of shapes/utilities, easy to read through and
 cherry-pick. Its value is in staying minimal and foundational, not comprehensive; the ecosystem
 grows in **umbrella prefixes**, not by swelling `runs:`. The `runs:` palette lives in
-`runs-conventions`, which is a **curation index, not a code vault**: it owns the interop *contracts* (recommended shapes +
+`runs-library`, which is a **curation index, not a code vault**: it owns the interop *contracts* (recommended shapes +
 Processor signatures), naming/governance, the manifest format, and a **blessed-by-ID index** of
 reference bodies — but the bodies themselves live on the commons (Nostr), referenced by ID.
 Forced by ADR-0009 (one artifact, one home) + the permissionless ethos + Nostr rendering
@@ -482,7 +484,9 @@ A signed naming of a concept, ownerless (`sword`) or authored (`master-sword`).
 A game-specific version (interpretation) of one or more Entities ("Iron Sword: 6 dmg").
 
 **Asset**:
-A signed claim of possession of one instance of a Manifestation.
+One piece made from a Manifestation, signed by whoever made it. Who holds it is separate,
+moved by a signed handoff from the current holder; the handoff's encoding and what a double
+handoff means are open (aems-schema #29, #31).
 
 **State (AEMS)**:
 The claimed current condition of one Asset (charges, durability, wear). See Flagged ambiguities — this
@@ -514,6 +518,9 @@ and confirmation with instant Lightning settlement.
   (2) MAPS **State** = an observable game condition; (3) an object's runtime status (e.g.
   Spacewar's `object_state` enum: ship/torpedo/exploding/…). Always qualify: "AEMS State",
   "MAPS State", or "object state".
+- **"Bundle"** = a RUNS processor bundle (a Sub-Network seen from outside as one Processor)
+  vs. an AEMS bundle (a signed event that carries the events it cites; draft in
+  aems-schema `ANCHOR.md`). Qualify which.
 - **"Arc"** = MAPS Arc (a notation primitive) vs. a Network arc (a guarded route in RUNS
   wiring). Qualify when context is unclear.
 - **"Runtime" vs "hand-compilation"** — _Canon (ADR-0005)._ A **runtime/compiler** is
@@ -523,10 +530,10 @@ and confirmation with instant Lightning settlement.
   in runs-spacewar is a compiler: it builds the original binary from the RUNS source.
 - **"Conceptual example" vs "reference implementation"** — _Canon (ADR-0014 amended)._ A
   **conceptual example** illustrates the *shape* of an idea for a human reader, with no
-  implementation behind it (possibly wrong) — what `runs-conventions` carries today, because the
+  implementation behind it (possibly wrong) — what `runs-library` carries today, because the
   commons is empty. A **reference implementation** is an actual body
   authored against a working DIGS evaluator, born on the commons, and blessed by ID in the
-  conventions index. They are *different kinds of thing*, not maturity stages: a conceptual
+  `runs-library` index. They are *different kinds of thing*, not maturity stages: a conceptual
   example has **no privileged claim** to become the blessed body. None of the bodies in the
   corpus today (`integrate_velocity`, the `enemy_behavior` network, the Spacewar conversion) are
   reference implementations.
