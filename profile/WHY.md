@@ -45,8 +45,10 @@ The golden age of modding (roughly 1996–2004) is the digital counterexample. O
 Each condition maps to a separation, and each separation is a protocol:
 
 - **Durable substrate** → separate the game's logic from any engine ([RUNS](https://github.com/enduring-game-standard/runs-spec)) and the game's objects from any server ([AEMS](https://github.com/enduring-game-standard/aems-schema)). Rules and things become plain-text, signed, reproducible artifacts that outlive every runtime that executes them.
-- **Cumulative craft** → separate design knowledge from studios ([MAPS](https://github.com/enduring-game-standard/maps-notation)) — a notation in which mechanics can be written, studied, and forked the way music and chess have been for centuries.
+- **Cumulative craft** → separate design knowledge from studios ([MAPS](https://github.com/enduring-game-standard/maps-notation)) — a notation in which mechanics can be written, studied, and forked the way music and chess have been for centuries. The notation itself is still open.
 - **Patient capital** → separate infrastructure coordination from any single company ([WOCS](https://github.com/enduring-game-standard/wocs-protocol)), so a living game's upkeep — hosting, moderation, tournaments — can be funded and provided by an open market rather than one balance sheet. The deeper capital question — where money patient enough for century-scale craft comes from at all — is an economic argument, not a protocol, and it lives in the book, not the specs.
+
+The first test of RUNS is a conversion: Spacewar! (1962) rewritten in RUNS, its rules separate from its presentation, compiling back to the original binary. The aim is a conversion process that repeats for any game.
 
 The protocols are independent, minimal, and MIT-licensed; each one is adoptable without the others, and each is described declaratively in its own repository. What they share is the diagnosis above: games die because their layers are welded together, and every weld is severable.
 

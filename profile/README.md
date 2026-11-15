@@ -27,8 +27,8 @@ This is not an engine — open-source or otherwise. Open-sourcing an engine remo
 
 | You are | Start with | Because |
 |---------|-----------|---------|
-| A game designer | [MAPS](https://github.com/enduring-game-standard/maps-notation) | Notate a mechanic today with a text editor. No infrastructure, no tooling, no other protocol. |
-| An engine or runtime developer | [RUNS](https://github.com/enduring-game-standard/runs-spec) | Specs for computation (DIGS) and wiring (Network Topology). A standalone Record Schema is in review. |
+| A game designer | [MAPS](https://github.com/enduring-game-standard/maps-notation) | A draft notation for game mechanics, still open for change. No infrastructure, no tooling, no other protocol. |
+| An engine or runtime developer | [RUNS](https://github.com/enduring-game-standard/runs-spec) | Specs for computation (DIGS), wiring (Network Topology), machine description and declarations, and the conversion process. |
 | A preservationist or archivist | [AEMS](https://github.com/enduring-game-standard/aems-schema) | Signed plain-text events that any server or archive can keep, and that verify wherever they land. Draft, with event kinds not yet pinned. |
 | An infrastructure provider | [WOCS](https://github.com/enduring-game-standard/wocs-protocol) | Coordination and settlement for hosting, audits, and tournaments. |
 | Asking "why does any of this exist?" | [WHY.md](https://github.com/enduring-game-standard/.github/blob/main/profile/WHY.md) | The diagnosis, in ~1,300 words. The book is the long form. |
@@ -49,7 +49,7 @@ The protocols carry different dependencies, and evaluating one never requires sw
 
 ### AEMS: Asset-Entity-Manifestation-State — *the things*
 
-Four signed event kinds linked by a provenance chain, published on a public commons rather than stored in a proprietary database. The full glossary is [aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md).
+Four signed event kinds linked by parent references, published on a public commons rather than stored in a proprietary database. The full glossary is [aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md).
 
 - **Entity** — A signed naming of a concept ("Sword," "Health Potion," "Master Sword"). A naming can be ownerless or authored. Rival namings coexist, and use decides which one a community references.
 - **Manifestation** — A game's interpretation of one or more Entities. A particular game's "Iron Sword: 6 damage, 250 durability, fire enchantment," referencing the Entities it descends from.
@@ -63,23 +63,25 @@ The model is the chess Knight: the piece has outlasted every manufacturer that e
 A composable, plain-text source format for game logic, comparable to Entity Component System (ECS) or data-oriented design, compiled to native binaries on any platform.
 
 - **Records** — Typed data containers with named fields, serving a similar role to ECS Components or structs.
-- **Processors** — Verbs: pure transformations that read input Fields and write output Fields, holding no state of their own, comparable to ECS Systems or compute shader kernels.
+- **Processors** — Verbs: pure transformations that take values on their inputs and give values on their outputs, holding no state and naming no Record, comparable to ECS Systems or compute shader kernels.
 - **Networks** — Explicit graphs that wire Records to Processors; the data flow is declared in plain text, and its wires and guards state the order the rules run in.
 
 RUNS applies the Linux model to game execution: there is no "RUNS engine," the way there is no single "Linux OS." Each game assembles its own engine from shared components into a standalone build — the way Android and the Steam Deck are different operating systems built from the same kernel and coreutils. Renderers, input systems, and physics backends are replaceable without rewriting game rules; source can be opened, Processors swapped, and variants compiled.
 
-Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax): a pure, total, deterministic expression language — every Processor terminates, reads only its declared inputs, and has no side effects. Hardware reach is opt-in on top of that core: a game can *declare* cross-platform bit-exact arithmetic — so identical inputs give identical outputs on every machine — and, where a target demands it, a static execution bound or a fixed memory footprint. The declaration is the contract; the core never assumes them.
+Processor bodies are written in **[DIGS](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md)** (Deterministic Inspectable Game Syntax): a pure, total, deterministic expression language — every Processor terminates, reads only its declared inputs, and has no side effects. A game's arithmetic is part of its rules: the source declares its number types (an 18-bit ones' complement game says so), so every machine computes the same results. Where a target demands it, a game can also declare a static execution bound or a fixed memory footprint. The declaration is the contract; the core never assumes them.
+
+The first test is a **conversion**: Spacewar! (1962) rewritten in RUNS with the game exactly the same, its rules pure and separate from its presentation, and the whole presentation kept. Compiled for the PDP-1, it rebuilds the original binary bit for bit; that identical binary is the proof. Run without its presentation, its rules run on any machine. The goal is a conversion process written down so it repeats for any game, and a way to build new games in RUNS from scratch.
 
 ### MAPS: Mechanics and Play Structures — *the rules*
 
-A notation for game mechanics using four primitives, comparable to Machinations diagrams or formal state machine definitions. Readable, composable, and transmissible.
+The goal: a notation in which game mechanics can be written down, studied, and forked. **The notation is open.** The current draft uses four primitives, comparable to Machinations diagrams or formal state machine definitions; whether that is the right notation for games is not settled.
 
 - **State** — An observable condition ("Airborne," "Charging," "Poisoned").
 - **Verb** — An available action ("Jump," "Attack," "Dodge").
 - **Arc** — A directed transition linking States through Verbs, with conditions and effects.
 - **Mark** — A quantifiable resource (health, stamina, ammo, score).
 
-The model is staff notation: Guido's staff did not compose music, it made composition transmissible — and a millennium of cumulative craft followed. MAPS aims the same instrument at game mechanics. The notation makes design decisions visible, studyable, and forkable today.
+The model is staff notation: Guido's staff did not compose music, it made composition transmissible — and a millennium of cumulative craft followed. MAPS aims the same instrument at game mechanics.
 
 The **[MAPS Library](https://github.com/enduring-game-standard/maps-library)** provides shared patterns for common mechanics (resource acquisition, locked transitions, basic exchanges).
 
@@ -148,7 +150,7 @@ not a fifth protocol. **PWNS** is an optional extension.
 
 ## Current State
 
-Draft specifications; no implementations yet. Per-layer state, and the milestone that turns *asserted* claims into *verified* ones: [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md). How changes happen, and what a legitimate fork looks like: [GOVERNANCE.md](https://github.com/enduring-game-standard/.github/blob/main/profile/GOVERNANCE.md).
+Draft specifications. One conversion exists: Spacewar! (1962) in RUNS, compiled back to the original PDP-1 binary. No other game and no other machine yet. Per-layer state, and the oracle that turns *asserted* claims into *verified* ones: [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md). How changes happen, and what a legitimate fork looks like: [GOVERNANCE.md](https://github.com/enduring-game-standard/.github/blob/main/profile/GOVERNANCE.md).
 
 ---
 

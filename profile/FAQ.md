@@ -16,10 +16,10 @@ Most digital games are architecturally fragile: they rely on centralized servers
 Open-source engines solve a different problem. Godot removes the *vendor* risk — nobody can revoke your license or reprice you the way Unity did in 2023 — but not the *coupling*: the game is still written inside one engine, bound to its scene tree, its scripting language, its version churn. The Godot 3→4 migration broke games; keeping a game alive on an abandoned engine version means maintaining the whole engine. Source access makes the weld inspectable; it does not make it a seam. RUNS separates the game's rules from every engine, so the rules outlive each one — a Godot-based runtime realizing RUNS games would be a fully welcome implementation, not a competitor. And an engine, open or closed, says nothing about the other three couplings: objects that outlive servers (AEMS), design knowledge that outlives studios (MAPS), and coordination that outlives companies (WOCS).
 
 **Isn't this what emulation and preservation projects already do?**  
-Emulation (MAME, DOSBox), reimplementation (ScummVM), and preservation programs (GOG's) are genuine successes, and EGS builds *on* them rather than competing — the project's own verification oracle is a PDP-1 emulator (see [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md)). But they preserve *builds*: frozen artifacts, rescued after the fact, playable as they were. They cannot keep a game *living* — variable, forkable, studyable — and they do nothing for design-knowledge transmission or for games whose server side was never captured. Preservation is the ambulance; EGS is the argument that the buildings should stop collapsing.
+Emulation (MAME, DOSBox), reimplementation (ScummVM), and preservation programs (GOG's) are genuine successes, and EGS builds *on* them rather than competing — the project's own oracle is the original PDP-1 binary, which its RUNS conversion must compile back to exactly (see [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md)). But they preserve *builds*: frozen artifacts, rescued after the fact, playable as they were. They cannot keep a game *living* — variable, forkable, studyable — and they do nothing for design-knowledge transmission or for games whose server side was never captured. Preservation is the ambulance; EGS is the argument that the buildings should stop collapsing.
 
 **Is this production-ready?**  
-No. These are draft specifications; no implementations exist yet. The state of every layer is [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md).
+No. These are draft specifications. One conversion exists (Spacewar! in RUNS, compiled back to the original PDP-1 binary); no other game or machine yet. The state of every layer is [STATUS.md](https://github.com/enduring-game-standard/.github/blob/main/profile/STATUS.md).
 
 ## For Players
 
@@ -38,7 +38,7 @@ Gameplay feels like whatever the runtime provides. The standard defines how game
 **What advantages could this offer developers?**  
 - AEMS lets you name an object once as an Entity and reference that naming from any project's Manifestations
 - RUNS enables truly modular engines — replace renderers, physics, or input systems without breaking everything
-- MAPS provides a notation for describing game mechanics as readable, composable scores — like sheet music for interactive grammar
+- MAPS aims at a notation for game mechanics, like sheet music for interactive grammar; the notation is still open
 - WOCS enables direct coordination of server hosting, asset creation, and feature development — instant settlement, no platform rents
 
 **How realistic is adoption for indie or solo developers?**  
@@ -62,7 +62,7 @@ No. RUNS patterns can be incrementally adopted within existing codebases. A buil
 Games retain full authority over their Manifestations (AEMS) and Processor selection (RUNS). Referencing a shared Entity is optional, and a game can publish its own authored Entities. The standards enable interoperability without mandating it.
 
 **Can this describe any kind of game?**  
-Yes. MAPS can notate the mechanical grammar of any game — from Pong to a 200-player MMO. The notation describes structure and rules; it does not execute them. A RUNS runtime that executes a massive real-time game may be a centralized high-performance server farm — and that is a fully compliant RUNS runtime. The standard defines how components are described, composed, and coordinated. Execution architecture is the runtime's job. Nostr is the publication and discovery layer, where AEMS events and coordination offers live, not the execution hot path, any more than a library shelf is the concert hall.
+That is the aim. MAPS aims to notate the mechanics of any game, from Pong to a 200-player MMO; its notation is still open, and it describes rather than executes. A RUNS runtime that executes a massive real-time game may be a centralized high-performance server farm — and that is a fully compliant RUNS runtime. The standard defines how components are described, composed, and coordinated. Execution architecture is the runtime's job. Nostr is the publication and discovery layer, where AEMS events and coordination offers live, not the execution hot path, any more than a library shelf is the concert hall.
 
 ## Technical Quick Reference
 
@@ -74,7 +74,7 @@ Yes. MAPS can notate the mechanical grammar of any game — from Pong to a 200-p
 
 **Variants**: a variant opens a Network and swaps or adds Processors, then compiles anew — what other ecosystems call "mods," except enduring games evolve through variation rather than modding. Coordinated via WOCS.
 
-**Protocol integration**: MAPS (what the grammar is), AEMS (what the things are), RUNS (how it executes), WOCS (how ecosystem services are coordinated). The protocols are independent and meet only at optional seams. The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the topology.
+**Protocol integration**: MAPS (design notation, still open), AEMS (what the things are), RUNS (the game's logic), WOCS (how ecosystem services are coordinated). The protocols are independent and meet only at optional seams. The [correspondence map](https://github.com/enduring-game-standard/.github/blob/main/profile/CORRESPONDENCE.md) owns the topology.
 
 ## Authored Experiences and Provenance
 

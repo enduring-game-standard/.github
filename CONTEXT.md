@@ -28,21 +28,20 @@ references. It stands alone and needs no other EGS protocol.
 
 **RUNS** (Records Update on Neutral Substrate) — *the game*:
 The plain-text source format for game logic. Not an engine; each game compiles its own.
-Three layers: data (Records/Fields), wiring (Networks), computation (Processor bodies,
-written in DIGS).
+Three layers: data (Records/Fields), wiring (Networks), computation (Rules Processor bodies,
+written in DIGS; presentation Processor bodies are written in whatever their machine needs).
 
 **DIGS** (Deterministic Inspectable Game Syntax) — *the computation*:
 The pure/total/deterministic expression language of RUNS. Its home is Processor **bodies**
-(`.runs-prim`, the full language with statements); its expression grammar is also reused for
+(a `.runs-prim` file declares Processors in the full language, with statements); its expression grammar is also reused for
 Network **guard** expressions. Governed and shipped inside RUNS (the `runs` repo) — a
 sub-language of RUNS, **not** a fifth protocol. Scoped to the RUNS world: not used to write
 MAPS (which has its own notation).
 **Mandatory core vs. opt-in reach-contracts** (ADR-0017): DIGS guarantees a small **core** on
 every Processor — **verb/noun purity** + **per-tick totality** (terminates on every input;
 structural, *not* a static step-ceiling) + **evaluation-order determinism** (precedence-fixed
-order; no reassociation/FMA). Layered on top are **three optional, type-declared
-reach-contracts**, each trading expressible games/targets for hardware reach, *none* required
-for compliance: **(1) arithmetic determinism** (game-defined numeric types pin cross-platform
+order; no reassociation/FMA). Layered on top are **three type-declared
+reach-contracts**: **(1) arithmetic determinism** (game-defined numeric types pin cross-platform
 bit-exactness — else FP diverges, Quake-style); **(2) static execution bound** (optional WCET
 for real-time — a tooling/Realization concern, not implied by totality); **(3) static memory
 footprint** (optional list bounds for constrained/no-allocator targets — not implied by
@@ -50,12 +49,20 @@ purity/determinism/totality). The unifying rule: *the declaration IS the contrac
 from arithmetic to execution and memory. Repeatedly, the draft doc **over-claims** by fusing a
 reach-contract into the core ("pure ∴ deterministic"; "total ∴ statically bounded"; "pure ∴
 bounded memory") — each is a separate property.
+**Arithmetic is a rule.** A game's arithmetic is part of its rules: Spacewar's 18-bit ones'
+complement is to Spacewar what the six-sided die is to Yahtzee. A machine that computes a
+game's numbers differently plays a different game. So a **Conversion** always declares its
+arithmetic: the number types its Processors compute with. **Open:** whether a game born in
+RUNS may leave its arithmetic undeclared and still comply. The static execution bound and
+the static memory footprint stay opt-in: each trades the targets a game can reach.
 _Avoid_: "the RUNS language" (RUNS is the source format; DIGS is its expression language);
 calling DIGS a protocol; reading "pure/total/deterministic" as implying static bounds or fixed
 arithmetic (those are reach-contracts, ADR-0017).
 
 **MAPS** (Mechanics and Play Structures) — *the rules*:
-The design-time notation for game mechanics.
+The design-time notation for game mechanics. **The notation is open** (2026-11-15): whether the
+current draft is the right notation for games is not settled, and neither is any relation
+between MAPS and RUNS beyond a general Petri-net shape.
 
 **WOCS** (Work Offered, Claimed, Settled) — *the coordination*:
 The permissionless coordination + Lightning-settlement protocol for ecosystem services. It is
@@ -89,7 +96,7 @@ concern).
 A named collection of typed Fields — a data store. Holds state; the only thing data flows
 through (every inter-Processor handoff lands in a Record). A Record **stores its value until a
 Processor produces a new one — only a Processor changes a Record** (ADR-0012): a Processor takes the value
-out, computes, and puts the result back, in the same place or another; nothing updates a Record without passing through a Processor. Inside a **loop bundle**'s cycle (see `Network`), a place holds one value per pass, and readers outside the bundle see only its final value. **Reuse is a spectrum**: from
+out, computes, and puts the result back, in the same place or another; nothing updates a Record without passing through a Processor. **Reuse is a spectrum**: from
 **common** Records the conventions repo recommends for interop (`runs:player_location`) to
 **game-specific** schemas nobody else imports (`spacewar:object`). All are published (so the
 source on the commons is complete and findable), content-addressed, and referenced by ID. A
@@ -102,8 +109,9 @@ A typed, named value on a Record (e.g. `position_x`, `runs:transform`). The type
 open; `runs-conventions` recommends shared shapes but does not close the set.
 
 **Processor**:
-A **verb**: a transformation that reads Fields and writes Fields and holds no state of its
-own. The verb/noun split (a Processor transforms, a Record stores) is the **only** purity the
+A **verb**: it takes values on its inputs and gives values on its outputs, holds no state of
+its own, and names no Record. The Network wires a Record Field to each input and output.
+Records, Processors, and the Network are separate files. The verb/noun split (a Processor transforms, a Record stores) is the **only** purity the
 base protocol knows — it is the petri-net transition/place distinction, nothing more.
 **Category follows behavior, not name** — a Processor is whatever transforms Fields, a Record
 is whatever stores them (the duck test). By that fit `runs:transform` reads as a Processor (it
@@ -127,6 +135,8 @@ test: **composition follows behavior, not original intent** — `vec_3` composes
 what they *compute*, not on what any of them was once "meant" for. (See `Phase / Dispatch /
 Guard` for how this makes ADR-0013's "no Processor steers the Network" *decomposition-relative*:
 vacuous for a monolith, binding once routing targets are distinct Processors.)
+**Open:** the shape of the granularity: how far down Processors split and how bundles nest.
+Why it matters is in `Sub-Network`.
 
 **Determinism is a separate, narrower property**, layered on by convention rather than the
 protocol: a Processor whose outputs depend only on its declared inputs (pure, total,
@@ -135,7 +145,7 @@ primitive) splits a game's Processors into two flavors by this property — name
 *function*, not their implementation:
 - **Rules Processor** — the game logic. Written in DIGS, hence platform-agnostic and
   deterministic; lives in the Rules region. Change one → a **Variant** (ADR-0011).
-- **Realization Processor** — the layer that realizes the game on hardware in both
+- **Realization Processor** (also called the **presentation**) — the layer that realizes the game on hardware in both
   directions: timing and input (inbound), rendering and audio (outbound), and **multiplayer
   transport** (remote inputs arrive as inbound boundary Records, exactly like local input).
   Platform-tailored; verb-pure but determinism-exempt; lives in the Realization region.
@@ -156,6 +166,9 @@ primitive) splits a game's Processors into two flavors by this property — name
   The fat/thin-Runtime line (see `Runtime`) decides how much Realization code a game even
   has; the boundary Records are the *entire* contract between the two languages. (ADR-0015)
 The two flavors are joined only by boundary Records.
+Whatever its status in the base protocol, this split is what lets a game endure: "There is no
+endurance if the rules are impure" (owner, 2026-11-15). A **Conversion** keeps its rules pure
+and fully separate from its presentation, so the rules run headless on any machine.
 _Avoid_: function, system (ECS analogy only), kernel; treating the Rules/Realization split as
 a base-protocol primitive (it is a conventions-repo pattern, not a schema distinction).
 
@@ -167,23 +180,20 @@ means no data). The Network draws a line from a specific Field into an input or 
 and is the only thing that knows both sides: Records and Processors are **mutually opaque**
 (a Record knows nothing of a Processor's internals; a Processor knows nothing of a Record's,
 nor where its inputs came from or its outputs go). A state machine is a Network (of guarded
-arcs), never a Processor.
+arcs), never a Processor. The Network holds the whole structure of the game: its logic and
+all its timing. The game advances in ticks, and nothing computes between them; every step the
+original program took is a firing in the Network.
 
-**Two composition planes, seamed at the Record.** A DIGS **sub-Processor call** in a body
-(`let r = ns:proc(x)`) *looks* like Processor → Processor with no Record between — but it is
-**not a Network edge**. It is **body-plane** composition: a pure DAG of calls whose
-intermediates are **anonymous body-locals** (`let` bindings), never Records, that collapses
-into **one opaque Network transition** when viewed from outside (governed by the totality
-DAG-rule, not the bipartite rule). **Network-plane** composition is the bipartite graph proper,
-where every intermediate is a **Record** — the only kind of intermediate that can be cross-tick
-**state**, a **boundary** Record, or a **guard**-dispatched discriminant. The two planes are
-the same scale-free relation cut at the **Record line**, and **bundling/unbundling is exactly
-the act of crossing it**: promoting a body-local to a Record *unbundles* (exposes the
-intermediate in the Network — now inspectable, dispatchable, state-able); demoting a Record to
-a body-local *bundles* (hides it inside a transition). So "no Processor → Processor" never
-breaks — Network-plane composition always lands in a Record; body-plane composition is interior
-to a transition. (A sub-Processor call therefore returns a record-*shaped* **value**, not a
-canonical Record.) This is the same axis as ADR-0016's decomposition gradient.
+**Bundles, and Processors calling Processors.** A bundle is a Sub-Network: its own network
+file wiring Records and Processors, seen from outside as one Processor. In the owner's words:
+"the high level network file should only be writing the fully composed bundles. within each
+bundle will be its own subnet bundle network file - that's the entire point" (2026-11-11), and
+"The network is what should be connecting them, not the processor, not the record."
+**Open:** whether a Processor body may also call another Processor directly (a DIGS
+sub-Processor call, `let r = ns:proc(x)`), with the values in between held inside the body
+rather than in Records. If it may, such a call is not a Network edge: seen from outside, the
+calls are one transition, and turning one of those inside values into a Record is the same act
+as unbundling. This is the same axis as ADR-0016's decomposition gradient.
 
 A RUNS Network is a **colored Petri net**: places = Records, tokens = field values (the
 colors), transitions = Processors, guarded arcs = gates. The **confluence (determinism)
@@ -194,14 +204,21 @@ conventional, and rests on two rules:
 **every change through a Processor** (a Processor takes a value from a place and puts its result back, and the wires and guards order any
 two Processors that touch one place, so nothing races: the PRNG's values `prng_v0 → … → prng_vN` pass through one place in wired order) and **partitioning guards**
 (every dispatch's guard set is mutually exclusive *and* exhaustive over the color space).
-Given both, the firings of one tick of the Rules region form a DAG outside its loop bundles (the cross-tick loop is the `state:`
-Records), incomparable Processors commute, and **the wires and guards are the order** — any topological order yields identical results, so a runtime may parallelize freely. The
+Given both, the firings of one tick of the Rules region form a DAG apart from bounded loops (how a loop within a tick is written is open, see below;
+the cross-tick loop is the `state:` Records), incomparable Processors commute, and **the wires
+and guards are the order**. Where order changes a result, a wire or a guard makes one Processor
+wait for the other, like a sync in SpaceChem. Processors the wiring leaves unordered are ones
+whose order changes nothing, so any order the wires allow gives identical results, and a runtime
+may run them in parallel. The
 **Realization region** beyond the boundary Records is the **same petri-net topology** but
 is **exempt** from confluence: Realization Processors are platform-tailored I/O and trade
 determinism for hardware reach.
 
 **The Processor is BlooP; the Network is FlooP** (ADR-0017). Each Processor is a bounded, total
-piece (one tick = a DAG, except inside a **loop bundle**). A **loop bundle** holds the one kind of cycle allowed within a tick: it runs through a counter Record set before the loop starts, each pass consumes one token, and the loop ends when the counter reaches zero or a guard stops it; the bundle's user sees one transition, never the cycle. Any other cycle within a tick is forbidden. The **only** unbounded loop is the **tick-feedback** through the
+piece (one tick = a DAG, apart from bounded loops). **Open (2026-11-14): loops within a tick.**
+Every loop must be bounded by something. One way to write one: a counter Record set before the
+loop, one token consumed per pass, the loop ending when the counter reaches zero. Whether such
+a loop may sit anywhere in the graph or only inside a bundle is not decided. The **only** unbounded loop is the **tick-feedback** through the
 `state:` Records, and it lives in the *wiring*, never in a body — so it is **visible in the
 topology** (the **I** in DIGS). Those cross-tick Records carry unboundedness in **both time**
 (the game runs forever) **and space** (a `state:` list may grow each tick — Factorio's factory,
@@ -227,12 +244,18 @@ should be threaded; the wires and guards state the order (ADR-0010).
 
 **Sub-Network**:
 A Network used as a Processor from the outside — typed inputs/outputs at its boundary,
-phases inside. The bundling/composition mechanism: a chunk of Record–Processor–Record logic
+its own wiring inside. The bundling/composition mechanism: a chunk of Record–Processor–Record logic
 bundled into a larger function (e.g. `vec_x`, `vec_y`, `vec_z` → `vec_3`). A bundle is never
-severed from its constituent parts — their provenance chain endures inside it (the bundle's
-content references them by ID). The popular unit is usually the bundle; the atoms stay
+severed from its constituent parts — their provenance endures inside it (the bundle's
+content references them by ID). The popular unit is usually the bundle; the smallest Processors inside stay
 addressable. Games compose from a finite set of shared atomic primitives the way a Linux
 distro composes from coreutils.
+Bundles exist so stateless logic can be shared between games by description. A top bundle is
+named and described ("Spacewar's gravity"); someone finds it, wires it into another game's
+Records, and edits their own copy. What makes a bundle unique is its wiring, not the
+Processors inside, which are shared bundles down to the smallest. A bundle whose inputs fit
+only one game's Records cannot be shared, and that is a problem to solve. **Open:** the shape
+of the granularity.
 
 **`runs:` namespace**:
 The reserved prefix of the standard. **Reserved** (only the standard may *define* `runs:`
@@ -309,22 +332,42 @@ database**. It carries signed events between sessions, not per-frame state, so p
 commons access wouldn't work even if attempted. Baking is what bridges the commons to the
 ephemeral tick loop.
 
+**Declarations**:
+The part of a machine's platform code that never runs: where the original program kept its
+data and how its routines were called. They record the original programmer's choices about
+the machine, nothing the game computes. A Port leaves them behind with the presentation.
+
+**Compiler**:
+The program that turns RUNS source into a Build for one machine. Working reading, pending the
+owner: one general compiler per machine, shared by every game on that machine, holding no
+game's logic or timing (those live in the Network); making the game run on the machine is its
+job. **Open:** the owner said on 2026-11-11 "there should be no changes at all to the
+compiler... if there are any changes to the compiler, we've done it wrong", and later "the
+compiler being a general pdp1 compiler" and (2026-11-14) that running on the PDP-1 is "the job
+for the compiler". Whether a general compiler may gain a rule that more than one game uses is
+not settled.
+
 **Conversion**:
 Rewriting an existing game's original program into RUNS while the game stays exactly the same:
-the **reference** every later Port and Variant starts from. It is neither a Port (which strips
-the presentation and puts in new presentation Records and Processors for another machine) nor
+the **reference** later Ports start from. It is neither a Port (which strips
+the presentation (the Realization region) and puts in new presentation Records and Processors for another machine) nor
 a Variant (which changes the rules). A conversion keeps the rules pure and separate from the
 presentation, *and keeps the whole original presentation*: compiled for the original machine it
 is the original game, and run headless its rules run alone on any machine. The rules include
 everything that changes what happens in the game — the arithmetic (Spacewar's 18-bit ones'
 complement is Spacewar's six-sided die), the limits, and the order wherever order changes a
 result; what changes nothing (registers, addresses, scratch words) belongs to the original
-machine's declarations. **The oracle is the binary**: the RUNS source, compiled for the original
+machine: its declarations and its compiler. **The oracle is the binary**: the RUNS source, compiled for the original
 machine, rebuilds the original binary exactly. Comparing play only proves the inputs tested;
 the identical binary proves every input, presentation included, which is why the oracle is not
 escapable. The conversion is the artifact meant to go into the archive untouched; the work is
 the **process**, documented so it repeats for every game that exists (and, for games born in
 RUNS, a process for building them from scratch) — not a PDP-1 procedure.
+Settled so far: assemble the original into the binary oracle, lift it to readable C, and build
+a compiler that turns the source back into the same binary. **Open:** how to go from the
+readable code to a pure Network. The owner's intent: each deep module first becomes one large
+Processor that shows the shape of the tick, then is refactored into game-logic groupings,
+separate from the presentation, as automatically as possible.
 
 **Port**:
 The same game — *identical* Rules region — made to run on different hardware by swapping its
@@ -356,7 +399,7 @@ reduced-memory* re-target a "port" (industry usage) — it is a **Variant Port**
 
 **Phase / Dispatch / Guard**:
 A **Phase** is one ordered execution stage of a tick — but the order is stated by the wires and guards (ADR-0010), so `phases:` is a demoted **crutch**, not a primitive (see `Network`). **Dispatch**
-is a bounded iteration over an entity collection — a **threaded fold** (ADR-0012), written as a loop bundle whose counter starts at the count. "Bounded"
+is a bounded iteration over an entity collection — a **threaded fold** (ADR-0012); how it is written in the Network is open (see `Network`, loops). "Bounded"
 here means the **BlooP rule**: the count is **fixed before the loop and immutable during it**
 (no `break`/`continue`/early-return, loop variable and collection not mutated mid-iteration) —
 **not** that the bound is a compile-time constant or a finitely-typed value. A `range(n)` or
@@ -476,30 +519,28 @@ and confirmation with instant Lightning settlement.
 - **"Runtime" vs "hand-compilation"** — _Canon (ADR-0005)._ A **runtime/compiler** is
   a program that mechanically parses and executes RUNS source. A **hand-compilation** is a
   human or AI manually emitting target code (e.g. Lua) from RUNS source by reading it. The
-  Spacewar `spacewar.p8` is a hand-compilation artifact; calling it "a runtime" is the
-  source of a live contradiction in the public corpus.
+  earlier Spacewar `spacewar.p8` PICO-8 cartridge was a hand-compilation. The PDP-1 compiler
+  in runs-spacewar is a compiler: it builds the original binary from the RUNS source.
 - **"Conceptual example" vs "reference implementation"** — _Canon (ADR-0014 amended)._ A
   **conceptual example** illustrates the *shape* of an idea for a human reader, with no
   implementation behind it (possibly wrong) — what `runs-conventions` carries today, because the
-  commons is empty and no evaluator exists. A **reference implementation** is an actual body
+  commons is empty. A **reference implementation** is an actual body
   authored against a working DIGS evaluator, born on the commons, and blessed by ID in the
   conventions index. They are *different kinds of thing*, not maturity stages: a conceptual
   example has **no privileged claim** to become the blessed body. None of the bodies in the
-  corpus today (`integrate_velocity`, the `enemy_behavior` network, `RUNS-Spacewar/`) are
+  corpus today (`integrate_velocity`, the `enemy_behavior` network, the Spacewar conversion) are
   reference implementations.
-- **"Verified" vs "asserted"** — _Canon (ADR-0005)._ **Verified** = output checked
-  against an oracle (test vectors derived from PDP-1 emulator behavior). **Asserted** = a
-  human/AI read the source and judged it correct. Today, every fidelity claim in the corpus
-  is *asserted*; none is *verified*. The corpus currently uses "verified" for the latter.
+- **"Verified" vs "asserted"** — _Canon (ADR-0005)._ **Verified** = checked
+  mechanically against an oracle. For a Conversion the oracle is the original binary, rebuilt
+  exactly from the RUNS source. **Asserted** = a person or AI read the source and judged it
+  correct. The Spacewar conversion is verified by binary identity: it is the same game. That
+  does not show its source is pure; purity is a separate check (see `profile/STATUS.md`).
 
 ## Example dialogue
 
-> **Dev:** Is the Spacewar gravity Processor verified?
-> **Maintainer:** No — it's *asserted*. An agent hand-compiled it to PICO-8 and judged it
-> faithful, but there's no test vector checked against the PDP-1 emulator, so it isn't
-> *verified*. Those are different claims and we keep them apart.
-> **Dev:** But the framing doc says "bit-exact verification."
-> **Maintainer:** That's the contradiction we corrected (ADR-0005). "Bit-exact" is a *Verified*-tier
-> word; the `.p8` is a *hand-compilation*, and it even used adapted substitutions, so it
-> isn't strict-evaluated either. The accurate claim is "hand-compiled to a playable cartridge;
-> mechanical verification is the open work."
+> **Dev:** Is the Spacewar conversion verified?
+> **Maintainer:** Its binary is. The RUNS source compiles to the original PDP-1 binary, bit for
+> bit, so it is the same game. That is *verified*.
+> **Dev:** So the source is pure?
+> **Maintainer:** Not shown yet. Purity is a separate claim, with its own check, and we keep the
+> two apart.

@@ -2,28 +2,22 @@
 
 🏠 **[EGS Overview](https://github.com/enduring-game-standard)** · 🧭 **[Why](./WHY.md)** · ⚖️ **[Governance](./GOVERNANCE.md)** · ❓ **[FAQ](./FAQ.md)**
 
-**Last updated: 2026-10-11.** The state of every layer, one page. Two words recur: a claim is **asserted** when a person or AI judged it correct by reading, **verified** when it was checked mechanically against an oracle. Today every fidelity claim in the ecosystem is asserted; none is verified. The roadmap below names the event that moves each one.
+**Last updated: 2026-11-15.** The state of every layer, one page. Two words recur: a claim is **asserted** when a person or AI judged it correct by reading, **verified** when it was checked mechanically against an oracle. The Spacewar! conversion is verified against its oracle: it compiles to the original binary. Every other fidelity claim is asserted.
 
 ## State by Layer
 
 | Layer | What exists today | What does not exist |
 |-------|-------------------|---------------------|
-| **RUNS** (spec) | Two specifications, [DIGS Expression Language](https://github.com/enduring-game-standard/runs-spec/blob/main/DIGS_EXPRESSION_LANGUAGE.md) and [Network Topology](https://github.com/enduring-game-standard/runs-spec/blob/main/NETWORK_TOPOLOGY.md), with Records described in the [README](https://github.com/enduring-game-standard/runs-spec); a standalone Record Schema is in review in [runs-spec#2](https://github.com/enduring-game-standard/runs-spec/pull/2) | A reference parser, evaluator, or compiler; a second game; machine compilation to any platform |
+| **RUNS** (spec) | Five specifications in [runs-spec](https://github.com/enduring-game-standard/runs-spec): DIGS Expression Language, Network Topology, Machine Description, Declarations, and Conversion Process; one compiler, for the PDP-1, in [runs-spacewar](https://github.com/wScottSh/runs-spacewar) | A compiler for any machine other than the PDP-1; a second converted game |
 | **RUNS Library** | Conceptual examples of the `runs:` palette and architecture patterns — illustrations with no implementation behind them, possibly wrong | Reference implementations; a non-empty commons; anything blessed by ID |
 | **AEMS** (schema) | The four event kinds and their parent references, specified; conventions with worked examples | Pinned Nostr kind numbers (deferred until formalized against real relay usage); conventions for transfer, State history, and relay-side discovery ([ADR-0010](https://github.com/enduring-game-standard/aems-schema/blob/main/docs/adr/0010-what-the-substrate-guarantees.md)); published ecosystem artifacts |
-| **MAPS** (notation) | The four primitives, composition hierarchy, and a small pattern library, specified | Any real game notated end-to-end |
+| **MAPS** (notation) | A draft notation (four primitives, a composition hierarchy, a small pattern library). The notation itself is open | Any real game notated end-to-end |
 | **WOCS** | The three-event protocol shape, specified | Pinned kind numbers; any live offer/fulfill/ack cycle; any deployed coordination. The most speculative layer, and the only one with a Lightning dependency |
-| **Spacewar! conversion** | The 1962 PDP-1 game expressed as RUNS source — 26 DIGS Processors — **asserted** faithful by line-level source tracing; an AI hand-compiled it into a playable PICO-8 cartridge (a hand-compilation demonstrates playability; it verifies nothing). Private repo, not yet published | Publication; mechanical verification of any Processor |
+| **Spacewar! conversion** | Spacewar! 3.1 rewritten as RUNS source in [runs-spacewar](https://github.com/wScottSh/runs-spacewar). The PDP-1 compiler builds it back into the original binary, bit for bit; that identical binary is the oracle | Source shown pure: the purity report prints 0, but it does not yet count 83 copy transitions or one handoff Record, so purity is not shown. A documented, repeatable conversion process |
 
-## The Falsifiable Milestone
+## The Oracle
 
-The current work is the oracle that turns *asserted* into *verified*:
-
-1. **Test vectors from the original platform.** Run the original Spacewar! 3.1 on a PDP-1 emulator and extract input→state vectors from the machine itself — ground truth, not interpretation.
-2. **A reference DIGS evaluator.** A program that mechanically parses and evaluates the RUNS source — no human in the loop.
-3. **The check.** Evaluate the 26 Processors against the emulator-derived vectors. Bit-exact agreement moves the Spacewar fidelity claim from *asserted* to *verified*; disagreement falsifies it publicly.
-
-When this ships, anyone with the emulator and the source can run the check.
+A conversion is checked by compiling it for the original machine: the RUNS source must rebuild the original binary exactly. Anyone with the source can run that check, and a wrong conversion fails it in public. Spacewar! passes it today. What remains is making every Record and Processor pure while the binary stays identical, then writing the process down so it repeats for any game.
 
 ## What Would Count as Adoption
 
