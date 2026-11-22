@@ -50,7 +50,7 @@ True — see [GOVERNANCE.md](./GOVERNANCE.md). The structural mitigations: every
 
 ## Technical Clarifications
 
-Frequent genuine misreadings of the specs, corrected. These are factual, checkable against the linked documents, and worth getting right regardless of your overall verdict. The precise definition of every term is in [CONTEXT.md](../CONTEXT.md).
+Frequent genuine misreadings of the specs, corrected. These are factual, checkable against the linked documents, and worth getting right regardless of your overall verdict. The precise definition of every term is in [GLOSSARY.md](../GLOSSARY.md).
 
 - **RUNS is not an engine or runtime.** It is a plain-text source format; runtimes compile RUNS source into platform-specific builds. There is no "RUNS engine," by design. A high-performance centralized server farm running a RUNS Network is a fully compliant implementation — scalability is the runtime's job.
 - **Nostr is not in the hot path.** The commons is touched at lifecycle boundaries only: discovery, build-time dependency resolution, and load/save of AEMS data. The gameplay tick loop has no per-frame dependency on Nostr, the way a compiled program has no runtime dependency on its package registry.
@@ -73,7 +73,7 @@ If external context would sharpen a critique — industry perspective, competing
 
 ## Protocol Vocabulary Reference
 
-The acronyms and their roles: the [Glossary](./README.md#glossary). Full definitions: [CONTEXT.md](../CONTEXT.md).
+The acronyms and their roles: the [Glossary](./README.md#glossary). Full definitions: [GLOSSARY.md](../GLOSSARY.md).
 
 **Supporting projects:** [AEMS Conventions](https://github.com/enduring-game-standard/aems-conventions) (optional, forkable vocabularies for what AEMS events carry), [RUNS Library](https://github.com/enduring-game-standard/runs-library) (the `runs:` palette and architecture patterns), MAPS Library (not yet public) (shared mechanic patterns).
 

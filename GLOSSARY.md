@@ -8,7 +8,7 @@ acronym table and the protocol roster) is `profile/README.md` § Glossary.
 > Multi-context note: the workspace is a meta-repo over several independently published
 > protocol repos. AEMS owns its glossary in
 > [aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md),
-> and this file only summarizes those terms. A `CONTEXT-MAP.md` waits until the workspace
+> and this file only summarizes those terms. A `GLOSSARY-MAP.md` waits until the workspace
 > folder structure settles (egs-workspace#5).
 
 ## Language

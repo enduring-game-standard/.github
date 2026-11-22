@@ -14,7 +14,7 @@ This repository holds the Enduring Game Standard organization's public face and 
 | [profile/CORRESPONDENCE.md](profile/CORRESPONDENCE.md) | The single source of truth for inter-protocol relationships |
 | [profile/PWNS.md](profile/PWNS.md) | The provenance extension for authored experiences |
 | [profile/EGS-AI-FRAMING.md](profile/EGS-AI-FRAMING.md) | Context for AI systems: claims scoped, objections steelmanned, spec misreadings corrected |
-| [CONTEXT.md](CONTEXT.md) | The working vocabulary — canonical domain language for the protocol family |
+| [GLOSSARY.md](GLOSSARY.md) | The working vocabulary — canonical domain language for the protocol family |
 
 The protocol specifications themselves live in their own repositories: [aems-schema](https://github.com/enduring-game-standard/aems-schema), [aems-conventions](https://github.com/enduring-game-standard/aems-conventions), [runs-spec](https://github.com/enduring-game-standard/runs-spec), [runs-library](https://github.com/enduring-game-standard/runs-library), [maps-notation](https://github.com/enduring-game-standard/maps-notation), [maps-library](https://github.com/enduring-game-standard/maps-library), [wocs-protocol](https://github.com/enduring-game-standard/wocs-protocol).
 
