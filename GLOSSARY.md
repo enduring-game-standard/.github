@@ -322,7 +322,8 @@ The route from an Original to a Conversion. Each stage has its own check:
 - **Original**: the binary, identified by its hash.
 - **Lifted**: readable code that rebuilds the binary.
 - **Rebuilt**: valid RUNS source that rebuilds the binary.
-- **Separated**: game logic split from Realization; the Edition check passes.
+- **Separated**: game logic split from Realization; the game logic run alone still matches the
+  Original.
 - **Standard**: the source complies with the RUNS conventions, so its Records and Processors can
   be shared and compared.
 _Avoid_: level (a game term), rung, phase
@@ -333,51 +334,10 @@ A game's GitHub repo keeps the binary's source, the toolchain that builds it, an
 place of the binary; it rebuilds the binary from them and verifies it by the hash (owner,
 2026-11-15: "it doesn't make sense to keep the binary in a GitHub repo for so many reasons. but
 a hash of the binary is a fine shortcut"). On its original machine it has everything,
-uninterpreted. Each shipped version is its own original with its own Edition: Ocarina of Time
+uninterpreted. Each shipped version is its own Original: Ocarina of Time
 1.0 keeps glitches that later versions fixed. A game born in RUNS has no binary original; its
 RUNS source is the original.
 _Avoid_: "the original" for the source listing or for what the designer meant.
-
-**Edition**:
-The RUNS source of a Conversion, read against its Original (owner-approved, 2026-11-15). The
-rules for it:
-(1) The binary is the original, identified by its hash; the archive keeps what rebuilds and
-verifies it (see `Original`). (2) The RUNS source is an edition of
-it and **carries everything by default**: every behavior of the binary is in the rules, and
-glitches are never purged. (3) A departure is a stated **Exclusion**, never a silence. (4) Every
-exclusion carries its evidence and who decided it; intent never decides silently, and a later
-editor may disagree and make another edition while the original stays as it is. (5) **The
-check**: the rules run alone match the original everywhere except the listed exclusions, the
-only places they may differ. (6) A game born in RUNS has no exclusions: it has no binary, and
-its RUNS source is the original.
-Compiled for the original machine, an edition still rebuilds the original binary, the oracle;
-the exclusions bound only what the rules run alone are held to.
-Why: inside one deterministic system every line is drawn by whoever looks, and intent cannot be
-read from the binary. A line by "who writes the program" fails: Screeps and Baba Is You make
-writing code and rewriting rules the game. Textual scholarship met the same problem (an author's
-intent against errors in transmission) and settled not the intent question but how to handle the
-judgment: keep the original witness untouched, and make each editorial judgment explicit, with
-its evidence, attributed, and open to revision.
-_Avoid_: "conversion with fixes"; calling an exclusion a fix, a purge, or a Variant.
-
-**Exclusion**:
-A stated departure of an Edition from its Original. It names the **exit point**, the state and
-the step where play leaves the edition; the behavior past it is the original's alone. It carries
-its evidence (developer statements, the manual, speedrun categories, sequels, port communities'
-choices) and who decided it. The standard example is code the player writes and the program
-then runs. Ocarina of Time's arbitrary code execution leaves the edition at the step where
-control jumps into bytes the player chose; Zelda Wiki says it is "commonly restricted or placed
-in its own category", and TASBot's talk is listed as "How to hack an N64 through the controller
-ports". Code the program fixes for itself is no exclusion: Spacewar's outline code, which the
-program writes from its own tables, and a jump into the program's own bytes at the wrong entry
-are the original's behavior, and the edition carries them. DOOM's candidates are the intercepts
-overflow (Chocolate Doom's users advise leaving its emulation off unless a demo needs it) and any
-code execution. RUNS has no form for an exit point yet.
-_Avoid_: exception, waiver, "purge".
-
-**Exclusion list**:
-An Edition's exclusions, each with its exit point, its evidence, and who decided it. An empty
-list is a claim with evidence too: Spacewar's is empty (runs-spacewar `docs/exclusions.md`).
 
 **Glitch**:
 Gameplay the designer did not foresee, emerging from the rules. A glitch is **not a rule**. In a
@@ -388,14 +348,15 @@ sequence, and how each moves to the next); gameplay is the paths taken inside it
 included. "Intended" and "unintended" describe the designer's map, not the space. Super Mario
 64's backwards long jump emerges from an uncapped backward speed. A glitchless speedrun category
 is a rule players add on top; the game is unchanged. Removing a glitch from the game itself
-writes a different rule into the gap: a **Variant**. An Exclusion removes nothing: it states
-where play leaves the Edition.
+writes a different rule into the gap: a **Variant**.
 **Sorting at the machine's edge.** A behavior is sorted by following its data across the
 **original machine's edge**, never by intent. **In**: whatever the program reads from a device
 (controller, switches, clocks, video-frame counts) and memory the program never set (power-on
 contents). **Out**: the screen and the speaker. Inside the edge, a value that only ever flows
-out is **presentation**; everything else is the **rules**, including what the hardware does the
-same way every time: arithmetic, memory past an array, code the program runs. Spacewar's
+out is **presentation**; everything else is the **rules**, including how the program's own
+operations behave on the hardware: arithmetic, memory past an array, code the program writes
+for itself. Code the program never contained, such as bytes the player writes and the machine
+then runs, is the machine's behavior, not the game's. Spacewar's
 toroidal wrap falls out of its ones'-complement coordinate arithmetic. Boom fixed vanilla
 DOOM's overflows and broke vanilla demos; PrBoom added compatibility levels; Chocolate Doom
 emulates the overflows to keep vanilla demos in sync. **Lag** reaches the rules, if at all, as a
@@ -498,7 +459,7 @@ the guards discharge the preconditions), never a runtime feature. (ADR-0013)
 A game derived from another by opening its Network and swapping, adding, or replacing **Rules
 Processors**, then compiling anew, the way chess and soccer accrue house-rule variants over
 time. A variant changes the *rules*; the realization can stay identical. Removing a glitch is a
-variant (see `Glitch`); an Exclusion is not (see `Exclusion`). Its orthogonal twin, swapping the
+variant (see `Glitch`). Its orthogonal twin, swapping the
 **Realization Processors** while the rules stay identical, is a **Port**. First-class and
 permissionless: enduring games *evolve through variation*; they are not modified or forked.
 (ADR-0006, ADR-0011)
