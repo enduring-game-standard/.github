@@ -91,20 +91,12 @@ _Avoid_: "substrate" for the runtime or the kernel (they *consume* the substrate
 commons and distribution layer, a separate concern).
 
 **Record**:
-A named collection of typed Fields: a data store, and the only thing data flows through (every
-handoff between Processors lands in a Record). A Record is data, not a transformer; it has no
-input or output signature of its own. It **stores its value until a Processor produces a new
-one; only a Processor changes a Record** (ADR-0012): a Processor takes the value out, computes,
-and puts the result back, in the same place or another.
-**Reuse is a spectrum**: from **common** Records `runs-library` recommends for interop
-(`runs:player_location`) to **game-specific** schemas nobody else imports (`spacewar:object`).
-All are published (so the source on the commons is complete and findable), content-addressed,
-and referenced by ID.
-_Avoid_: entity (reserved for AEMS), struct, component (ECS analogy only).
+A place: a named set of typed Fields that holds part of the game's current state. Only a
+Processor changes a Record.
+_Avoid_: entity (an AEMS term), struct, component
 
 **Field**:
-A typed, named value on a Record (`position_x`, `runs:transform`). The type system is open;
-`runs-library` (the curation repository) recommends shared shapes but does not close the set.
+A typed, named variable on a Record (`position_x`).
 
 **Processor**:
 A **verb**: it takes values on its inputs and gives values on its outputs, holds no state of
