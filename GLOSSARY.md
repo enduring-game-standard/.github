@@ -91,9 +91,9 @@ _Avoid_: "substrate" for the runtime or the kernel (they *consume* the substrate
 commons and distribution layer, a separate concern).
 
 **Record**:
-A place: a named set of typed Fields that holds part of the game's current state. Only a
-Processor changes a Record.
-_Avoid_: entity (an AEMS term), struct, component
+A named set of typed Fields holding the game's current values. Only a Processor changes a
+Record.
+_Avoid_: place, state, entity (an AEMS term), struct, component
 
 **Field**:
 A typed, named variable on a Record (`position_x`).
@@ -599,10 +599,9 @@ confirmation with instant Lightning settlement.
 
 ## Flagged ambiguities
 
-- **"State" is overloaded three ways.** (1) AEMS **State** = claimed Asset condition;
-  (2) MAPS **State** = an observable game condition; (3) an object's runtime status (Spacewar's
-  `object_state` enum: ship, torpedo, exploding, …). Always qualify: "AEMS State", "MAPS State",
-  or "object state".
+- **"State"**: bare "state" means a Record. Qualify the others: "AEMS State" (a claimed Asset
+  condition), "MAPS State" (an observable game condition), and "object state" (a Field value,
+  such as Spacewar's `object_state`: ship, torpedo, exploding).
 - **"Bundle"** = a RUNS processor bundle (a Sub-Network seen from outside as one Processor)
   vs. an AEMS bundle (a signed event that carries the events it cites; draft in aems-schema
   `ANCHOR.md`). Qualify which.
