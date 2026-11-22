@@ -311,34 +311,21 @@ general pdp1 compiler" (2026-11-11), and "that's the job for the compiler to mak
 runs on the PDP-1" (2026-11-14).
 
 **Conversion**:
-Rewriting an existing game's original program into RUNS while the game stays exactly the same:
-the **reference** later Ports start from. It is neither a Port (which strips the presentation,
-the Realization region, and puts in new presentation Records and Processors for another
-machine) nor a Variant (which changes the rules). A conversion keeps the rules pure and separate
-from the presentation, *and keeps the whole original presentation*: compiled for the original
-machine it is the original game, and run headless its rules run alone on any machine.
-**Rule or machine.** The rules include everything that changes what happens in the game: the
-arithmetic (Spacewar's 18-bit ones' complement is Spacewar's six-sided die), the limits, the
-order wherever order changes a result, and what the original machine does the same way every
-time (memory past an array, code the program runs, timing the program produces), because the
-machine fills every gap in a digital game's rules (see `Glitch`). The test is asked of the
-rules, never decided by intent: **intent is not the rules**. What changes nothing (registers,
-addresses, scratch words) belongs to the original machine: its declarations and its compiler. A
-conversion neither recreates nor removes glitches; they emerge from the complete rules.
-**The oracle is the binary**: the RUNS source, compiled for the original machine, rebuilds the
-original binary exactly. Comparing play only proves the inputs tested; the identical binary
-proves every input, presentation included, which is why the oracle is not escapable. The binary
-is the **Original** and the RUNS source is its **Edition** (see `Edition`). The reference
-archive keeps the original's source, its toolchain, and its hash (see `Original`), the edition,
-and the edition's exclusion list.
-The conversion is the artifact meant to go into the archive untouched; the work is the
-**process**, documented so it repeats for every game that exists (and, for games born in RUNS,
-a process for building them from scratch), not a PDP-1 procedure.
-Settled so far: assemble the original into the binary oracle, lift it to readable C, and build
-a compiler that turns the source back into the same binary. **Open:** how to go from the
-readable code to a pure Network. The owner's intent: each deep module first becomes one large
-Processor that shows the shape of the tick, then is refactored into game-logic groupings,
-separate from the presentation, as automatically as possible.
+An existing game's original program rewritten into RUNS through every stage of the conversion
+process, with the game exactly the same. A program partway along is *in conversion*, at its
+stage.
+_Avoid_: "Conversion" for a program short of Standard; Port (new Realization); Variant (changed
+rules)
+
+**Conversion process**:
+The route from an Original to a Conversion. Each stage has its own check:
+- **Original**: the binary, identified by its hash.
+- **Lifted**: readable code that rebuilds the binary.
+- **Rebuilt**: valid RUNS source that rebuilds the binary.
+- **Separated**: game logic split from Realization; the Edition check passes.
+- **Standard**: the source complies with the RUNS conventions, so its Records and Processors can
+  be shared and compared.
+_Avoid_: level (a game term), rung, phase
 
 **Original**:
 The binary of a game as it shipped: the exact image its machine loads, identified by its hash.
