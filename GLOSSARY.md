@@ -90,6 +90,13 @@ compile *from* it, and it endures while platforms churn.
 _Avoid_: "substrate" for the runtime or the kernel (they *consume* the substrate); Nostr (the
 commons and distribution layer, a separate concern).
 
+**Petri net**:
+The pattern the RUNS Network is built on, taken from colored Petri nets: Records hold the data,
+Processors transform it, and the wiring between them states the order. RUNS takes the pattern for
+what that structure shows (order in the wiring, independence where wires are absent, every loop
+in the topology), and none of Petri-net vocabulary, semantics, or syntax.
+_Avoid_: token, place, transition (no RUNS term is a synonym of a Petri-net term)
+
 **Record**:
 A named set of typed Fields holding the game's current values. Only a Processor changes a
 Record.
