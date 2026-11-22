@@ -1,7 +1,7 @@
 # Enduring Game Standard: Working Vocabulary
 
 The canonical domain language of the EGS protocol family, and the single source of truth for
-cross-protocol terms (ADR-0008). Each bold entry name is the handle other repos cite. Each
+cross-protocol terms. Each bold entry name is the handle other repos cite. Each
 definition says what a term *is*, not how it is implemented. The public quick reference (the
 acronym table and the protocol roster) is `profile/README.md` § Glossary.
 
@@ -99,37 +99,9 @@ _Avoid_: place, state, entity (an AEMS term), struct, component
 A typed, named variable on a Record (`position_x`).
 
 **Processor**:
-A **verb**: it takes values on its inputs and gives values on its outputs, holds no state of
-its own, and names no Record. The Network wires a Record Field to each input and output, and a
-Processor reaches another only through the Network (see `Network`). Records, Processors, and the
-Network are separate files; in the owner's words (2026-11-11), "processors are literally dry
-stateless individual files that are wired together with record files via a separate network
-file".
-The verb/noun split (a Processor transforms, a Record stores) is the **only** purity the base
-protocol knows: the Petri-net transition/place distinction. **Category follows behavior, not
-name** (the duck test): a Processor is whatever transforms Fields, a Record is whatever stores
-them. By that test `runs:transform` reads as a Processor (it names an action), and the data
-bundle it implies is a Record (`runs:player_location`). The protocol mandates **no** naming
-convention and **no** flavor distinction; at the schema level there is exactly one kind of
-Processor.
-**"Stateless" scopes to the interface boundary.** A body may compute with any number of locals,
-and a local never leaves the body. Its semantics are **single-assignment dataflow**:
-imperative-looking reassignment is versioning, and loops are bounded folds (ADR-0012), never
-shared mutable state.
-
-**Granularity is a spectrum, and decomposition is convention, not compliance** (ADR-0016).
-A Processor's scope ranges from a fat **monolith** (a whole DOOM function re-expressed verb for
-verb in DIGS) down to an atomic primitive (`vec_x`); *both ends are spec-compliant*. A monolith
-that passes every test vector is flawlessly, deterministically the game; it is merely
-**undecomposed**. The convention pulls toward the small end: split a body into DRY,
-commons-published, forkable smaller Processors (referenced by Nostr ID, the way an npm package
-pulls in others), each splittable until atomic, then bundled as a **Sub-Network**. The **spec
-mandates none of it**: no governing body on the commons enforces it, and compliance rests on the
-four primitives and DIGS, never on granularity. A corollary of the duck test: **composition
-follows behavior, not original intent**; `vec_3` composes `vec_x/y/z` on what they *compute*,
-not on what any of them was once "meant" for. This makes ADR-0013's "no Processor steers the
-Network" *decomposition-relative* (see `Phase / Dispatch / Guard`). **Open:** the shape of the
-granularity (see `Sub-Network`).
+The verb of the Network: it takes values on its inputs, computes, and gives values on its
+outputs. It names no Record; the Network wires a Field to each input and output.
+_Avoid_: transition, function, system, kernel; port or pin (for an input or output)
 
 **Determinism is a separate, narrower property**, layered on by convention rather than the
 protocol: a Processor whose outputs depend only on its declared inputs (pure, total,
@@ -277,7 +249,7 @@ its *string* carries fixed, shared interop semantics that must mean the same thi
 _Avoid_: treating a prefix as a globally unique name or a resolution key; reasoning about RUNS
 namespaces with package-manager (npm, Maven) intuitions.
 
-**Boundary Record**:
+**Interface Record**:
 A Record crossing the line between game logic and runtime. **Inbound** (`requires:`) are written
 by the runtime before a tick; **outbound** (`produces:`) are read by the runtime after. The
 boundary is **Records only, never Processors**, and necessarily so: it joins two paradigms
