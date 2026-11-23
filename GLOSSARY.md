@@ -35,31 +35,18 @@ Game Logic Processors are written in DIGS, Presentation Processors in whatever t
 see `Processor`).
 
 **DIGS** (Deterministic Inspectable Game Syntax), *the computation*:
-The pure, total, deterministic expression language of RUNS. Its home is Processor **bodies**
-(a `.runs-prim` file declares Processors in the full language, with statements); Network
-**Guard** expressions reuse its expression grammar. A sub-language of RUNS, governed and shipped
-inside RUNS (the `runs` repo), **not** a fifth protocol. It writes RUNS only; MAPS has its own
-notation.
-**The core, declared arithmetic, and opt-in reach-contracts** (ADR-0017; arithmetic made
-mandatory 2026-11-15). Each is a separate property, and for each *the declaration IS the
-contract*:
-- **The core**, guaranteed on every Processor: **verb/noun purity**; **per-tick totality**
-  (terminates on every input; structural, *not* a static step-ceiling); and
-  **evaluation-order determinism** (precedence fixes the order; no reassociation, no FMA).
-- **Declared arithmetic**, required of **every RUNS game**, a Conversion or born in RUNS: its
-  number types and their operations, which pin the game's numbers bit for bit on every machine.
-  **Arithmetic is Game Logic.** Spacewar's 18-bit ones' complement is to Spacewar what the six-sided
-  die is to Yahtzee, and DOOM computed with floats is not DOOM. A machine that computes a game's
-  numbers differently plays a different game, the way a chess board that altered what a knight
-  does would not be chess.
-- **Two opt-in, type-declared reach-contracts**, each trading the targets a game can reach:
-  **(1) a static execution bound** (WCET for real-time; a tooling and Presentation concern, not
-  implied by totality); **(2) a static memory footprint** (list bounds for constrained or
-  no-allocator targets, not implied by purity, determinism, or totality).
+The language of Game Logic Processor bodies; Guards use its expressions. A DIGS body is pure (it
+reads only its inputs and writes only its outputs), total (it halts on every input) and
+deterministic (its order of evaluation is fixed, so the same inputs give the same bits on every
+machine). It is inspectable because nothing in it is hidden: every value enters and leaves by a
+declared input or output, and every loop states its bound. Every game declares its arithmetic in
+DIGS: its number types and their operations, exact to the bit. The arithmetic is Game Logic: it
+is to DOOM what the six-sided die is to Yahtzee, and DOOM computed with floats is not DOOM. A
+game may also declare a fixed bound on its running time or its memory, to reach machines that
+need one; neither follows from totality. DIGS is part of RUNS, not a protocol of its own.
 _Avoid_: "the RUNS language" (RUNS is the source format; DIGS is its expression language);
-calling DIGS a protocol; fusing a contract into the core ("pure ∴ deterministic"; "total ∴
-statically bounded"; "pure ∴ bounded memory"); reading "pure/total/deterministic" as implying a
-fixed arithmetic (the game declares that); treating arithmetic as optional.
+calling DIGS a protocol; treating arithmetic as optional; reading "total" as a fixed time or
+memory bound (each is declared on its own)
 
 **MAPS** (Mechanics and Play Structures), *the design knowledge*:
 The design-time notation for game mechanics. **The notation is open** (2026-11-15): whether the
