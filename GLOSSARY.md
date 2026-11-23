@@ -61,7 +61,7 @@ enduring solution, and nothing in EGS depends on it. Not yet formally grilled; t
 placeholder pending its own pass.
 _Note_: WOCS coordinates *who provides a service and is paid* (hosting, audits, tournaments,
 multiplayer-server provision), **not** the real-time gameplay packets. In-game multiplayer
-**transport** is a Presentation concern (see `Processor`, Presentation Processor) that fills and
+**transport** is a Presentation concern (see `Presentation`) that fills and
 drains Interface Records; the RUNS kernel contains no transport.
 
 **PWNS** (Provenance Without Notaries or Sovereigns):
@@ -98,39 +98,6 @@ A typed, named variable on a Record (`position_x`).
 The verb of the Network: it takes values on its inputs, computes, and gives values on its
 outputs. It names no Record; the Network wires a Field to each input and output.
 _Avoid_: transition, function, system, kernel; port or pin (for an input or output)
-
-**Determinism is a separate, narrower property**, layered on by convention rather than the
-protocol: a Processor whose outputs depend only on its declared inputs (pure, total,
-deterministic). The enduring-games **pattern** (a `runs-library` convention, *not* a base
-primitive) splits a game's Processors into two flavors by this property, named for their
-*function*, not their implementation:
-- **Game Logic Processor**: written in DIGS, hence platform-agnostic and
-  deterministic. Change one and the result is a **Variant**
-  (ADR-0011).
-- **Presentation Processor**: a Processor of the Presentation, which carries the game to and
-  from the machine in both directions: timing and input (inbound), rendering and audio
-  (outbound), and **multiplayer transport** (remote inputs arrive as inbound Interface Records,
-  exactly like local input). Platform-tailored; verb-pure but determinism-exempt; lives in the
-  Presentation. Replace the whole set and the result is a **Game Port** (ADR-0011). The
-  deterministic Game Logic is what makes lockstep and rollback netcode possible, yet it
-  contains none of the transport.
-  **Its body is *not* DIGS, and the standard deliberately specifies no language for it.** A
-  Presentation Processor is written in whatever its target demands (a throwaway Lua or Python
-  script, a CUDA or Vulkan pipeline in C++ or Rust, MIPS-bound N64 homebrew). This is the exact
-  inverse of DIGS: Presentation bodies are **infinitely important but time-bound and
-  hardware-bound**, where DIGS is time- and hardware-*un*bound. A portable Presentation language
-  would re-import the platform coupling the boundary exists to quarantine. The Interface Records
-  are the *entire* contract between the two languages. (ADR-0015)
-The two flavors are joined only by Interface Records. Whatever its status in the base protocol,
-this split is what lets a game endure: a game endures only if its Game Logic is pure.
-**"Deterministic"**, unqualified, means the core evaluation-order determinism throughout this
-glossary: identical results on one runtime, in any topological order. **Cross-machine**
-lockstep also needs arithmetic determinism, which every game has because every game declares
-its arithmetic (see `DIGS`). Without it floating point diverges across hardware (Quake
-desyncs); with it, value-level determinism plus no observable addresses give Factorio-style
-cross-platform lockstep. (ADR-0017)
-_Avoid_: function, system (ECS analogy only), kernel; treating the Game Logic/Presentation split as a
-base-protocol primitive (it is a `runs-library` pattern, not a schema distinction).
 
 **Network**:
 The wiring of Records to Processors: which Field feeds each input and output of each Processor,
@@ -229,14 +196,17 @@ inputs and drive its screen, its sound and its pacing. With the Game Logic and t
 Records it makes up the whole game; everything that is neither is Presentation. A Conversion
 keeps the Original's Presentation whole, so its code records how the Original looked, sounded,
 played and was paced, down to its tick rate. A Game Port replaces it and reads it to decide what to
-keep.
+keep. Its Processors are written in whatever the machine demands; the standard names no language
+for them. Multiplayer transport is Presentation too: remote inputs arrive as Interface Records,
+exactly like local ones.
 _Avoid_: Realization, Realization region; "presentation" for the output half only; shell,
 wrapper (it is not the lesser part)
 
 **Kind**:
 The side a Record or Processor declares: Game Logic, Interface, or Presentation. A convention:
 from the Separated stage on, every Record and Processor declares one, and a check confirms they
-agree, so no Game Logic Processor touches a Presentation Record. The protocol ignores Kinds.
+agree, so no Game Logic Processor touches a Presentation Record. So every Processor is a Game Logic
+Processor or a Presentation Processor. The protocol ignores Kinds.
 _Avoid_: deriving a Processor's side from the Records it touches; type (a Field has a type)
 
 **Declarations**:
