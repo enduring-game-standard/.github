@@ -368,8 +368,8 @@ confirmation with instant Lightning settlement.
 - **"State"**: bare "state" means a Record. Qualify the others: "AEMS State" (a claimed Asset
   condition), "MAPS State" (an observable game condition), and "object state" (a Field value,
   such as Spacewar's `object_state`: ship, torpedo, exploding).
-- **"Bundle"** = a RUNS Processor bundle (a Sub-Network seen from outside as one Processor)
-  vs. an AEMS bundle (a signed event that carries the events it cites; draft in aems-schema
+- **"Bundle"** = a RUNS Processor Bundle (a Sub-Network seen from outside as one Processor)
+  vs. an AEMS Bundle (a signed event that carries the events it cites; draft in aems-schema
   `ANCHOR.md`). Qualify which.
 - **"Arc"** = MAPS Arc (a notation primitive) vs. a Network arc (a guarded route in RUNS
   wiring). Qualify when context is unclear.
