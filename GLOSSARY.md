@@ -20,7 +20,7 @@ EGS doc: a Record, the Game Logic, a Game Port. Lowercase means the ordinary Eng
 
 **EGS** (Enduring Game Standard):
 The umbrella standard: four core protocols (AEMS, RUNS, WOCS, MAPS) plus DIGS and the PWNS
-extension, built on Nostr (the commons); WOCS alone also settles on Lightning. Aimed at a 100-year
+extension, built on Nostr (the commons) and Lightning (settlement). Aimed at a 100-year
 horizon, not product-market fit.
 
 **AEMS** (Asset-Entity-Manifestation-State), *the things*:
@@ -32,7 +32,7 @@ Game development in plain-text source, with Game Logic as a first-class part kep
 Presentation, so digital games endure for millennia. Not an engine; each game compiles its own.
 Three layers: data (Records and Fields), wiring (Networks), and computation (Processor bodies:
 Game Logic Processors are written in DIGS, Presentation Processors in whatever their machine needs;
-see `Presentation`).
+see `Processor`).
 
 **DIGS** (Deterministic Inspectable Game Syntax), *the computation*:
 The language of Game Logic Processor bodies; Guards use its expressions. A DIGS body is pure (it
@@ -53,17 +53,20 @@ above another; treating `float` as undeclared; reading "total" as a fixed time o
 (each is declared on its own)
 
 **MAPS** (Mechanics and Play Structures), *the design knowledge*:
-The design-time notation for game mechanics. The notation is open: whether the current draft is
-the right notation for games is not settled, and neither is any relation between MAPS and RUNS
-beyond a general Petri-net shape.
+The design-time notation for game mechanics. **The notation is open** (2026-11-15): whether the
+current draft is the right notation for games is not settled, and neither is any relation
+between MAPS and RUNS beyond a general Petri-net shape.
 
 **WOCS** (Work Offered, Claimed, Settled), *the coordination*:
 The permissionless coordination and Lightning-settlement protocol for ecosystem services: a
 formalized way to coordinate service provision and maintenance through Austrian-economic
-incentives instead of centralized services. It coordinates who provides a service and who pays
-(hosting, audits, tournaments, multiplayer servers), never the gameplay packets themselves. It is
-optional, and nothing in EGS depends on it. Not yet designed in depth.
-_Avoid_: treating WOCS as multiplayer transport (that is Presentation)
+incentives instead of centralized services. It is **purely optional for everything**, *an*
+enduring solution, and nothing in EGS depends on it. Not yet formally grilled; this entry is a
+placeholder pending its own pass.
+_Note_: WOCS coordinates *who provides a service and is paid* (hosting, audits, tournaments,
+multiplayer-server provision), **not** the real-time gameplay packets. In-game multiplayer
+**transport** is a Presentation concern (see `Presentation`) that fills and
+drains Interface Records; the RUNS kernel contains no transport.
 
 **PWNS** (Provenance Without Notaries or Sovereigns):
 An extension for authored experiences: provenance over property, covenants without
