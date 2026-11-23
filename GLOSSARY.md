@@ -130,9 +130,8 @@ primitive) splits a game's Processors into two flavors by this property, named f
   script, a CUDA or Vulkan pipeline in C++ or Rust, MIPS-bound N64 homebrew). This is the exact
   inverse of DIGS: presentation bodies are **infinitely important but time-bound and
   hardware-bound**, where DIGS is time- and hardware-*un*bound. A portable presentation language
-  would re-import the platform coupling the boundary exists to quarantine. The fat/thin Runtime
-  line (see `Runtime`) decides how much presentation code a game has; the boundary Records are
-  the *entire* contract between the two languages. (ADR-0015)
+  would re-import the platform coupling the boundary exists to quarantine. The boundary Records
+  are the *entire* contract between the two languages. (ADR-0015)
 The two flavors are joined only by boundary Records. Whatever its status in the base protocol,
 this split is what lets a game endure: "There is no endurance if the rules are impure" (owner,
 2026-11-15; see `Conversion`).
@@ -257,8 +256,9 @@ _Avoid_: treating a prefix as a globally unique name or a resolution key; reason
 namespaces with package-manager (npm, Maven) intuitions.
 
 **Interface Record**:
-A Record crossing the line between game logic and runtime. **Inbound** (`requires:`) are written
-by the runtime before a tick; **outbound** (`produces:`) are read by the runtime after. The
+A Record crossing the line between game logic and presentation. **Inbound** (`requires:`) are
+written by the presentation before a tick; **outbound** (`produces:`) are read by the
+presentation after. The
 boundary is **Records only, never Processors**, and necessarily so: it joins two paradigms
 (deterministic DIGS and the platform-tailored machine), and only a noun can sit on that seam. A
 Record is inert data, hence paradigm-neutral; a Processor is a verb that always carries a
@@ -271,46 +271,10 @@ Everything in a game that is not game logic or an Interface Record: the Processo
 that read the machine's inputs and drive its outputs. A Port replaces it.
 _Avoid_: Realization, Realization region; "presentation" for the output half only
 
-**Runtime**:
-The generic, **game-agnostic host** that runs Builds and honors the Runtime Interface: a
-browser, a console, a libretro-style core, a server farm. It exposes primitive platform
-capabilities and the boundary contract: it writes **inbound** boundary Records before a tick
-and reads **outbound** ones after. A game's I/O lives in the **presentation**, which is
-baked into the **Build** and runs *on* a Runtime. The line between the presentation and
-the Runtime is **platform-dependent**: a fantasy console exposing `draw_sprite` makes the
-Runtime fat and the presentation thin; a raw framebuffer reverses it.
-_Avoid_: engine (there is no "RUNS engine"); "Runtime" for the game-specific I/O (that is the
-**presentation**); conflating it with **hand-compilation** (see Flagged ambiguities).
-
-**Build**:
-The playable, distributable artifact that **baking** emits: a native binary, a wasm bundle, a
-JS/Canvas app, a cartridge. *Not* source: one Rules region × one presentation × one target
-→ one Build. The thing players run; it carries no dependency on Nostr or relays at play time.
-_Avoid_: reading "build" as "compiled" in the literal sense; a Build is the playable version
-however it was produced (compiled, interpreted and frozen, hand-emitted).
-
-**Baking**:
-The build-time process that turns source into a **Build**: resolve dependencies (Nostr or a
-local cache), flatten the Network graph, and compile the chosen Rules region and presentation
-region into a self-contained artifact for one target. It always happens; nothing streams DIGS
-or Nostr at play time. (The Lifecycle "Build" phase is baking.) The commons (Nostr) is touched
-**only at lifecycle boundaries** (discovery and build, AEMS load and save), **never on the hot
-path**, and this is *forced, not chosen*: Nostr is a **publication layer, not a real-time
-database**. It carries signed events between sessions, not per-frame state. Baking bridges the
-commons to the ephemeral tick loop.
-
 **Declarations**:
 The part of a machine's platform code that never runs: where the original program kept its
 data and how its routines were called. They record the original programmer's choices about the
 machine, nothing the game computes. A Port leaves them behind with the presentation.
-
-**Compiler**:
-The program that turns a game's source into a binary for one machine: the game logic, its
-Interface Records, and the presentation in whatever form it takes (DIGS, C, a Lua script,
-prebuilt binaries). One compiler serves every game on its machine; it knows the machine and no
-game. The binary serves the machine, so it need not keep game logic and presentation apart; the
-source keeps them apart for people.
-_Avoid_: "the RUNS compiler" (there is one per machine); changing a compiler to fit one game
 
 **Conversion**:
 An existing game's original program rewritten into RUNS through every stage of the conversion
@@ -536,9 +500,8 @@ confirmation with instant Lightning settlement.
   `ANCHOR.md`). Qualify which.
 - **"Arc"** = MAPS Arc (a notation primitive) vs. a Network arc (a guarded route in RUNS
   wiring). Qualify when context is unclear.
-- **"Runtime" vs "hand-compilation"**, _Canon (ADR-0005)._ A **runtime or compiler** is a
-  program that mechanically parses and executes RUNS source. A **hand-compilation** is a human
-  or AI manually emitting target code (Lua, say) from RUNS source by reading it. The earlier
+- **Compiler vs hand-compilation**: a compiler translates RUNS source mechanically. A
+  **hand-compilation** is a person or AI writing target code (Lua, say) by reading the source. The earlier
   Spacewar `spacewar.p8` PICO-8 cartridge was a hand-compilation. The PDP-1 compiler in
   runs-spacewar is a compiler: it builds the original binary from the RUNS source.
 - **"Conceptual example" vs "reference implementation"**, _Canon (ADR-0014 amended)._ A
