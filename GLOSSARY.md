@@ -174,21 +174,24 @@ _Avoid_: execution order; step for a tick (a Petri net step is one set of firing
 tick); treating `phases:`/`order:` as primitives (the wires and Guards state the order)
 
 **Sub-Network**:
-A Network used as a Processor from outside: typed inputs and outputs at its boundary, its own
-wiring inside, in its own Network file. A **bundle** is a Sub-Network, and bundling is how RUNS
-composes: a chunk of Record–Processor–Record logic bundled into a larger function (`vec_x`,
-`vec_y`, `vec_z` → `vec_3`). In the owner's words (2026-11-11): "the high level network file
-should only be writing the fully composed bundles. within each bundle will be its own subnet
-bundle network file - that's the entire point". A bundle is never severed from its parts: their
-provenance endures inside it (the bundle's content references them by ID). The popular unit is
-usually the bundle; the smallest Processors inside stay addressable. Games compose from a finite
-set of shared atomic primitives the way a Linux distro composes from coreutils.
-Bundles exist so stateless logic can be shared between games by description. A top bundle is
-named and described ("Spacewar's gravity"); someone finds it, wires it into another game's
-Records, and edits their own copy. What makes a bundle unique is its wiring, not the
-Processors inside, which are shared bundles down to the smallest. A bundle whose inputs fit only
-one game's Records cannot be shared, and that is a problem to solve. **Open:** the shape of the
-granularity: how far down Processors split and how bundles nest.
+A Network inside another Network. It owns Records as well as Processors, and it shares a Record
+with the Network around it only where Processors on both sides use that Record; the shared
+Record is one Record seen from both levels, never a copy. A Record lives in the smallest
+Sub-Network that holds every Processor touching it: a weapon's cooldown count lives in the
+cooldown Sub-Network, and a ship's position lives where movement, collision and drawing meet.
+Each copy of a Sub-Network in a game has its own local ID and its own Records, so two ships keep
+two cooldown counts. Sub-Networks nest down to single Processors (`vec3` is three copies of
+`vec1`), and any of them can be collapsed to one box or expanded to its parts; the game is the
+same either way. A Sub-Network is not a Processor: only a Processor is pure, and a Sub-Network
+may keep a Record from one tick to the next.
+_Avoid_: treating a Sub-Network as a Processor; passing a Record through a Sub-Network that does
+not use it; subroutine, function call (no Processor calls another)
+
+**Bundle**:
+A Sub-Network packaged for download: the Sub-Network, every Sub-Network and Processor inside it,
+and the Records it owns, each part under its own hash. The game that uses it connects the
+Records at its edge to Records of its own. Editing any part makes a new part with a new hash.
+_Avoid_: bundle for a Sub-Network inside a game (that is the Sub-Network itself)
 
 **`runs:` namespace**:
 The reserved prefix of the standard. **Reserved** (only the standard may *define* `runs:` keys:
