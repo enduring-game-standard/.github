@@ -326,45 +326,12 @@ RUNS source is the Original.
 _Avoid_: "the original" for the source listing or for what the designer meant.
 
 **Glitch**:
-Gameplay the designer did not foresee, emerging from the Game Logic. A Glitch is **not Game
-Logic** of its own. In a digital game the machine fills every gap in the Game Logic, the same way
-every time, so the Game Logic is complete whether meant or not: the original program running on
-its original machine. The Game Logic
-are the **boundary of the possibility space** (every state reachable from power-on by any input
-sequence, and how each moves to the next); gameplay is the paths taken inside it, Glitches
-included. "Intended" and "unintended" describe the designer's map, not the space. Super Mario
-64's backwards long jump emerges from an uncapped backward speed. A glitchless speedrun category
-is a constraint players add on top; the game is unchanged. Removing a Glitch from the game itself
-writes different Game Logic into the gap: a **Variant**.
-**Sorting at the machine's edge.** A behavior is sorted by following its data across the
-**original machine's edge**, never by intent. **In**: whatever the program reads from a device
-(controller, switches, clocks, video-frame counts) and memory the program never set (power-on
-contents). **Out**: the screen and the speaker. Inside the edge, a value that only ever flows
-out is **Presentation**; everything else is **Game Logic**, including how the program's own
-operations behave on the hardware: arithmetic, memory past an array, code the program writes
-for itself. Code the program never contained, such as bytes the player writes and the machine
-then runs, is the machine's behavior, not the game's. Spacewar's
-toroidal wrap falls out of its ones'-complement coordinate arithmetic. Boom fixed vanilla
-DOOM's overflows and broke vanilla demos; PrBoom added compatibility levels; Chocolate Doom
-emulates the overflows to keep vanilla demos in sync. **Lag** reaches the Game Logic, if at all, as a
-clock reading: an input. On the original machine that input carries the lag; a Port feeds it
-different values; the Game Logic is the same and the gameplay differs. "Better" and "worse" describe
-gameplay, not the game (GoldenEye's lookdown; Ocarina of Time on the N64 and on the Wii Virtual
-Console: one game, separate leaderboards). Space Invaders moves one invader per video interrupt,
-an input, by its Game Logic; the speed-up as invaders die emerges from them, and it is not lag. An
-effect that only flows out stays in the reference with the whole original Presentation, and a
-Port changes it.
-So a Conversion states the Game Logic completely, and Glitches emerge on any machine, found or not.
-Completeness is judged on the Game Logic, never by a Glitch list. For a game born in RUNS, the RUNS
-semantics are the machine.
-**Open**: what counts as the machine: which revision, and where specified behavior ends and
-physical fault begins (a flipped bit is a fault; a documented CPU quirk is behavior). It is a
-judgment made once per machine, in that machine's description. Also open: DOOM's
-visplane-overflow crash is Presentation, and the reference keeps it, but it ends the program and
-so stops the Game Logic too; how RUNS states a Presentation effect that ends the program is not
-settled.
-_Avoid_: "recreate a glitch", "purge a glitch"; sorting by intended vs unintended; bug (for the
-original's behavior).
+Gameplay the Game Logic allows that its designers did not foresee, such as Super Mario 64's
+backwards long jump. A Glitch is not separate Game Logic, so a Conversion that states the Game
+Logic completely keeps every Glitch, found or not, without listing any. Removing one changes the
+Game Logic: the result is a Variant.
+_Avoid_: bug (for the Original's behavior); "recreate" or "remove" a Glitch in a Conversion;
+sorting a behavior by intended or unintended
 
 **Port**:
 The same Game Logic, exactly, under a new Presentation for another machine. How much of the
