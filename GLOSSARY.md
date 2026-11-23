@@ -5,6 +5,9 @@ cross-protocol terms. Each bold entry name is the handle other repos cite. Each
 definition says what a term *is*, not how it is implemented. The public quick reference (the
 acronym table and the protocol roster) is `profile/README.md` § Glossary.
 
+**Capitalize a defined term** wherever it carries its glossary meaning, in this file and in every
+EGS doc: a Record, the Game Logic, a Port. Lowercase means the ordinary English word.
+
 > Multi-context note: the workspace is a meta-repo over several independently published
 > protocol repos. AEMS owns its glossary in
 > [aems-schema/CONTEXT.md](https://github.com/enduring-game-standard/aems-schema/blob/main/CONTEXT.md),
@@ -253,7 +256,7 @@ its *string* carries fixed, shared interop semantics that must mean the same thi
 _Avoid_: treating a prefix as a globally unique name or a resolution key; reasoning about RUNS
 namespaces with package-manager (npm, Maven) intuitions.
 
-**Game logic**:
+**Game Logic**:
 The part of a game that decides what happens in it, kept apart from the presentation so the
 game outlasts every machine it runs on. It is pure, written in DIGS, and works on any machine. A
 Variant changes it; a Port keeps it exactly.
@@ -274,6 +277,12 @@ shape-translation is therefore a Processor on one side *up to* the boundary, nev
 Everything in a game that is not game logic or an Interface Record: the Processors and Records
 that read the machine's inputs and drive its outputs. A Port replaces it.
 _Avoid_: Realization, Realization region; "presentation" for the output half only
+
+**Kind**:
+The side a Record or Processor declares: Game Logic, Interface, or Presentation. A convention:
+from the Separated stage on, every Record and Processor declares one, and a check confirms they
+agree, so no Game Logic Processor touches a Presentation Record. The protocol ignores Kinds.
+_Avoid_: deriving a Processor's side from the Records it touches; type (a Field has a type)
 
 **Declarations**:
 The part of a machine's platform code that never runs: where the original program kept its
