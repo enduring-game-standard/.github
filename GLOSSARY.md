@@ -28,11 +28,12 @@ Four signed Nostr event kinds (Entity, Manifestation, Asset, State) linked by pa
 references. It stands alone and needs no other EGS protocol.
 
 **RUNS** (Records Update on Neutral Substrate), *the game*:
-Game development in plain-text source, with Game Logic as a first-class part kept apart from the
-Presentation, so digital games endure for millennia. Not an engine; each game compiles its own.
-Three layers: data (Records and Fields), wiring (Networks), and computation (Processor bodies:
-Game Logic Processors are written in DIGS, Presentation Processors in whatever their machine needs;
-see `Presentation`).
+Game development in plain-text source that keeps a game's Game Logic apart from its
+Presentation, so the game outlasts every machine it runs on. A game is Records, the Processors
+that change them, and the Network that wires them, nested in Sub-Networks; Game Logic Processors
+are written in DIGS. Not an engine: given a machine's Declarations, the compiler builds the game for
+that machine, and given the Original machine's Declarations it rebuilds the Original exactly.
+Sub-Networks are shared as Bundles, every part under its own hash.
 
 **DIGS** (Deterministic Inspectable Game Syntax), *the computation*:
 The language of Game Logic Processor bodies; Guards use its expressions. A DIGS body is pure (it
