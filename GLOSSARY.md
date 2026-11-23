@@ -6,7 +6,7 @@ definition says what a term *is*, not how it is implemented. The public quick re
 acronym table and the protocol roster) is `profile/README.md` § Glossary.
 
 **Capitalize a defined term** wherever it carries its glossary meaning, in this file and in every
-EGS doc: a Record, the Game Logic, a Port. Lowercase means the ordinary English word.
+EGS doc: a Record, the Game Logic, a Game Port. Lowercase means the ordinary English word.
 
 > Multi-context note: the workspace is a meta-repo over several independently published
 > protocol repos. AEMS owns its glossary in
@@ -124,7 +124,7 @@ primitive) splits a game's Processors into two flavors by this property, named f
   from the machine in both directions: timing and input (inbound), rendering and audio
   (outbound), and **multiplayer transport** (remote inputs arrive as inbound Interface Records,
   exactly like local input). Platform-tailored; verb-pure but determinism-exempt; lives in the
-  Presentation. Replace the whole set and the result is a **Port** (ADR-0011). The
+  Presentation. Replace the whole set and the result is a **Game Port** (ADR-0011). The
   deterministic Game Logic is what makes lockstep and rollback netcode possible, yet it
   contains none of the transport.
   **Its body is *not* DIGS, and the standard deliberately specifies no language for it.** A
@@ -261,7 +261,7 @@ namespaces with package-manager (npm, Maven) intuitions.
 **Game Logic**:
 The part of a game that decides what happens in it, kept apart from the Presentation so the
 game outlasts every machine it runs on. It is pure, written in DIGS, and works on any machine. A
-Variant changes it; a Port keeps it exactly.
+Variant changes it; a Game Port keeps it exactly.
 _Avoid_: rules, Rules region, Rules Processor
 
 **Interface Record**:
@@ -276,7 +276,7 @@ How a game reaches a player on one machine: the Processors and Records that read
 inputs and drive its screen, its sound and its pacing. With the Game Logic and the Interface
 Records it makes up the whole game; everything that is neither is Presentation. A Conversion
 keeps the Original's Presentation whole, so its code records how the Original looked, sounded,
-played and was paced, down to its tick rate. A Port replaces it and reads it to decide what to
+played and was paced, down to its tick rate. A Game Port replaces it and reads it to decide what to
 keep.
 _Avoid_: Realization, Realization region; "presentation" for the output half only; shell,
 wrapper (it is not the lesser part)
@@ -290,13 +290,13 @@ _Avoid_: deriving a Processor's side from the Records it touches; type (a Field 
 **Declarations**:
 The part of a machine's platform code that never runs: where the original program kept its
 data and how its routines were called. They record the original programmer's choices about the
-machine, nothing the game computes. A Port leaves them behind with the Presentation.
+machine, nothing the game computes. A Game Port leaves them behind with the Presentation.
 
 **Conversion**:
 An existing game's original program rewritten into RUNS through every stage of the Conversion
 Process, with the game exactly the same. A program partway along is *in conversion*, at its
 stage.
-_Avoid_: "Conversion" for a program short of Standard; Port (new Presentation); Variant (changed
+_Avoid_: "Conversion" for a program short of Standard; Game Port (new Presentation); Variant (changed
 Game Logic)
 
 **Conversion Process**:
@@ -324,14 +324,14 @@ Game Logic: the result is a Variant.
 _Avoid_: bug (for the Original's behavior); "recreate" or "remove" a Glitch in a Conversion;
 sorting a behavior by intended or unintended
 
-**Port**:
+**Game Port**:
 The same Game Logic, exactly, under a new Presentation for another machine. How much of the
 Original's Presentation it keeps (its look, its sound, its controls, its tick rate) is the
 porter's choice, and the Original's Presentation is the reference for each choice: DOOM run at
-70 tics a second is still a Port, only a less faithful one. Identical Game Logic is what makes
-a program a Port; no label or side document does.
-_Avoid_: Port for anything that changes the Game Logic, even to fit a smaller machine (it is a
-Variant); pure Port, Variant Port
+70 tics a second is still a Game Port, only a less faithful one. Identical Game Logic is what makes
+a program a Game Port; no label or side document does.
+_Avoid_: Game Port for anything that changes the Game Logic, even to fit a smaller machine (it is a
+Variant); Port alone; pure Port, Variant Port
 
 **Guard**:
 A DIGS condition on a Network arc that decides whether its Processor fires. The Guards on one
