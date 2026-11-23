@@ -147,8 +147,6 @@ another)
 A Sub-Network packaged for download: the Sub-Network, every Sub-Network and Processor inside it,
 and the Records it owns, each part under its own hash. The game that uses it connects the
 Records at its edge to Records of its own. Editing any part makes a new part with a new hash.
-Every game uses the same `vec1`, under one hash: the smallest parts hold no game's choices, and
-each game supplies its own declared arithmetic.
 _Avoid_: bundle for a Sub-Network inside a game (that is the Sub-Network itself)
 
 **Game Logic**:
