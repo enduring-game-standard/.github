@@ -146,66 +146,30 @@ _Avoid_: function, system (ECS analogy only), kernel; treating the Game Logic/Pr
 base-protocol primitive (it is a `runs-library` pattern, not a schema distinction).
 
 **Network**:
-The wiring of Records to Processors: which Fields each Processor reads and writes, and the
-Guards on them. It sets no order of its own; a Processor fires once the Records it reads are
-ready, so the order follows from the wiring. A tick is one run of it. Data flows strictly **Record → Processor → Record**: never Record → Record (no Processor
-means no verb, so no transformation) and never Processor → Processor (no Record means no data).
-So **no Processor calls another**: a value one Processor hands to another is stored in a Record.
-The Network draws a line
-from a specific Field to an input or output of a Processor, and it alone knows both sides:
-Records and Processors are **mutually opaque** (a Record knows nothing of a Processor's
-internals; a Processor knows nothing of a Record's, nor where its inputs came from or where its
-outputs go). A state machine is a Network of guarded arcs, never a Processor. The Network holds
-the whole structure of the game: its logic and all its timing. The game advances in ticks, and
-nothing computes between them; every step the original program took is a firing in the
-Network. Composition is bundling (see `Sub-Network`).
+The wiring of Records to Processors: which Field feeds each input and output of each Processor,
+and the Guards on them. It computes nothing and sets no order of its own; a Processor fires once
+the Records it reads are ready, so the order follows from the wiring. A tick is one run of it.
+Data flows only Record → Processor → Record, so no Processor calls another: a value one
+Processor hands to the next is stored in a Record. Only the Network knows both sides: a Record
+knows nothing of the Processors that use it, and a Processor knows nothing of where its inputs
+come from or where its outputs go. A state machine is a Network of Guards, never a Processor.
 
-A RUNS Network is a **colored Petri net**: places = Records, tokens = Field values (the
-colors), transitions = Processors, guarded arcs = gates. The **confluence (determinism)
-guarantee scopes to the Game Logic**, the subgraph of Game Logic Processors bounded by boundary
-Records, **not** to the whole graph (ADR-0010, narrowed). Within that region determinism is
-structural, not conventional, and rests on two rules: **every change through a Processor** (a
-Processor takes a value from a place and puts its result back, and the wires and Guards order
-any two Processors that touch one place, so nothing races: the PRNG's values
-`prng_v0 → … → prng_vN` pass through one place in wired order) and **partitioning Guards**
-(every Guard set is a complete partition; see `Guard`). Given both, the
-firings of one tick of the Game Logic form a DAG apart from bounded loops (below; the
-cross-tick loop is the `state:` Records), incomparable Processors commute, and **the wires and
-Guards are the order**. Where order changes a result, a wire or a Guard makes one Processor
-wait for the other, like a sync in SpaceChem. Processors the wiring leaves unordered are ones
-whose order changes nothing, so any order the wires allow gives identical results, and a
-runtime may run them in parallel. The **Presentation** beyond the Interface Records has
-the **same Petri-net topology** but is **exempt** from confluence: Presentation Processors are
-platform-tailored I/O and trade determinism for hardware reach.
+Within the Game Logic the wiring makes each tick deterministic. Every change to a Record goes
+through a Processor, the wires and Guards order any two Processors that touch the same Record,
+and the Guards obey their two laws (see `Guard`). Processors the wiring leaves unordered give the
+same result in any order, so a runtime may run them in parallel. The Presentation has the same
+structure but need not be deterministic.
 
-**The Processor is BlooP; the Network is FlooP** (ADR-0017). Each Processor is a bounded, total
-piece (one tick = a DAG, apart from bounded loops). A loop is **bounded** when its count is
-fixed before it starts and cannot change during it: no `break`, `continue` or early return. The
-count may be any value known at run time, so a loop over a collection of any length is bounded. **Loops within a tick.** Every loop within a
-tick runs through a counter Record set before the loop starts: each pass consumes one token,
-and the loop ends when the counter reaches zero or a Guard stops it. This is a rule for the
-whole graph, and a loop need not sit in a bundle of its own (owner, 2026-11-14). The **only**
-unbounded loop is the **tick feedback** through the `state:` Records. It lives in the *wiring*,
-never in a body, so it is **visible in the topology** (the **I** in DIGS). Those cross-tick
-Records carry unboundedness in **both time** (the game runs forever) **and space** (a `state:`
-list may grow each tick: Factorio's factory, a roguelike's accumulating world). All of it stays
-**deterministic and in the Game Logic**: unbounded *deterministic* live state belongs here,
-*not* in the Presentation, because pushing it across the boundary would put the most deterministic
-part of a lockstep game into the determinism-exempt region (it is determinism at the **value**
-level, addresses never observed; this is how Factorio does cross-machine lockstep). A
-consequence: the Network, unlike a Processor, **can hang** (a feedback loop whose Guard never
-fires) and **can grow a `state:` list without bound** (a *deterministic, reproducible* leak).
-Both are game bugs for **tooling** to catch, not language guarantees. True
-*non-deterministic* leaks live only in the Presentation.
+Every loop within a tick is bounded: its count is fixed before it starts, and there is no
+`break`, `continue` or early return. The count may be any value known at run time, so a loop over
+a list of any length is bounded, and a Processor always halts. The one unbounded loop runs from
+one tick to the next, through the Records the game keeps between ticks, so it shows in the
+wiring. That is how a game runs forever, and how its state may grow without limit, as a Factorio
+factory does; both stay in the Game Logic and stay deterministic. So a Network, unlike a
+Processor, can hang or grow without bound. Both are game bugs for tools to find.
 
-"Network" is **scale-free**. The whole game is one Network; every bundled chunk is *also* a
-Network (a Sub-Network when viewed from outside as a Processor). Fully unbundled it is a single
-flat bipartite graph of atomic Records and Processors. There is **no privileged "sub-network"
-entity sitting apart** from the whole, only **regions at different zoom levels** (the Game Logic
-region and the Presentation are two such regions, cut apart by Interface Records).
-Decomposition is always possible, but complexity explodes at nearly every level, so all
-language and tooling assume free **bundling and unbundling** into manageable lumps as the normal
-way to view and edit the graph; the bundle is the unit of manageability.
+The whole game is one Network. Any part of it can be collapsed into a Sub-Network or expanded
+into its parts, down to single Records and Processors; no level is privileged.
 _Avoid_: execution order; step for a tick (a Petri net step is one set of firings, many to a
 tick); treating `phases:`/`order:` as primitives (the wires and Guards state the order)
 
