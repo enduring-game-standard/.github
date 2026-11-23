@@ -171,10 +171,11 @@ _Avoid_: deriving a Processor's side from the Records it touches; type (a Field 
 **Declarations**:
 What the compiler needs to rebuild the Original binary from a Conversion's RUNS source: where
 each Record and routine sat in the Original machine's memory, how each routine was entered and
-left, and how each value was encoded in bits. They exist so the Original binary can serve as the
-oracle that proves the Conversion kept every rule. A Game Port needs none: with the Original's
-Presentation gone, the compiler places everything wherever it chooses.
-_Avoid_: binding (the retired name)
+left, how each value was encoded in bits, and which event or device carried each input and
+output. They exist so the Original binary can serve as the oracle that proves the Conversion kept
+every rule.
+_Avoid_: binding (the retired name); Declarations for a Game Port (a general compiler places
+everything)
 
 **Conversion**:
 An existing game's original program rewritten into RUNS through every stage of the Conversion
