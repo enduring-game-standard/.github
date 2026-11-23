@@ -169,12 +169,11 @@ Processor or a Presentation Processor. The protocol ignores Kinds.
 _Avoid_: deriving a Processor's side from the Records it touches; type (a Field has a type)
 
 **Declarations**:
-What one machine needs to carry a game's RUNS source, none of which runs: where each Record and
-routine lives, which register or word holds each value, how each routine is entered and left,
-how each value is encoded in bits, and which device carries each input and output. Play cannot
-observe any of it, so it holds no Game Logic. The Declarations belong to the machine, not the
-game: with the Original machine's Declarations the compiler rebuilds the Original exactly, and a
-Game Port brings the Declarations of its own machine.
+What the compiler needs to rebuild the Original binary from a Conversion's RUNS source: where
+each Record and routine sat in the Original machine's memory, how each routine was entered and
+left, and how each value was encoded in bits. They exist so the Original binary can serve as the
+oracle that proves the Conversion kept every rule. A Game Port needs none: with the Original's
+Presentation gone, the compiler places everything wherever it chooses.
 _Avoid_: binding (the retired name)
 
 **Conversion**:
