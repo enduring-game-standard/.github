@@ -25,9 +25,10 @@ Four signed Nostr event kinds (Entity, Manifestation, Asset, State) linked by pa
 references. It stands alone and needs no other EGS protocol.
 
 **RUNS** (Records Update on Neutral Substrate), *the game*:
-The plain-text source format for game logic. Not an engine; each game compiles its own.
+Game development in plain-text source, with game logic as a first-class part kept apart from the
+presentation, so digital games endure for millennia. Not an engine; each game compiles its own.
 Three layers: data (Records and Fields), wiring (Networks), and computation (Processor bodies:
-Rules Processors are written in DIGS, presentation Processors in whatever their machine needs;
+game logic Processors are written in DIGS, presentation Processors in whatever their machine needs;
 see `Processor`).
 
 **DIGS** (Deterministic Inspectable Game Syntax), *the computation*:
@@ -44,12 +45,10 @@ contract*:
   **evaluation-order determinism** (precedence fixes the order; no reassociation, no FMA).
 - **Declared arithmetic**, required of **every RUNS game**, a Conversion or born in RUNS: its
   number types and their operations, which pin the game's numbers bit for bit on every machine.
-  **Arithmetic is a rule.** Spacewar's 18-bit ones' complement is to Spacewar what the six-sided
+  **Arithmetic is game logic.** Spacewar's 18-bit ones' complement is to Spacewar what the six-sided
   die is to Yahtzee, and DOOM computed with floats is not DOOM. A machine that computes a game's
-  numbers differently plays a different game. In the owner's words (2026-11-11): left to "use
-  math here", each platform would choose its own algorithm, and "that would be like every single
-  chess board slightly altering what a knight does... and it wouldn't be chess"; and
-  (2026-11-15) "any change to the rules is a different game".
+  numbers differently plays a different game, the way a chess board that altered what a knight
+  does would not be chess.
 - **Two opt-in, type-declared reach-contracts**, each trading the targets a game can reach:
   **(1) a static execution bound** (WCET for real-time; a tooling and presentation concern, not
   implied by totality); **(2) a static memory footprint** (list bounds for constrained or
@@ -115,15 +114,15 @@ protocol: a Processor whose outputs depend only on its declared inputs (pure, to
 deterministic). The enduring-games **pattern** (a `runs-library` convention, *not* a base
 primitive) splits a game's Processors into two flavors by this property, named for their
 *function*, not their implementation:
-- **Rules Processor**: the game logic. Written in DIGS, hence platform-agnostic and
-  deterministic; lives in the Rules region. Change one and the result is a **Variant**
+- **Game logic Processor**: written in DIGS, hence platform-agnostic and
+  deterministic. Change one and the result is a **Variant**
   (ADR-0011).
 - **Presentation Processor**: a Processor of the presentation, which carries the game to and
   from the machine in both directions: timing and input (inbound), rendering and audio
   (outbound), and **multiplayer transport** (remote inputs arrive as inbound boundary Records,
   exactly like local input). Platform-tailored; verb-pure but determinism-exempt; lives in the
   presentation. Replace the whole set and the result is a **Port** (ADR-0011). The
-  deterministic Rules region is what makes lockstep and rollback netcode possible, yet it
+  deterministic game logic is what makes lockstep and rollback netcode possible, yet it
   contains none of the transport.
   **Its body is *not* DIGS, and the standard deliberately specifies no language for it.** A
   presentation Processor is written in whatever its target demands (a throwaway Lua or Python
@@ -133,15 +132,14 @@ primitive) splits a game's Processors into two flavors by this property, named f
   would re-import the platform coupling the boundary exists to quarantine. The boundary Records
   are the *entire* contract between the two languages. (ADR-0015)
 The two flavors are joined only by boundary Records. Whatever its status in the base protocol,
-this split is what lets a game endure: "There is no endurance if the rules are impure" (owner,
-2026-11-15; see `Conversion`).
+this split is what lets a game endure: a game endures only if its game logic is pure.
 **"Deterministic"**, unqualified, means the core evaluation-order determinism throughout this
 glossary: identical results on one runtime, in any topological order. **Cross-machine**
 lockstep also needs arithmetic determinism, which every game has because every game declares
 its arithmetic (see `DIGS`). Without it floating point diverges across hardware (Quake
 desyncs); with it, value-level determinism plus no observable addresses give Factorio-style
 cross-platform lockstep. (ADR-0017)
-_Avoid_: function, system (ECS analogy only), kernel; treating the Rules/presentation split as a
+_Avoid_: function, system (ECS analogy only), kernel; treating the game logic/presentation split as a
 base-protocol primitive (it is a `runs-library` pattern, not a schema distinction).
 
 **Network**:
@@ -161,14 +159,14 @@ Network. Composition is bundling (see `Sub-Network`).
 
 A RUNS Network is a **colored Petri net**: places = Records, tokens = field values (the
 colors), transitions = Processors, guarded arcs = gates. The **confluence (determinism)
-guarantee scopes to the Rules region**, the subgraph of Rules Processors bounded by boundary
+guarantee scopes to the game logic**, the subgraph of game logic Processors bounded by boundary
 Records, **not** to the whole graph (ADR-0010, narrowed). Within that region determinism is
 structural, not conventional, and rests on two rules: **every change through a Processor** (a
 Processor takes a value from a place and puts its result back, and the wires and guards order
 any two Processors that touch one place, so nothing races: the PRNG's values
 `prng_v0 → … → prng_vN` pass through one place in wired order) and **partitioning guards**
 (every guard set is a complete partition; see `Phase / Dispatch / Guard`). Given both, the
-firings of one tick of the Rules region form a DAG apart from bounded loops (below; the
+firings of one tick of the game logic form a DAG apart from bounded loops (below; the
 cross-tick loop is the `state:` Records), incomparable Processors commute, and **the wires and
 guards are the order**. Where order changes a result, a wire or a guard makes one Processor
 wait for the other, like a sync in SpaceChem. Processors the wiring leaves unordered are ones
@@ -186,7 +184,7 @@ unbounded loop is the **tick feedback** through the `state:` Records. It lives i
 never in a body, so it is **visible in the topology** (the **I** in DIGS). Those cross-tick
 Records carry unboundedness in **both time** (the game runs forever) **and space** (a `state:`
 list may grow each tick: Factorio's factory, a roguelike's accumulating world). All of it stays
-**deterministic and in the Rules region**: unbounded *deterministic* live state belongs here,
+**deterministic and in the game logic**: unbounded *deterministic* live state belongs here,
 *not* in the presentation, because pushing it across the boundary would put the most deterministic
 part of a lockstep game into the determinism-exempt region (it is determinism at the **value**
 level, addresses never observed; this is how Factorio does cross-machine lockstep). A
@@ -198,7 +196,7 @@ Both are game bugs for **tooling** to catch, not language guarantees. True
 "Network" is **scale-free**. The whole game is one Network; every bundled chunk is *also* a
 Network (a Sub-Network when viewed from outside as a Processor). Fully unbundled it is a single
 flat bipartite graph of atomic Records and Processors. There is **no privileged "sub-network"
-entity sitting apart** from the whole, only **regions at different zoom levels** (the Rules
+entity sitting apart** from the whole, only **regions at different zoom levels** (the game logic
 region and the presentation are two such regions, cut apart by boundary Records).
 Decomposition is always possible, but complexity explodes at nearly every level, so all
 language and tooling assume free **bundling and unbundling** into manageable lumps as the normal
@@ -255,6 +253,12 @@ its *string* carries fixed, shared interop semantics that must mean the same thi
 _Avoid_: treating a prefix as a globally unique name or a resolution key; reasoning about RUNS
 namespaces with package-manager (npm, Maven) intuitions.
 
+**Game logic**:
+The part of a game that decides what happens in it, kept apart from the presentation so the
+game outlasts every machine it runs on. It is pure, written in DIGS, and works on any machine. A
+Variant changes it; a Port keeps it exactly.
+_Avoid_: rules, Rules region, Rules Processor
+
 **Interface Record**:
 A Record crossing the line between game logic and presentation. **Inbound** (`requires:`) are
 written by the presentation before a tick; **outbound** (`produces:`) are read by the
@@ -281,7 +285,7 @@ An existing game's original program rewritten into RUNS through every stage of t
 process, with the game exactly the same. A program partway along is *in conversion*, at its
 stage.
 _Avoid_: "Conversion" for a program short of Standard; Port (new presentation); Variant (changed
-rules)
+game logic)
 
 **Conversion process**:
 The route from an Original to a Conversion. Each stage has its own check:
@@ -306,69 +310,69 @@ RUNS source is the original.
 _Avoid_: "the original" for the source listing or for what the designer meant.
 
 **Glitch**:
-Gameplay the designer did not foresee, emerging from the rules. A glitch is **not a rule**. In a
-digital game the machine fills every gap in the rules, the same way every time, so the rules are
-complete whether meant or not: the original program running on its original machine. The rules
+Gameplay the designer did not foresee, emerging from the game logic. A glitch is **not game
+logic** of its own. In a digital game the machine fills every gap in the game logic, the same way
+every time, so the game logic is complete whether meant or not: the original program running on
+its original machine. The game logic
 are the **boundary of the possibility space** (every state reachable from power-on by any input
 sequence, and how each moves to the next); gameplay is the paths taken inside it, glitches
 included. "Intended" and "unintended" describe the designer's map, not the space. Super Mario
 64's backwards long jump emerges from an uncapped backward speed. A glitchless speedrun category
-is a rule players add on top; the game is unchanged. Removing a glitch from the game itself
-writes a different rule into the gap: a **Variant**.
+is a constraint players add on top; the game is unchanged. Removing a glitch from the game itself
+writes different game logic into the gap: a **Variant**.
 **Sorting at the machine's edge.** A behavior is sorted by following its data across the
 **original machine's edge**, never by intent. **In**: whatever the program reads from a device
 (controller, switches, clocks, video-frame counts) and memory the program never set (power-on
 contents). **Out**: the screen and the speaker. Inside the edge, a value that only ever flows
-out is **presentation**; everything else is the **rules**, including how the program's own
+out is **presentation**; everything else is **game logic**, including how the program's own
 operations behave on the hardware: arithmetic, memory past an array, code the program writes
 for itself. Code the program never contained, such as bytes the player writes and the machine
 then runs, is the machine's behavior, not the game's. Spacewar's
 toroidal wrap falls out of its ones'-complement coordinate arithmetic. Boom fixed vanilla
 DOOM's overflows and broke vanilla demos; PrBoom added compatibility levels; Chocolate Doom
-emulates the overflows to keep vanilla demos in sync. **Lag** reaches the rules, if at all, as a
+emulates the overflows to keep vanilla demos in sync. **Lag** reaches the game logic, if at all, as a
 clock reading: an input. On the original machine that input carries the lag; a Port feeds it
-different values; the rules are the same and the gameplay differs. "Better" and "worse" describe
+different values; the game logic is the same and the gameplay differs. "Better" and "worse" describe
 gameplay, not the game (GoldenEye's lookdown; Ocarina of Time on the N64 and on the Wii Virtual
 Console: one game, separate leaderboards). Space Invaders moves one invader per video interrupt,
-an input, by a rule; the speed-up as invaders die emerges from them, and it is not lag. An
+an input, by its game logic; the speed-up as invaders die emerges from them, and it is not lag. An
 effect that only flows out stays in the reference with the whole original presentation, and a
 Port changes it.
-So a Conversion states the rules completely, and glitches emerge on any machine, found or not.
-Completeness is judged on the rules, never by a glitch list. For a game born in RUNS, the RUNS
+So a Conversion states the game logic completely, and glitches emerge on any machine, found or not.
+Completeness is judged on the game logic, never by a glitch list. For a game born in RUNS, the RUNS
 semantics are the machine.
 **Open**: what counts as the machine: which revision, and where specified behavior ends and
 physical fault begins (a flipped bit is a fault; a documented CPU quirk is behavior). It is a
 judgment made once per machine, in that machine's description. Also open: DOOM's
 visplane-overflow crash is presentation, and the reference keeps it, but it ends the program and
-so stops the rules too; how RUNS states a presentation effect that ends the program is not
+so stops the game logic too; how RUNS states a presentation effect that ends the program is not
 settled.
 _Avoid_: "recreate a glitch", "purge a glitch"; sorting by intended vs unintended; bug (for the
 original's behavior).
 
 **Port**:
-The same game, with an *identical* Rules region, made to run on different hardware by swapping
-its **presentation Processors** wholesale and leaving the Rules Processors and boundary Records
+The same game, with *identical* game logic, made to run on different hardware by swapping
+its **presentation Processors** wholesale and leaving the game logic Processors and boundary Records
 untouched. PDP-1 renderer → N64 renderer; DOOM's exact logic under an N64 shell; The Last of
 Us's exact logic under a low-poly shell. A port preserves the game: it is **not** a Variant
-(which changes rules) and **not** a reinterpretation (re-vibing the source "good enough", which
-yields a new variant). Porting is what makes "any rules on any hardware" real: N64, a TI-83, a
+(which changes game logic) and **not** a reinterpretation (re-vibing the source "good enough", which
+yields a new variant). Porting is what makes "any game logic on any hardware" real: N64, a TI-83, a
 toaster, or a computing paradigm 400 years from now. (ADR-0011)
-A Port keeps every rule, the hardware's same-every-time behavior included, and changes what
-only flows out. Its inputs are its own: where they differ, as a clock that carries less lag, the
-same rules take different paths (see `Glitch`).
-The line is drawn by **bit-exact Rules-region output**: a *pure* Port runs the **exact same
+A Port keeps the game logic exactly and changes what only flows out. Its inputs are its own: where they differ, as a clock that carries less lag, the
+same game logic takes different paths (see `Glitch`).
+The line is drawn by **bit-exact game logic output**: a *pure* Port runs the **exact same
 algorithms**, deterministic even where that is inefficient on the new hardware. A **pure Port
-preserves the Rules region's declared arithmetic and any reach-contracts it takes up** bit for
+preserves the game logic's declared arithmetic and any reach-contracts it takes up** bit for
 bit: **arithmetic, execution, and memory** (ADR-0017); RUNS pins the original's arithmetic
 through game-defined numeric types precisely so a Port can stay bit-exact. A re-target that
 swaps in **hardware-native algorithms whose output differs from the original** (the classic case
 is a machine-optimized floating-point routine: Quake's floating-point demos desync across
 hardware for exactly this reason, and fixed-point DOOM's do not), or that otherwise cannot hold
-them, changes the Rules Processors and so is a **Variant Port**, not a pure Port (see
+them, changes the game logic Processors and so is a **Variant Port**, not a pure Port (see
 `Variant`). **The industry conflates this distinction**: the PS5 and Switch builds of DOOM 2016
 are both called "ports", but with divergent arithmetic they are **different games** by this
-definition. RUNS requires the split. "Any rules on any hardware" is mechanical only where the
-target holds the identical Rules region.
+definition. RUNS requires the split. "Any game logic on any hardware" is mechanical only where the
+target holds the identical game logic.
 _Avoid_: **port** for the *act only* (both the act and its result are a port); calling a
 fidelity-reducing re-vibe a port (it is a **variant**); calling a divergent-arithmetic *or
 reduced-memory* re-target a "port" (industry usage; it is a **Variant Port**).
@@ -422,28 +426,28 @@ the guards discharge the preconditions), never a runtime feature. (ADR-0013)
 ### Evolution
 
 **Variant**:
-A game derived from another by opening its Network and swapping, adding, or replacing **Rules
+A game derived from another by opening its Network and swapping, adding, or replacing **game logic
 Processors**, then compiling anew, the way chess and soccer accrue house-rule variants over
-time. A variant changes the *rules*; the presentation can stay identical. Removing a glitch is a
+time. A variant changes the *game logic*; the presentation can stay identical. Removing a glitch is a
 variant (see `Glitch`). Its orthogonal twin, swapping the
-**presentation Processors** while the rules stay identical, is a **Port**. First-class and
+**presentation Processors** while the game logic stays identical, is a **Port**. First-class and
 permissionless: enduring games *evolve through variation*; they are not modified or forked.
 (ADR-0006, ADR-0011)
-A variant arises **three ways**, distinguished only by *how* the Rules-region output changed:
-**authored** (hand-edit, add, or replace Rules Processors), **re-vibe** (reinterpret the source
+A variant arises **three ways**, distinguished only by *how* the game logic's output changed:
+**authored** (hand-edit, add, or replace game logic Processors), **re-vibe** (reinterpret the source
 "good enough", reducing fidelity), and **declared at build time**: a *divergent compilation*
 (formerly "adapted compilation", renamed as the antonym of **strict** evaluation) that
 substitutes a non-bit-identical algorithm (native sqrt, hardware-native floating point) for a
-strict Rules Processor, recorded in a machine-readable **deviation manifest** (the itemized
+strict game logic Processor, recorded in a machine-readable **deviation manifest** (the itemized
 divergences). All three change the deterministic behavior, so all three are variants; the
 manifest is the divergent variant's **declared diff from canon** (the build-time face of
 asserted vs verified, ADR-0005).
 A **Variant Port** is a Variant whose *motive* is reaching constrained hardware and whose
-*means* is altering the Rules region's declared arithmetic or one of its reach-contracts:
+*means* is altering the game logic's declared arithmetic or one of its reach-contracts:
 **divergent arithmetic** (hardware-native floating point) or a **reduced memory contract**
 (smaller list bounds to fit RAM). *Chocolate DOOM on a TI-83 is impossible as a pure Port*: the
-smaller entity caps are a Rules change, not a presentation swap. Because the change is to the
-*Rules* Processors, the result is a **Variant, not a Port**, despite the industry "port" label
+smaller entity caps are a game logic change, not a presentation swap. Because the change is to the
+*game logic* Processors, the result is a **Variant, not a Port**, despite the industry "port" label
 (see `Port`; ADR-0017).
 _Avoid_: **mod / modding** (it imports a second-class, needs-the-studio's-permission framing EGS
 exists to reject); **fork**, acceptable only as the *act* of starting a variant (the *result* is
