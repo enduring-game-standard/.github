@@ -265,15 +265,11 @@ Variant changes it; a Port keeps it exactly.
 _Avoid_: rules, Rules region, Rules Processor
 
 **Interface Record**:
-A Record crossing the line between Game Logic and Presentation. **Inbound** (`requires:`) are
-written by the Presentation before a tick; **outbound** (`produces:`) are read by the
-Presentation after. The
-boundary is **Records only, never Processors**, and necessarily so: it joins two paradigms
-(deterministic DIGS and the platform-tailored machine), and only a noun can sit on that seam. A
-Record is inert data, hence paradigm-neutral; a Processor is a verb that always carries a
-paradigm, so putting one "in the boundary" forces it to pick a side, at which point it is no
-longer the boundary but the first Processor of whichever layer it joined. Any needed
-shape-translation is therefore a Processor on one side *up to* the boundary, never *in* it.
+A Record that both the Game Logic and the Presentation touch: the only place they meet. The
+Presentation writes the inputs the Game Logic reads, and reads the results the Game Logic
+writes. No Processor sits on the line; any translation is a Processor on one side.
+_Avoid_: boundary Record; "interface" for a top Network's `requires:` and `produces:` (those
+cross between the program and the machine)
 
 **Presentation**:
 How a game reaches a player on one machine: the Processors and Records that read the machine's
