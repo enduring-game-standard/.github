@@ -146,12 +146,12 @@ _Avoid_: function, system (ECS analogy only), kernel; treating the Game Logic/Pr
 base-protocol primitive (it is a `runs-library` pattern, not a schema distinction).
 
 **Network**:
-The explicit bipartite wiring of Records to Processors that defines the execution order of one
-tick. Data flows strictly **Record → Processor → Record**: never Record → Record (no Processor
+The wiring of Records to Processors: which Fields each Processor reads and writes, and the
+Guards on them. It sets no order of its own; a Processor fires once the Records it reads are
+ready, so the order follows from the wiring. A tick is one run of it. Data flows strictly **Record → Processor → Record**: never Record → Record (no Processor
 means no verb, so no transformation) and never Processor → Processor (no Record means no data).
 So **no Processor calls another**: a value one Processor hands to another is stored in a Record.
-In the owner's words (2026-11-11): "The network is what should be connecting them, not the
-processor, not the record"; and "it stores it in a record. always". The Network draws a line
+The Network draws a line
 from a specific Field to an input or output of a Processor, and it alone knows both sides:
 Records and Processors are **mutually opaque** (a Record knows nothing of a Processor's
 internals; a Processor knows nothing of a Record's, nor where its inputs came from or where its
@@ -204,8 +204,8 @@ region and the Presentation are two such regions, cut apart by boundary Records)
 Decomposition is always possible, but complexity explodes at nearly every level, so all
 language and tooling assume free **bundling and unbundling** into manageable lumps as the normal
 way to view and edit the graph; the bundle is the unit of manageability.
-_Avoid_: treating `phases:`/`order:` as primitives; they are a crutch for resources that should
-be threaded. The wires and Guards state the order (ADR-0010).
+_Avoid_: execution order; step for a tick (a Petri net step is one set of firings, many to a
+tick); treating `phases:`/`order:` as primitives (the wires and Guards state the order)
 
 **Sub-Network**:
 A Network used as a Processor from outside: typed inputs and outputs at its boundary, its own
@@ -274,9 +274,14 @@ longer the boundary but the first Processor of whichever layer it joined. Any ne
 shape-translation is therefore a Processor on one side *up to* the boundary, never *in* it.
 
 **Presentation**:
-Everything in a game that is not Game Logic or an Interface Record: the Processors and Records
-that read the machine's inputs and drive its outputs. A Port replaces it.
-_Avoid_: Realization, Realization region; "presentation" for the output half only
+How a game reaches a player on one machine: the Processors and Records that read the machine's
+inputs and drive its screen, its sound and its pacing. With the Game Logic and the Interface
+Records it makes up the whole game; everything that is neither is Presentation. A Conversion
+keeps the Original's Presentation whole, so its code records how the Original looked, sounded,
+played and was paced, down to its tick rate. A Port replaces it and reads it to decide what to
+keep.
+_Avoid_: Realization, Realization region; "presentation" for the output half only; shell,
+wrapper (it is not the lesser part)
 
 **Kind**:
 The side a Record or Processor declares: Game Logic, Interface, or Presentation. A convention:
@@ -360,31 +365,13 @@ _Avoid_: "recreate a glitch", "purge a glitch"; sorting by intended vs unintende
 original's behavior).
 
 **Port**:
-The same game, with *identical* Game Logic, made to run on different hardware by swapping
-its **Presentation Processors** wholesale and leaving the Game Logic Processors and boundary Records
-untouched. PDP-1 renderer → N64 renderer; DOOM's exact logic under an N64 shell; The Last of
-Us's exact logic under a low-poly shell. A Port preserves the game: it is **not** a Variant
-(which changes Game Logic) and **not** a reinterpretation (re-vibing the source "good enough", which
-yields a new Variant). Porting is what makes "any game logic on any hardware" real: N64, a TI-83, a
-toaster, or a computing paradigm 400 years from now. (ADR-0011)
-A Port keeps the Game Logic exactly and changes what only flows out. Its inputs are its own: where they differ, as a clock that carries less lag, the
-same Game Logic takes different paths (see `Glitch`).
-The line is drawn by **bit-exact Game Logic output**: a *pure* Port runs the **exact same
-algorithms**, deterministic even where that is inefficient on the new hardware. A **pure Port
-preserves the Game Logic's declared arithmetic and any reach-contracts it takes up** bit for
-bit: **arithmetic, execution, and memory** (ADR-0017); RUNS pins the original's arithmetic
-through game-defined numeric types precisely so a Port can stay bit-exact. A re-target that
-swaps in **hardware-native algorithms whose output differs from the original** (the classic case
-is a machine-optimized floating-point routine: Quake's floating-point demos desync across
-hardware for exactly this reason, and fixed-point DOOM's do not), or that otherwise cannot hold
-them, changes the Game Logic Processors and so is a **Variant Port**, not a pure Port (see
-`Variant`). **The industry conflates this distinction**: the PS5 and Switch builds of DOOM 2016
-are both called "ports", but with divergent arithmetic they are **different games** by this
-definition. RUNS requires the split. "Any game logic on any hardware" is mechanical only where the
-target holds the identical Game Logic.
-_Avoid_: **Port** for the *act only* (both the act and its result are a Port); calling a
-fidelity-reducing re-vibe a Port (it is a **Variant**); calling a divergent-arithmetic *or
-reduced-memory* re-target a "port" (industry usage; it is a **Variant Port**).
+The same Game Logic, exactly, under a new Presentation for another machine. How much of the
+Original's Presentation it keeps (its look, its sound, its controls, its tick rate) is the
+porter's choice, and the Original's Presentation is the reference for each choice: DOOM run at
+70 tics a second is still a Port, only a less faithful one. Identical Game Logic is what makes
+a program a Port; no label or side document does.
+_Avoid_: Port for anything that changes the Game Logic, even to fit a smaller machine (it is a
+Variant); pure Port, Variant Port
 
 **Phase / Dispatch / Guard**:
 A **Phase** is one ordered execution stage of a tick. The wires and Guards state the order
@@ -435,32 +422,13 @@ the Guards discharge the Preconditions), never a runtime feature. (ADR-0013)
 ### Evolution
 
 **Variant**:
-A game derived from another by opening its Network and swapping, adding, or replacing **Game Logic
-Processors**, then compiling anew, the way chess and soccer accrue house-rule Variants over
-time. A Variant changes the *Game Logic*; the Presentation can stay identical. Removing a Glitch is a
-Variant (see `Glitch`). Its orthogonal twin, swapping the
-**Presentation Processors** while the Game Logic stays identical, is a **Port**. First-class and
-permissionless: enduring games *evolve through variation*; they are not modified or forked.
-(ADR-0006, ADR-0011)
-A Variant arises **three ways**, distinguished only by *how* the Game Logic's output changed:
-**authored** (hand-edit, add, or replace Game Logic Processors), **re-vibe** (reinterpret the source
-"good enough", reducing fidelity), and **declared at build time**: a *divergent compilation*
-(formerly "adapted compilation", renamed as the antonym of **strict** evaluation) that
-substitutes a non-bit-identical algorithm (native sqrt, hardware-native floating point) for a
-strict Game Logic Processor, recorded in a machine-readable **deviation manifest** (the itemized
-divergences). All three change the deterministic behavior, so all three are Variants; the
-manifest is the divergent Variant's **declared diff from canon** (the build-time face of
-asserted vs verified, ADR-0005).
-A **Variant Port** is a Variant whose *motive* is reaching constrained hardware and whose
-*means* is altering the Game Logic's declared arithmetic or one of its reach-contracts:
-**divergent arithmetic** (hardware-native floating point) or a **reduced memory contract**
-(smaller list bounds to fit RAM). *Chocolate DOOM on a TI-83 is impossible as a pure Port*: the
-smaller entity caps are a Game Logic change, not a Presentation swap. Because the change is to the
-*Game Logic* Processors, the result is a **Variant, not a Port**, despite the industry "port" label
-(see `Port`; ADR-0017).
-_Avoid_: **mod / modding** (it imports a second-class, needs-the-studio's-permission framing EGS
-exists to reject); **fork**, acceptable only as the *act* of starting a Variant (the *result* is
-a **Variant**, never "a fork").
+A game whose Game Logic differs from the game it came from: Processors swapped, added or
+removed in its Network, the way chess and soccer grow house-rule Variants over time. Removing a
+Glitch makes a Variant, and so does changing the arithmetic or a limit to fit a smaller
+machine. Changed Game Logic is what makes a program a Variant, whatever the reason; no label or
+side document does. Variants are first-class and need no one's permission.
+_Avoid_: mod, modding; fork for the result; house rule; deviation manifest, divergent
+compilation
 
 ### AEMS terms
 
