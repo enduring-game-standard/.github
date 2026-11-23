@@ -385,18 +385,10 @@ _Avoid_: Phase (the wiring sets the order); Dispatch for a loop (dispatch means 
 code runs); dispatcher Processor
 
 **Precondition**:
-A DIGS boolean a Processor declares as **what must hold when it is invoked** (`divisor != 0`,
-`object.state == spacewar:ship`). It is the **body-side dual of arc-Guard totality**: the
-**Guard *asserts* the partition on the arc** (Network plane), and the **Precondition *assumes*
-it in the body** (body plane), the same fact stated on both sides of the boundary. In a
-well-formed Network the Guards **discharge** every Precondition, so the body never enters the
-violated case, and DIGS's determinism is contracted **conditionally**: *same inputs → same
-outputs, given the Preconditions hold*. The undefined behavior of a violated Precondition is
-therefore **unreachable in a conforming game**: it lives strictly in **malformed-Network**
-territory, *outside* the determinism contract, not a hole in it. There is **no RUNS engine**, so
-"the runtime may halt, log, or substitute" is not language semantics but evidence of **poorly
-written code**; catching a violation is a **tooling** concern (a validator, and tests proving
-the Guards discharge the Preconditions), never a runtime feature. (ADR-0013)
+A condition that must be true before a Processor fires, such as `divisor != 0`. The Processor
+states it, and the Guards in the Network make sure it holds. If a Precondition is ever false,
+the Network has a bug; the game never depends on what happens then.
+_Avoid_: assertion (the Processor does not check it; the Network guarantees it)
 
 ### Evolution
 
