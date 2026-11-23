@@ -168,7 +168,7 @@ structural, not conventional, and rests on two rules: **every change through a P
 Processor takes a value from a place and puts its result back, and the wires and Guards order
 any two Processors that touch one place, so nothing races: the PRNG's values
 `prng_v0 → … → prng_vN` pass through one place in wired order) and **partitioning Guards**
-(every Guard set is a complete partition; see `Phase / Dispatch / Guard`). Given both, the
+(every Guard set is a complete partition; see `Guard`). Given both, the
 firings of one tick of the Game Logic form a DAG apart from bounded loops (below; the
 cross-tick loop is the `state:` Records), incomparable Processors commute, and **the wires and
 Guards are the order**. Where order changes a result, a wire or a Guard makes one Processor
@@ -179,7 +179,9 @@ the **same Petri-net topology** but is **exempt** from confluence: Presentation 
 platform-tailored I/O and trade determinism for hardware reach.
 
 **The Processor is BlooP; the Network is FlooP** (ADR-0017). Each Processor is a bounded, total
-piece (one tick = a DAG, apart from bounded loops). **Loops within a tick.** Every loop within a
+piece (one tick = a DAG, apart from bounded loops). A loop is **bounded** when its count is
+fixed before it starts and cannot change during it: no `break`, `continue` or early return. The
+count may be any value known at run time, so a loop over a collection of any length is bounded. **Loops within a tick.** Every loop within a
 tick runs through a counter Record set before the loop starts: each pass consumes one token,
 and the loop ends when the counter reaches zero or a Guard stops it. This is a rule for the
 whole graph, and a loop need not sit in a bundle of its own (owner, 2026-11-14). The **only**
@@ -373,37 +375,14 @@ a program a Port; no label or side document does.
 _Avoid_: Port for anything that changes the Game Logic, even to fit a smaller machine (it is a
 Variant); pure Port, Variant Port
 
-**Phase / Dispatch / Guard**:
-A **Phase** is one ordered execution stage of a tick. The wires and Guards state the order
-(ADR-0010), so `phases:` is a demoted **crutch**, not a primitive (see `Network`).
-A **Dispatch** is a bounded iteration over an entity collection, a **threaded fold** (ADR-0012);
-in the Network it is a loop through a counter that starts at the count (see `Network`, loops).
-"Bounded" here means the **BlooP rule**: the count is **fixed before the loop and immutable
-during it** (no `break`, `continue`, or early return; the loop variable and the collection stay
-unchanged mid-iteration). It does **not** mean the bound is a compile-time constant or a
-finitely typed value. A `range(n)` or collection fold whose `n` or length is a runtime value,
-**unbounded `int` included**, is total: it terminates for every input (compare Dhall's
-`Natural/fold`, primitive recursion). A *static* step-ceiling (WCET) is a **separate, opt-in
-reach-contract** (ADR-0017), never part of totality.
-A **Guard** is a DIGS boolean on a Network arc that routes to a Processor. A guarded branch
-obeys **two laws** (ADR-0013):
-- **Totality** (determinism): the Guards form a complete partition, exactly one true, always
-  (mutually exclusive and exhaustive). A **closed-enum discriminant** makes this tool-checkable;
-  an open-typed discriminant (int, string) requires an explicit **`else` arc**.
-- **Thinness** (composability): a Guard *reads* a precomputed fact (a tag Field, such as
-  `can_see_player`); it **never computes one**.
-Decision structure lives in the arcs; computation and actions live in Processors. **No
-Processor contains an `if` that steers the Network**, so every branch target is
-state-machine-ignorant and fully composable (the perceive → route → act shape).
-This law is **decomposition-relative** (see `Processor`, granularity; ADR-0016). It is
-**vacuous for a monolith**: a fat undecomposed Processor may legally hold an internal
-`if state == torpedo: …` Dispatch, because the Network sees one opaque transition and has no
-branch there to steer. It **binds once the routing targets are distinct Processors**: "which
-Processor runs" is then a Network routing decision, and resurrecting it as a **dispatcher
-Processor** (`if state == torpedo: torpedo_update() elif … ship_update()`) is the forbidden
-steering; that routing must be **arc Guards** instead. A body `if` that *computes* a
-discriminant value (setting `state = exploding`) is **action, not steering**: producing a tag is
-a Processor's job; only *reading* one to route is the Guard's.
+**Guard**:
+A DIGS condition on a Network arc that decides whether its Processor fires. The Guards on one
+Record obey two laws. Exactly one of them is true, always: a closed enum makes this checkable,
+and otherwise an `else` arc closes the set. And a Guard only reads a fact a Processor already
+computed; it never computes one. So the decisions live in the arcs and the work lives in the
+Processors: no Processor holds an `if` that picks which Processor runs next.
+_Avoid_: Phase (the wiring sets the order); Dispatch for a loop (dispatch means choosing which
+code runs); dispatcher Processor
 
 **Precondition**:
 A DIGS boolean a Processor declares as **what must hold when it is invoked** (`divisor != 0`,
