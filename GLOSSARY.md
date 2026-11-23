@@ -174,21 +174,21 @@ _Avoid_: execution order; step for a tick (a Petri net step is one set of firing
 tick); treating `phases:`/`order:` as primitives (the wires and Guards state the order)
 
 **Sub-Network**:
-A Network that another Network uses as one Processor. From outside it is only its inputs and
-outputs; inside it is its own wiring, down to single Processors. It names no Record of any game,
-so any game can wire it in. Any part of a Network can be collapsed into a Sub-Network or expanded
-back into its parts. Every Sub-Network is also a Bundle: Sub-Network names its place in the
-wiring, Bundle names it as a thing published and downloaded.
-_Avoid_: subroutine, function call (no Processor calls another)
-
-**Bundle**:
-A piece of RUNS logic as published on the commons: a whole game's Network, a Sub-Network or a
-single Processor, with every Processor inside it and a template of the Records it expects. It
-works like a package from a package manager: found by name and description (Ocarina of Time's
-combat), downloaded by hash, with its provenance attached, and each part inside it stays
-addressable by its own hash. Whoever downloads one wires it to their own Records and edits their
-copy as they like. What is unique to a game is its top Network's wiring; the rest can be shared
-Bundles.
+A Network used as a Processor from outside: typed inputs and outputs at its boundary, its own
+wiring inside, in its own Network file. A **bundle** is a Sub-Network, and bundling is how RUNS
+composes: a chunk of Record–Processor–Record logic bundled into a larger function (`vec_x`,
+`vec_y`, `vec_z` → `vec_3`). In the owner's words (2026-11-11): "the high level network file
+should only be writing the fully composed bundles. within each bundle will be its own subnet
+bundle network file - that's the entire point". A bundle is never severed from its parts: their
+provenance endures inside it (the bundle's content references them by ID). The popular unit is
+usually the bundle; the smallest Processors inside stay addressable. Games compose from a finite
+set of shared atomic primitives the way a Linux distro composes from coreutils.
+Bundles exist so stateless logic can be shared between games by description. A top bundle is
+named and described ("Spacewar's gravity"); someone finds it, wires it into another game's
+Records, and edits their own copy. What makes a bundle unique is its wiring, not the
+Processors inside, which are shared bundles down to the smallest. A bundle whose inputs fit only
+one game's Records cannot be shared, and that is a problem to solve. **Open:** the shape of the
+granularity: how far down Processors split and how bundles nest.
 
 **`runs:` namespace**:
 The reserved prefix of the standard. **Reserved** (only the standard may *define* `runs:` keys:
