@@ -37,7 +37,7 @@ Consider two scenarios with a creative work:
 
 **Scenario B: Claiming.** Someone takes the character wholesale, changes the name slightly, and publishes it as their original creation. A lie about origin.
 
-Traditional IP law Bundles these together with property rights. They are separable — even Stephan Kinsella's *Against Intellectual Property*, the strongest case against IP-as-property, distinguishes copying from plagiarism: plagiarism is fraud, and the moral claim against false attribution stands on its own, independent of any property framework.
+Traditional IP law bundles these together with property rights. They are separable — even Stephan Kinsella's *Against Intellectual Property*, the strongest case against IP-as-property, distinguishes copying from plagiarism: plagiarism is fraud, and the moral claim against false attribution stands on its own, independent of any property framework.
 
 PWNS makes the distinction operationally precise. Copying is governed by the author's covenant. Claiming is answered by the seal: the signature shows which key signed the hash, and an anchor shows the hash existed by a given time, without revealing anything the author kept sealed.
 
