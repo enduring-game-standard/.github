@@ -39,18 +39,17 @@ The language of Game Logic Processor bodies; Guards use its expressions. A DIGS 
 reads only its inputs and writes only its outputs), total (it halts on every input) and
 deterministic (its order of evaluation is fixed). It is inspectable because nothing in it is
 hidden: every value enters and leaves by a declared input or output, and every loop states its
-bound. Every game declares its arithmetic in DIGS: its number types and their operations. It
-declares each one as an exact algorithm or as the machine's own (`float` as each machine
-computes it). An exact algorithm gives the same bits on every machine, and every machine runs
-it, whatever its own arithmetic. The machine's own may give different bits on different
-machines, as Quake's demos fall out of sync between machines; a game that needs the same bits
-everywhere declares its float as an exact algorithm. The arithmetic is Game Logic: it is to DOOM
+bound. Every game declares its arithmetic in DIGS: its number types and their operations, typed
+like any value. A declaration states as much as the game chooses: a fixed-point algorithm, an
+exact float algorithm, or `float` as each machine computes it. All three are the same kind of
+declaration, and each fixes exactly what it states: `float` leaves the bits to each machine, so
+Quake's demos fall out of sync between machines. The arithmetic is Game Logic: it is to DOOM
 what the six-sided die is to Yahtzee, and DOOM computed with floats is not DOOM. A game may also
 declare a fixed bound on its running time or its memory, to reach machines that need one;
 neither follows from totality. DIGS is part of RUNS, not a protocol of its own.
 _Avoid_: "the RUNS language" (RUNS is the source format; DIGS is its expression language);
-calling DIGS a protocol; treating arithmetic as optional; treating the machine's own arithmetic
-as undeclared (choosing it is the declaration); reading "total" as a fixed time or memory bound
+calling DIGS a protocol; treating arithmetic as optional; ranking one arithmetic declaration
+above another; treating `float` as undeclared; reading "total" as a fixed time or memory bound
 (each is declared on its own)
 
 **MAPS** (Mechanics and Play Structures), *the design knowledge*:
