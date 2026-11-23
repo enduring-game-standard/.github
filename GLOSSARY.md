@@ -151,15 +151,6 @@ Every game uses the same `vec1`, under one hash: the smallest parts hold no game
 each game supplies its own declared arithmetic.
 _Avoid_: bundle for a Sub-Network inside a game (that is the Sub-Network itself)
 
-**`runs:` namespace**:
-The standard's own prefix: a small core of Records and Processors that any game may use so its
-parts work with parts from other games, as coreutils is a small core of Unix tools. Only the
-standard defines a `runs:` name, and a published `runs:` name keeps its Fields, their types and
-their meaning forever; a changed one is a new name. Using `runs:` is optional: a game that uses
-only Records, Fields, Processors, Networks and DIGS is compliant under any prefix. The ecosystem
-grows under other prefixes, and `runs:` stays small.
-_Avoid_: treating `runs:` as required for compliance; adding one game's Records to `runs:`
-
 **Game Logic**:
 The part of a game that decides what happens in it, kept apart from the Presentation so the
 game outlasts every machine it runs on. It is pure, written in DIGS, and works on any machine. A
