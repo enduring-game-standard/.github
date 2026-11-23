@@ -146,36 +146,21 @@ Records at its edge to Records of its own. Editing any part makes a new part wit
 _Avoid_: bundle for a Sub-Network inside a game (that is the Sub-Network itself)
 
 **`runs:` namespace**:
-The reserved prefix of the standard. **Reserved** (only the standard may *define* `runs:` keys:
-anti-squatting) and **semantically fixed** (a `runs:` key carries exactly the standard's keys,
-types, and semantics; nobody may redefine it), but **optional to use**: targeting `runs:` shapes
-buys interop and is not required for compliance. **Compliance rests on the four primitives and
-DIGS alone**; a game built entirely on its own Umbrella Prefix (`spacewar:`) is fully
-compliant. Mental model: `runs:` is the **coreutils of EGS**, a deliberately *small*, basic,
-predictable core set of shapes and utilities, easy to read through and cherry-pick. Its value is
-in staying minimal and foundational; the ecosystem grows in **Umbrella Prefixes**, not by
-swelling `runs:`. The `runs:` palette lives in `runs-library`, which is a **curation index, not
-a code vault**: it owns the interop *contracts* (recommended shapes and Processor signatures),
-naming and governance, the manifest format, and a **blessed-by-ID index** of reference bodies.
-The bodies themselves live on the commons (Nostr), referenced by ID. Forced by ADR-0009 (one
-artifact, one home), the permissionless ethos, and Nostr rendering directly. *Today* the commons
-is empty and no evaluator exists, so the repo carries **conceptual examples** instead (see
-Flagged ambiguities). (ADR-0014, amended)
+The standard's own prefix: a small core of Records and Processors that any game may use so its
+parts work with parts from other games, as coreutils is a small core of Unix tools. Only the
+standard defines a `runs:` name, and a published `runs:` name keeps its Fields, their types and
+their meaning forever; a changed one is a new name. Using `runs:` is optional: a game that uses
+only Records, Fields, Processors, Networks and DIGS is compliant under any prefix. The ecosystem
+grows under other prefixes, and `runs:` stays small.
+_Avoid_: treating `runs:` as required for compliance; adding one game's Records to `runs:`
 
 **Umbrella Prefix**:
-A short, human-readable namespace label on a key (`spacewar:object`, `pong:`, `hades:`): pure
-**convenience**, never identity. Real identity is **cryptographic and two-layered**: the
-**npub** (the author's Nostr public key) roots *authorship and namespace* and never collides
-(SHA-256-class assurance), and the **content hash** (the Nostr event id) roots the *artifact*
-(ADR-0009 content-addressing). References resolve **by ID, not by prefix string**, so two
-authors both publishing `pong:object` is **harmless**: different npubs, different IDs, two
-distinct schemas. In a package-manager world the string name *is* identity and a collision is
-catastrophic; here the string is never identity, so EGS does **not** police namespaces. The lone
-exception is **`runs:`**, which *is* governed, not to prevent resolution collisions but because
-its *string* carries fixed, shared interop semantics that must mean the same thing for everyone
-(anti-squatting and semantic stability; see `runs:` namespace, ADR-0014).
-_Avoid_: treating a prefix as a globally unique name or a resolution key; reasoning about RUNS
-namespaces with package-manager (npm, Maven) intuitions.
+A short label before a name (`pong:object`, `hades:`), written for people to read. It is never
+identity: a name resolves by its author's public key and its content hash, so two authors who
+both publish `pong:object` publish two different Records, and nobody polices prefixes. `runs:` is
+the one exception (see `runs:` namespace).
+_Avoid_: treating a prefix as a unique name; reading it as a package name (in npm the name is the
+identity; here the hash is)
 
 **Game Logic**:
 The part of a game that decides what happens in it, kept apart from the Presentation so the
