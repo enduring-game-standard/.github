@@ -305,15 +305,12 @@ data and how its routines were called. They record the original programmer's cho
 machine, nothing the game computes. A Port leaves them behind with the presentation.
 
 **Compiler**:
-The program that turns RUNS source into a Build for one machine. There is one general compiler
-per machine, shared by every game on that machine. It holds that machine's details (registers,
-addresses, scratch words, the instructions that move a word) and no game's logic or timing,
-which live in the Network. A change to it is a general rule for the machine that a second
-program on that machine uses, never a fix to make one game's shape compile. In the owner's
-words: "there should be no changes at all to the compiler... Everything should be in how the
-network is structured" (2026-11-11, meaning no bending it for one game), "the compiler being a
-general pdp1 compiler" (2026-11-11), and "that's the job for the compiler to make sure that it
-runs on the PDP-1" (2026-11-14).
+The program that turns a game's source into a binary for one machine: the game logic, its
+Interface Records, and the presentation in whatever form it takes (DIGS, C, a Lua script,
+prebuilt binaries). One compiler serves every game on its machine; it knows the machine and no
+game. The binary serves the machine, so it need not keep game logic and presentation apart; the
+source keeps them apart for people.
+_Avoid_: "the RUNS compiler" (there is one per machine); changing a compiler to fit one game
 
 **Conversion**:
 An existing game's original program rewritten into RUNS through every stage of the conversion
