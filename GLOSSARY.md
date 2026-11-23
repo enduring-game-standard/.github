@@ -160,14 +160,6 @@ only Records, Fields, Processors, Networks and DIGS is compliant under any prefi
 grows under other prefixes, and `runs:` stays small.
 _Avoid_: treating `runs:` as required for compliance; adding one game's Records to `runs:`
 
-**Umbrella Prefix**:
-A short label before a name (`pong:object`, `hades:`), written for people to read. It is never
-identity: a name resolves by its author's public key and its content hash, so two authors who
-both publish `pong:object` publish two different Records, and nobody polices prefixes. `runs:` is
-the one exception (see `runs:` namespace).
-_Avoid_: treating a prefix as a unique name; reading it as a package name (in npm the name is the
-identity; here the hash is)
-
 **Game Logic**:
 The part of a game that decides what happens in it, kept apart from the Presentation so the
 game outlasts every machine it runs on. It is pure, written in DIGS, and works on any machine. A
