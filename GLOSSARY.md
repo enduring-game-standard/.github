@@ -75,7 +75,7 @@ placeholder pending its own pass.
 _Note_: WOCS coordinates *who provides a service and is paid* (hosting, audits, tournaments,
 multiplayer-server provision), **not** the real-time gameplay packets. In-game multiplayer
 **transport** is a Presentation concern (see `Processor`, Presentation Processor) that fills and
-drains boundary Records; the RUNS kernel contains no transport.
+drains Interface Records; the RUNS kernel contains no transport.
 
 **PWNS** (Provenance Without Notaries or Sovereigns):
 An extension for authored experiences: provenance over property, covenants without
@@ -122,7 +122,7 @@ primitive) splits a game's Processors into two flavors by this property, named f
   (ADR-0011).
 - **Presentation Processor**: a Processor of the Presentation, which carries the game to and
   from the machine in both directions: timing and input (inbound), rendering and audio
-  (outbound), and **multiplayer transport** (remote inputs arrive as inbound boundary Records,
+  (outbound), and **multiplayer transport** (remote inputs arrive as inbound Interface Records,
   exactly like local input). Platform-tailored; verb-pure but determinism-exempt; lives in the
   Presentation. Replace the whole set and the result is a **Port** (ADR-0011). The
   deterministic Game Logic is what makes lockstep and rollback netcode possible, yet it
@@ -132,9 +132,9 @@ primitive) splits a game's Processors into two flavors by this property, named f
   script, a CUDA or Vulkan pipeline in C++ or Rust, MIPS-bound N64 homebrew). This is the exact
   inverse of DIGS: Presentation bodies are **infinitely important but time-bound and
   hardware-bound**, where DIGS is time- and hardware-*un*bound. A portable Presentation language
-  would re-import the platform coupling the boundary exists to quarantine. The boundary Records
+  would re-import the platform coupling the boundary exists to quarantine. The Interface Records
   are the *entire* contract between the two languages. (ADR-0015)
-The two flavors are joined only by boundary Records. Whatever its status in the base protocol,
+The two flavors are joined only by Interface Records. Whatever its status in the base protocol,
 this split is what lets a game endure: a game endures only if its Game Logic is pure.
 **"Deterministic"**, unqualified, means the core evaluation-order determinism throughout this
 glossary: identical results on one runtime, in any topological order. **Cross-machine**
@@ -174,7 +174,7 @@ cross-tick loop is the `state:` Records), incomparable Processors commute, and *
 Guards are the order**. Where order changes a result, a wire or a Guard makes one Processor
 wait for the other, like a sync in SpaceChem. Processors the wiring leaves unordered are ones
 whose order changes nothing, so any order the wires allow gives identical results, and a
-runtime may run them in parallel. The **Presentation** beyond the boundary Records has
+runtime may run them in parallel. The **Presentation** beyond the Interface Records has
 the **same Petri-net topology** but is **exempt** from confluence: Presentation Processors are
 platform-tailored I/O and trade determinism for hardware reach.
 
@@ -200,7 +200,7 @@ Both are game bugs for **tooling** to catch, not language guarantees. True
 Network (a Sub-Network when viewed from outside as a Processor). Fully unbundled it is a single
 flat bipartite graph of atomic Records and Processors. There is **no privileged "sub-network"
 entity sitting apart** from the whole, only **regions at different zoom levels** (the Game Logic
-region and the Presentation are two such regions, cut apart by boundary Records).
+region and the Presentation are two such regions, cut apart by Interface Records).
 Decomposition is always possible, but complexity explodes at nearly every level, so all
 language and tooling assume free **bundling and unbundling** into manageable lumps as the normal
 way to view and edit the graph; the bundle is the unit of manageability.
