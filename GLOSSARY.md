@@ -174,18 +174,16 @@ _Avoid_: execution order; step for a tick (a Petri net step is one set of firing
 tick); treating `phases:`/`order:` as primitives (the wires and Guards state the order)
 
 **Sub-Network**:
-A Network inside another Network. It owns Records as well as Processors, and it shares a Record
-with the Network around it only where Processors on both sides use that Record; the shared
-Record is one Record seen from both levels, never a copy. A Record lives in the smallest
-Sub-Network that holds every Processor touching it: a weapon's cooldown count lives in the
-cooldown Sub-Network, and a ship's position lives where movement, collision and drawing meet.
-Each copy of a Sub-Network in a game has its own local ID and its own Records, so two ships keep
-two cooldown counts. Sub-Networks nest down to single Processors (`vec3` is three copies of
-`vec1`), and any of them can be collapsed to one box or expanded to its parts; the game is the
-same either way. A Sub-Network is not a Processor: only a Processor is pure, and a Sub-Network
-may keep a Record from one tick to the next.
-_Avoid_: treating a Sub-Network as a Processor; passing a Record through a Sub-Network that does
-not use it; subroutine, function call (no Processor calls another)
+A Network inside another Network, holding its own Records and Processors. A Record belongs to
+the smallest Sub-Network that holds every Processor touching it, so a weapon's cooldown count
+belongs to the cooldown Sub-Network. Where Processors inside and outside a Sub-Network touch the
+same Record, both levels share that one Record. Each copy of a Sub-Network has its own local ID
+and its own Records: `vec3` holds three copies of `vec1`, and two ships keep two cooldown counts.
+Sub-Networks nest down to single Processors, and each one collapses to one box or expands to its
+parts; the game is the same at every zoom. A Sub-Network may keep a Record from one tick to the
+next, so purity belongs to its Processors.
+_Avoid_: treating a Sub-Network as a Processor; subroutine, function call (no Processor calls
+another)
 
 **Bundle**:
 A Sub-Network packaged for download: the Sub-Network, every Sub-Network and Processor inside it,
@@ -371,8 +369,7 @@ confirmation with instant Lightning settlement.
 - **"State"**: bare "state" means a Record. Qualify the others: "AEMS State" (a claimed Asset
   condition), "MAPS State" (an observable game condition), and "object state" (a Field value,
   such as Spacewar's `object_state`: ship, torpedo, exploding).
-- **"Bundle"** = a RUNS Processor bundle (a Sub-Network seen from outside as one Processor)
-  vs. an AEMS bundle (a signed event that carries the events it cites; draft in aems-schema
+- **"Bundle"** = a RUNS Bundle (a Sub-Network packaged for download) vs. an AEMS bundle (a signed event that carries the events it cites; draft in aems-schema
   `ANCHOR.md`). Qualify which.
 - **"Arc"** = MAPS Arc (a notation primitive) vs. a Network arc (a guarded route in RUNS
   wiring). Qualify when context is unclear.
