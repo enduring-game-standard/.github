@@ -315,15 +315,10 @@ The route from an Original to a Conversion. Each stage has its own check:
 _Avoid_: level (a game term), rung, phase
 
 **Original**:
-The binary of a game as it shipped: the exact image its machine loads, identified by its hash.
-A game's GitHub repo keeps the binary's source, the toolchain that builds it, and its hash in
-place of the binary; it rebuilds the binary from them and verifies it by the hash (owner,
-2026-11-15: "it doesn't make sense to keep the binary in a GitHub repo for so many reasons. but
-a hash of the binary is a fine shortcut"). On its original machine it has everything,
-uninterpreted. Each shipped version is its own Original: Ocarina of Time
-1.0 keeps Glitches that later versions fixed. A game born in RUNS has no binary original; its
-RUNS source is the Original.
-_Avoid_: "the original" for the source listing or for what the designer meant.
+One shipped version of a game: the exact binary its machine loads. It is what a Conversion must
+match. Each regional release and each revision is its own Original. A game born in RUNS has no
+binary; its RUNS source is its Original.
+_Avoid_: "the Original" for the source listing or for what the designers meant
 
 **Glitch**:
 Gameplay the Game Logic allows that its designers did not foresee, such as Super Mario 64's
@@ -361,9 +356,8 @@ _Avoid_: assertion (the Processor does not check it; the Network guarantees it)
 
 **Variant**:
 A game whose Game Logic differs from the game it came from: Processors swapped, added or
-removed in its Network, the way chess and soccer grow house-rule Variants over time. Removing a
-Glitch makes a Variant, and so does changing the arithmetic or a limit to fit a smaller
-machine. Changed Game Logic is what makes a program a Variant, whatever the reason; no label or
+removed in its Network, the way chess and soccer grow house-rule Variants over time. Changing
+the arithmetic or a limit to fit a smaller machine makes a Variant too. Changed Game Logic is what makes a program a Variant, whatever the reason; no label or
 side document does. Variants are first-class and need no one's permission.
 _Avoid_: mod, modding; fork for the result; house rule; deviation manifest, divergent
 compilation
