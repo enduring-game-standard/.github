@@ -51,7 +51,7 @@ contract*:
   chess board slightly altering what a knight does... and it wouldn't be chess"; and
   (2026-11-15) "any change to the rules is a different game".
 - **Two opt-in, type-declared reach-contracts**, each trading the targets a game can reach:
-  **(1) a static execution bound** (WCET for real-time; a tooling and Realization concern, not
+  **(1) a static execution bound** (WCET for real-time; a tooling and presentation concern, not
   implied by totality); **(2) a static memory footprint** (list bounds for constrained or
   no-allocator targets, not implied by purity, determinism, or totality).
 _Avoid_: "the RUNS language" (RUNS is the source format; DIGS is its expression language);
@@ -72,7 +72,7 @@ enduring solution, and nothing in EGS depends on it. Not yet formally grilled; t
 placeholder pending its own pass.
 _Note_: WOCS coordinates *who provides a service and is paid* (hosting, audits, tournaments,
 multiplayer-server provision), **not** the real-time gameplay packets. In-game multiplayer
-**transport** is a Realization concern (see `Processor`, Realization Processor) that fills and
+**transport** is a presentation concern (see `Processor`, presentation Processor) that fills and
 drains boundary Records; the RUNS kernel contains no transport.
 
 **PWNS** (Provenance Without Notaries or Sovereigns):
@@ -118,20 +118,20 @@ primitive) splits a game's Processors into two flavors by this property, named f
 - **Rules Processor**: the game logic. Written in DIGS, hence platform-agnostic and
   deterministic; lives in the Rules region. Change one and the result is a **Variant**
   (ADR-0011).
-- **Realization Processor** (also called the **presentation**): the layer that realizes the
-  game on hardware in both directions: timing and input (inbound), rendering and audio
+- **Presentation Processor**: a Processor of the presentation, which carries the game to and
+  from the machine in both directions: timing and input (inbound), rendering and audio
   (outbound), and **multiplayer transport** (remote inputs arrive as inbound boundary Records,
   exactly like local input). Platform-tailored; verb-pure but determinism-exempt; lives in the
-  Realization region. Replace the whole set and the result is a **Port** (ADR-0011). The
+  presentation. Replace the whole set and the result is a **Port** (ADR-0011). The
   deterministic Rules region is what makes lockstep and rollback netcode possible, yet it
   contains none of the transport.
   **Its body is *not* DIGS, and the standard deliberately specifies no language for it.** A
-  Realization Processor is written in whatever its target demands (a throwaway Lua or Python
+  presentation Processor is written in whatever its target demands (a throwaway Lua or Python
   script, a CUDA or Vulkan pipeline in C++ or Rust, MIPS-bound N64 homebrew). This is the exact
-  inverse of DIGS: Realization bodies are **infinitely important but time-bound and
-  hardware-bound**, where DIGS is time- and hardware-*un*bound. A portable Realization language
+  inverse of DIGS: presentation bodies are **infinitely important but time-bound and
+  hardware-bound**, where DIGS is time- and hardware-*un*bound. A portable presentation language
   would re-import the platform coupling the boundary exists to quarantine. The fat/thin Runtime
-  line (see `Runtime`) decides how much Realization code a game has; the boundary Records are
+  line (see `Runtime`) decides how much presentation code a game has; the boundary Records are
   the *entire* contract between the two languages. (ADR-0015)
 The two flavors are joined only by boundary Records. Whatever its status in the base protocol,
 this split is what lets a game endure: "There is no endurance if the rules are impure" (owner,
@@ -142,7 +142,7 @@ lockstep also needs arithmetic determinism, which every game has because every g
 its arithmetic (see `DIGS`). Without it floating point diverges across hardware (Quake
 desyncs); with it, value-level determinism plus no observable addresses give Factorio-style
 cross-platform lockstep. (ADR-0017)
-_Avoid_: function, system (ECS analogy only), kernel; treating the Rules/Realization split as a
+_Avoid_: function, system (ECS analogy only), kernel; treating the Rules/presentation split as a
 base-protocol primitive (it is a `runs-library` pattern, not a schema distinction).
 
 **Network**:
@@ -174,8 +174,8 @@ cross-tick loop is the `state:` Records), incomparable Processors commute, and *
 guards are the order**. Where order changes a result, a wire or a guard makes one Processor
 wait for the other, like a sync in SpaceChem. Processors the wiring leaves unordered are ones
 whose order changes nothing, so any order the wires allow gives identical results, and a
-runtime may run them in parallel. The **Realization region** beyond the boundary Records has
-the **same Petri-net topology** but is **exempt** from confluence: Realization Processors are
+runtime may run them in parallel. The **presentation** beyond the boundary Records has
+the **same Petri-net topology** but is **exempt** from confluence: presentation Processors are
 platform-tailored I/O and trade determinism for hardware reach.
 
 **The Processor is BlooP; the Network is FlooP** (ADR-0017). Each Processor is a bounded, total
@@ -188,19 +188,19 @@ never in a body, so it is **visible in the topology** (the **I** in DIGS). Those
 Records carry unboundedness in **both time** (the game runs forever) **and space** (a `state:`
 list may grow each tick: Factorio's factory, a roguelike's accumulating world). All of it stays
 **deterministic and in the Rules region**: unbounded *deterministic* live state belongs here,
-*not* in Realization, because pushing it across the boundary would put the most deterministic
+*not* in the presentation, because pushing it across the boundary would put the most deterministic
 part of a lockstep game into the determinism-exempt region (it is determinism at the **value**
 level, addresses never observed; this is how Factorio does cross-machine lockstep). A
 consequence: the Network, unlike a Processor, **can hang** (a feedback loop whose guard never
 fires) and **can grow a `state:` list without bound** (a *deterministic, reproducible* leak).
 Both are game bugs for **tooling** to catch, not language guarantees. True
-*non-deterministic* leaks live only in Realization.
+*non-deterministic* leaks live only in the presentation.
 
 "Network" is **scale-free**. The whole game is one Network; every bundled chunk is *also* a
 Network (a Sub-Network when viewed from outside as a Processor). Fully unbundled it is a single
 flat bipartite graph of atomic Records and Processors. There is **no privileged "sub-network"
 entity sitting apart** from the whole, only **regions at different zoom levels** (the Rules
-region and the Realization region are two such regions, cut apart by boundary Records).
+region and the presentation are two such regions, cut apart by boundary Records).
 Decomposition is always possible, but complexity explodes at nearly every level, so all
 language and tooling assume free **bundling and unbundling** into manageable lumps as the normal
 way to view and edit the graph; the bundle is the unit of manageability.
@@ -266,27 +266,32 @@ paradigm, so putting one "in the boundary" forces it to pick a side, at which po
 longer the boundary but the first Processor of whichever layer it joined. Any needed
 shape-translation is therefore a Processor on one side *up to* the boundary, never *in* it.
 
+**Presentation**:
+Everything in a game that is not game logic or an Interface Record: the Processors and Records
+that read the machine's inputs and drive its outputs. A Port replaces it.
+_Avoid_: Realization, Realization region; "presentation" for the output half only
+
 **Runtime**:
 The generic, **game-agnostic host** that runs Builds and honors the Runtime Interface: a
 browser, a console, a libretro-style core, a server farm. It exposes primitive platform
 capabilities and the boundary contract: it writes **inbound** boundary Records before a tick
-and reads **outbound** ones after. A game's I/O lives in the **Realization region**, which is
-baked into the **Build** and runs *on* a Runtime. The line between the Realization region and
+and reads **outbound** ones after. A game's I/O lives in the **presentation**, which is
+baked into the **Build** and runs *on* a Runtime. The line between the presentation and
 the Runtime is **platform-dependent**: a fantasy console exposing `draw_sprite` makes the
-Runtime fat and the Realization region thin; a raw framebuffer reverses it.
+Runtime fat and the presentation thin; a raw framebuffer reverses it.
 _Avoid_: engine (there is no "RUNS engine"); "Runtime" for the game-specific I/O (that is the
-**Realization region**); conflating it with **hand-compilation** (see Flagged ambiguities).
+**presentation**); conflating it with **hand-compilation** (see Flagged ambiguities).
 
 **Build**:
 The playable, distributable artifact that **baking** emits: a native binary, a wasm bundle, a
-JS/Canvas app, a cartridge. *Not* source: one Rules region × one Realization region × one target
+JS/Canvas app, a cartridge. *Not* source: one Rules region × one presentation × one target
 → one Build. The thing players run; it carries no dependency on Nostr or relays at play time.
 _Avoid_: reading "build" as "compiled" in the literal sense; a Build is the playable version
 however it was produced (compiled, interpreted and frozen, hand-emitted).
 
 **Baking**:
 The build-time process that turns source into a **Build**: resolve dependencies (Nostr or a
-local cache), flatten the Network graph, and compile the chosen Rules region and Realization
+local cache), flatten the Network graph, and compile the chosen Rules region and presentation
 region into a self-contained artifact for one target. It always happens; nothing streams DIGS
 or Nostr at play time. (The Lifecycle "Build" phase is baking.) The commons (Nostr) is touched
 **only at lifecycle boundaries** (discovery and build, AEMS load and save), **never on the hot
@@ -314,7 +319,7 @@ runs on the PDP-1" (2026-11-14).
 An existing game's original program rewritten into RUNS through every stage of the conversion
 process, with the game exactly the same. A program partway along is *in conversion*, at its
 stage.
-_Avoid_: "Conversion" for a program short of Standard; Port (new Realization); Variant (changed
+_Avoid_: "Conversion" for a program short of Standard; Port (new presentation); Variant (changed
 rules)
 
 **Conversion process**:
@@ -322,7 +327,7 @@ The route from an Original to a Conversion. Each stage has its own check:
 - **Original**: the binary, identified by its hash.
 - **Lifted**: readable code that rebuilds the binary.
 - **Rebuilt**: valid RUNS source that rebuilds the binary.
-- **Separated**: game logic split from Realization; the game logic run alone still matches the
+- **Separated**: game logic split from presentation; the game logic run alone still matches the
   Original.
 - **Standard**: the source complies with the RUNS conventions, so its Records and Processors can
   be shared and compared.
@@ -381,7 +386,7 @@ original's behavior).
 
 **Port**:
 The same game, with an *identical* Rules region, made to run on different hardware by swapping
-its **Realization Processors** wholesale and leaving the Rules Processors and boundary Records
+its **presentation Processors** wholesale and leaving the Rules Processors and boundary Records
 untouched. PDP-1 renderer → N64 renderer; DOOM's exact logic under an N64 shell; The Last of
 Us's exact logic under a low-poly shell. A port preserves the game: it is **not** a Variant
 (which changes rules) and **not** a reinterpretation (re-vibing the source "good enough", which
@@ -458,9 +463,9 @@ the guards discharge the preconditions), never a runtime feature. (ADR-0013)
 **Variant**:
 A game derived from another by opening its Network and swapping, adding, or replacing **Rules
 Processors**, then compiling anew, the way chess and soccer accrue house-rule variants over
-time. A variant changes the *rules*; the realization can stay identical. Removing a glitch is a
+time. A variant changes the *rules*; the presentation can stay identical. Removing a glitch is a
 variant (see `Glitch`). Its orthogonal twin, swapping the
-**Realization Processors** while the rules stay identical, is a **Port**. First-class and
+**presentation Processors** while the rules stay identical, is a **Port**. First-class and
 permissionless: enduring games *evolve through variation*; they are not modified or forked.
 (ADR-0006, ADR-0011)
 A variant arises **three ways**, distinguished only by *how* the Rules-region output changed:
@@ -476,7 +481,7 @@ A **Variant Port** is a Variant whose *motive* is reaching constrained hardware 
 *means* is altering the Rules region's declared arithmetic or one of its reach-contracts:
 **divergent arithmetic** (hardware-native floating point) or a **reduced memory contract**
 (smaller list bounds to fit RAM). *Chocolate DOOM on a TI-83 is impossible as a pure Port*: the
-smaller entity caps are a Rules change, not a Realization swap. Because the change is to the
+smaller entity caps are a Rules change, not a presentation swap. Because the change is to the
 *Rules* Processors, the result is a **Variant, not a Port**, despite the industry "port" label
 (see `Port`; ADR-0017).
 _Avoid_: **mod / modding** (it imports a second-class, needs-the-studio's-permission framing EGS
